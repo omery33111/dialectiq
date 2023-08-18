@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import HomePage from './features/base/HomePage';
 import Login from './features/authentication/Login';
 import Profile from './features/profile/Profile';
-import ProfileUpdate from './features/profile/UpdateProfile';
+import UpdateProfile from './features/profile/UpdateProfile';
 
 
 
@@ -32,7 +32,7 @@ root.render(
 
           <Route path = "/profile_user/profile" element={<Profile />} />
 
-          <Route path = "/profile_user/profile_update" element={<ProfileUpdate />} />
+          <Route path = "/profile_user/profile_update" element={<UpdateProfile />} />
 
           </Route></Routes>
 

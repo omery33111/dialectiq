@@ -31,7 +31,7 @@ const Profile = () => {
             <Button
               onClick={() => navigate("/profile_user/profile_update")}
               variant="warning">
-             <h6> <BsFillPencilFill /> </h6>
+             <h6 style = {{margin: 0}}> <BsFillPencilFill /> </h6>
             </Button>
             </div>
                     <Col md={4} className="d-flex justify-content-center align-items-center">

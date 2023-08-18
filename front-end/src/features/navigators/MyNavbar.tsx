@@ -1,6 +1,8 @@
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import { FaUserSecret } from "react-icons/fa";
 import { RiUserFill } from "react-icons/ri";
+import { useAppSelector } from '../../app/hooks';
+import { selectIsLogged } from '../authentication/authenticationSlice';
 
 
 
@@ -9,6 +11,8 @@ const MyNavbar = () => {
   const storedIsStaff = JSON.parse(localStorage.getItem('is_staff') as string)
 
   const storedIsLogged = JSON.parse(localStorage.getItem('token') as string)
+
+  const isLogged = useAppSelector(selectIsLogged)
 
   return (
     <div>
