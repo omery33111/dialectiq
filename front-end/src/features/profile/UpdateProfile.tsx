@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Col, Form, ListGroup, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
-import { patchProfileAsync } from "./profileSlice";
+import { getProfileAsync, patchProfileAsync } from "./profileSlice";
 import { BsCheckLg } from "react-icons/bs";
 
 
 
 const UpdateProfile = () => {
-    const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -23,21 +21,42 @@ const UpdateProfile = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const formData = new FormData();
+  
     if (picture) {
       formData.append("picture", picture);
     }
-    formData.append("bio", bio);
-    formData.append("first_name", first_name);
-    formData.append("last_name", last_name);
-    formData.append("location", location);
-
-    dispatch(patchProfileAsync(formData));
+    if (bio !== "") {
+      formData.append("bio", bio);
+    }
+    if (first_name !== "") {
+      formData.append("first_name", first_name);
+    }
+    if (last_name !== "") {
+      formData.append("last_name", last_name);
+    }
+    if (location !== "") {
+      formData.append("location", location);
+    }
+  
+    if (
+      picture ||
+      bio !== "" ||
+      first_name !== "" ||
+      last_name !== "" ||
+      location !== ""
+    ) {
+      dispatch(patchProfileAsync(formData));
+    }
   };
-
 
   const handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPicture(event.target.files ? event.target.files[0] : undefined);
   }
+
+  useEffect(() => {
+    dispatch(getProfileAsync());
+  }, [dispatch]);
+
 
   return (
     <div style = {{display: 'flex', justifyContent: 'center'}}>
@@ -47,7 +66,7 @@ const UpdateProfile = () => {
                 <Form onSubmit={handleSubmit}>
                 <Card.Body>
                     <Row>
-                    <div>
+                    <div style = {{position: "relative", right: 15}}>
                     <Button
                   onClick={() => {window.location.href = "/profile_user/profile";}}
                   variant="warning"
@@ -56,8 +75,8 @@ const UpdateProfile = () => {
                     <BsCheckLg />
                   </h6>
                 </Button>
-                <br/><br/>
                     </div>
+                  
                     <Col md={4} className="d-flex justify-content-center align-items-center">
                       
                     <Form.Group controlId="formPicture">
@@ -96,7 +115,8 @@ const UpdateProfile = () => {
                     </Row>
                 </Card.Body>
                 </Form>
-            </Card><br/>
+                <br/><br/><br/>
+            </Card>
             
 
 

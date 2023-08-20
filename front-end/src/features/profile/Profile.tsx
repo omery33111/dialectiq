@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getProfileAsync } from "./profileSlice";
@@ -27,13 +27,14 @@ const Profile = () => {
             <Card >
                 <Card.Body>
                     <Row>
-                    <div>
+                    <div style = {{position: "relative", right: 15}}>
             <Button
               onClick={() => navigate("/profile_user/profile_update")}
               variant="warning">
              <h6 style = {{margin: 0}}> <BsFillPencilFill /> </h6>
             </Button>
             </div>
+                
                     <Col md={4} className="d-flex justify-content-center align-items-center">
                       
                     {picture ? (<img alt="mypicture" height = {200} width = {200} src = {myServer + picture}/>) : ("UNKNOWN")}
@@ -56,7 +57,7 @@ const Profile = () => {
                         </Col>
                     </Row>
                 </Card.Body>
-            </Card><br/>
+            </Card>
             
 
 

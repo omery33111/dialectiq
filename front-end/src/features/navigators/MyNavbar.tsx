@@ -12,8 +12,6 @@ const MyNavbar = () => {
 
   const storedIsLogged = JSON.parse(localStorage.getItem('token') as string)
 
-  const isLogged = useAppSelector(selectIsLogged)
-
   return (
     <div>
         <Navbar bg="dark" data-bs-theme="dark">

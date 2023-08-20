@@ -11,6 +11,7 @@ urlpatterns = [
     path('authentication/', include('authentication.urls')),
     path('administrator/', include('administrator.urls')),
     path('profile_user/', include('profile_user.urls')),
+    path('callback/', include('callback.urls')),
 ]
 
 

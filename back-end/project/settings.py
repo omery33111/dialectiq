@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'administrator',
     'authentication',
     'profile_user',
+    'callback',
 ]
 
 
