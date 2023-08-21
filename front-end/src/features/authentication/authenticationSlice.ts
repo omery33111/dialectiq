@@ -128,7 +128,7 @@ export const authenticationSlice = createSlice({
             state.access = action.payload.access
             state.isLoading = false;
             state.isSuccess = true;
-            state.isLogged = true
+            state.isLogged = true;
             state.isError = false;
         })
 
@@ -156,6 +156,7 @@ export const selectUser = (state: RootState) => state.authentication.userName;
 export const selectIsLogged = (state: RootState) => state.authentication.isLogged;
 export const selectIsLoading = (state: RootState) => state.authentication.isLoading;
 export const selectIsError = (state: RootState) => state.authentication.isError;
+export const selectIsSuccess = (state: RootState) => state.authentication.isSuccess;
 export const selectIsStaff = (state: RootState) => state.authentication.is_staff;
 
 export const { reset, LoggedOff, LoggedOn } = authenticationSlice.actions;

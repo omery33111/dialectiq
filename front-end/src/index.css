@@ -1,3 +1,23 @@
 body {
-  font-family: 'Helvetica'
+  font-family: "Lucida Console", "Courier New", monospace;
+  background-color: #ffffff;
+}
+
+.countup-container {
+  display: flex;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.countup-item {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .countup-container {
+    flex-direction: column;
+  }
 }

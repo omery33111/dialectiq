@@ -22,7 +22,9 @@ const Profile = () => {
 
   return (
     <div style = {{display: 'flex', justifyContent: 'center'}}>
+      
       <div style = {{width: "80%", overflow: "hidden"}}>
+      <div style = {{height: 67}}/>
         <Row >
             <Card >
                 <Card.Body>
@@ -34,12 +36,17 @@ const Profile = () => {
              <h6 style = {{margin: 0}}> <BsFillPencilFill /> </h6>
             </Button>
             </div>
+            
+
                 
                     <Col md={4} className="d-flex justify-content-center align-items-center">
                       
                     {picture ? (<img alt="mypicture" height = {200} width = {200} src = {myServer + picture}/>) : ("UNKNOWN")}
                     </Col>
+                    
                     <Col md={4}>
+                    <br/><br/>
+
                     <ListGroup variant="flush">
                         <ListGroup.Item><b>FIRST NAME:</b> {first_name? (`${first_name}`) : ("UNKNOWN")}</ListGroup.Item>
 
@@ -48,6 +55,8 @@ const Profile = () => {
                     </ListGroup>
                         </Col>
                         <Col md={4}>
+                    <br/>
+
                         <ListGroup variant="flush">
                         <ListGroup.Item ><b className="d-flex justify-content-center align-items-center">BIO: </b>
                         {bio? (`${bio}`) : ("UNKNOWN")}</ListGroup.Item>
@@ -57,6 +66,7 @@ const Profile = () => {
                         </Col>
                     </Row>
                 </Card.Body>
+                <div style = {{height: 60}} />
             </Card>
             
 

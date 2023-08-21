@@ -61,6 +61,7 @@ const UpdateProfile = () => {
   return (
     <div style = {{display: 'flex', justifyContent: 'center'}}>
       <div style = {{width: "80%", overflow: "hidden"}}>
+      <div style = {{height: 67}}/>
         <Row >
             <Card >
                 <Form onSubmit={handleSubmit}>
@@ -75,6 +76,8 @@ const UpdateProfile = () => {
                     <BsCheckLg />
                   </h6>
                 </Button>
+                <br/>
+                <br/>
                     </div>
                   
                     <Col md={4} className="d-flex justify-content-center align-items-center">
@@ -86,6 +89,7 @@ const UpdateProfile = () => {
 
                     </Col>
                     <Col md={4}>
+                    <br/>
                     <ListGroup variant="flush">
 
                         <ListGroup.Item>

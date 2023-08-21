@@ -20,7 +20,7 @@ const initialState: ProfileState = {
     location: "",
     picture: "",
     first_name: "",
-    last_name: ""
+    last_name: "",
 };
 
 export const getProfileAsync = createAsyncThunk(

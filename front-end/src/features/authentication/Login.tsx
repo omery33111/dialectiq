@@ -2,78 +2,80 @@ import { useEffect, useState } from 'react'
 import { FaSignInAlt } from 'react-icons/fa'
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { useNavigate } from 'react-router-dom';
-import { loginAsync, reset, selectIsError } from "./authenticationSlice"
+import { loginAsync, reset, selectIsError, selectIsSuccess } from "./authenticationSlice"
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        username: "",
-        password: "",
-      });
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
 
-      const { username, password } = formData;
+  const { username, password } = formData;
 
-      const navigate = useNavigate();
-      const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-      const { userName, isSuccess } = useAppSelector(
-        (state) => state.authentication
-      );
+  const isSuccess = useAppSelector(selectIsSuccess);
 
+  const { userName } = useAppSelector((state) => state.authentication);
 
-      useEffect(() =>
+  useEffect(() =>
+  {
+      if (isSuccess)
       {
-          if (isSuccess)
-          {
-            window.location.href = "/";
-          }
+        window.location.href = "/";
+      }
 
-          dispatch(reset())
+      dispatch(reset())
 
-      }, [userName, isSuccess, navigate, dispatch])
+  }, [userName, isSuccess, navigate, dispatch])
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(`Welcome, ${username}!`, {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+    }
+  }, [isSuccess, username]);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const isError = useAppSelector(selectIsError);
 
 
-      const onChange = (e:any) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-      };
+   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-      let isError = useAppSelector(selectIsError)
-      
+    const userData = {
+      username,
+      password,
+    };
 
-      const onSubmit = (e: any) => {
-        e.preventDefault();
-      
-        const userData = {
-          username,
-          password,
-        };
-      
-        dispatch(loginAsync(userData))
-          .then(() => {
-            if (!isError) {
-              toast.success(`Welcome, ${username}!`, {
-                position: 'top-center',
-                autoClose: 3000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'dark',
-              });
-            }
-          })
-          if (isError) {
-            toast.error('Wrong information. Try again later.');
-          };
-      };
-      
+    dispatch(loginAsync(userData));
+  };
+
+  useEffect(() => {
+    if (isError) {
+      toast.error('Wrong information. Try again later.');
+    }
+  }, [isError]);
 
 
   return (
