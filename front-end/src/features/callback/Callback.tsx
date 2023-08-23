@@ -40,25 +40,19 @@ const Callback = () => {
   return (
     
     <div>
-    <Container fluid style={{ width: "80%", backgroundColor: '#505666', borderRadius: '15px', padding: '15px',
-                              boxShadow: '0 10px 20px 0 rgba(0, 0, 0, 0.6), 0 1px 40px 0 rgba(0, 0, 0, 0.50)' }}>
+      <div className = 'callback-card'>
+    <Container>
       <Row className="justify-content-center">
+      <img
+            src={require(`../../images/callbackpic.png`)}
+            alt="callbackpic"
+            style = {{width: "80%"}}
+              />
+          <br/>
+          <br/>
         <Col md={8} lg={6}>
-          <div style={{ textAlign: 'right', color: 'white' }}>
-              <br/>
-            <p>קבלת ייעוץ לפגישה
-              <br/>
-              <br/>
-              <div>
-                <p>
-              אני מאפשר דיאלוג ראשוני למען תיאום והבנה של התהליך, דרך וצורת התהליך ועוד פרטים עניניים.
-            מלאו פרטים ואחזור אליכם עם כל המידע הדרוש תוך 24 שעות
-              </p>
-              </div>
-            </p>
-          </div>
 
-          <br />
+        
 
           <Form onSubmit={handleSubmit} className="text-center">
             <Form.Group controlId="formName">
@@ -84,27 +78,18 @@ const Callback = () => {
             <br/>
             <br/>
 
-            <Button variant="warning" type="submit" style={{width: '70%'}}>
-              <b>!שלח פרטים</b>
+            <Button variant="primary" type="submit" style={{width: '50%'}}>
+              <b>SEND</b>
             </Button>
             <br /><br />
           </Form>
         </Col>
 
-        <Col md={4} lg={4} className="text-center">
-        <img
-          src={require('../../images/24.png')}
-          alt="24 hours"
-          height="100%"
-          width="100%"
-          style={{
-            filter: "brightness(0) invert(1)",
-            position: "relative"}}/>
-        </Col>
       </Row>
 
       
     </Container>
+    </div>
 
           
 

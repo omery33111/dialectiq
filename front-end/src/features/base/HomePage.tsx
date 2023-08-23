@@ -48,6 +48,10 @@ const HomePage = () => {
     }
   }, [inView2, isPlaying2]);
 
+
+
+  const carImages = Array.from({ length: 81 }, (_, index) => `car${index + 1}.png`);
+
   return (
     <div style={{ position: 'relative', overflow: 'hidden' }}>
       <div
@@ -57,31 +61,14 @@ const HomePage = () => {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          height: '110vh',
-        }}
-      >
-        <Container
-          className="d-flex justify-content-center align-items-center"
-          style={{ position: 'relative', top: '92.4%' }}
-        >
-          <div style={{ display: 'inline-block', marginRight: '60px' }}>
-            <Button
-              variant="none"
-              href="#callback"
-              style={{ width: '20vh', height: '60px' }}
-            >
-              {/* Add button content here */}
-            </Button>
-          </div>
-          <div style={{ display: 'inline-block' }}>
-            <Button
-              variant="none"
-              style={{ width: '20vh', height: '60px' }}
-            >
-              {/* Add button content here */}
-            </Button>
-          </div>
-        </Container>
+          height: '110vh'}}>
+
+            <div className = "buttons">
+            <Button href = 'https://www.instagram.com/hebrew_adventure/?igshid=MzRlODBiNWFlZA%3D%3D' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(702px)"}}></Button><br/><br/>
+            <Button href = 'https://www.youtube.com/@TheHebrewAdventure-kv6ok' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(695px)"}}></Button><br/><br/>
+            <Button href = 'https://www.patreon.com/TheHebrewAdventure' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(686px)"}}></Button><br/><br/>
+            <Button href = 'https://www.italki.com/en/teacher/14053064' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(672px)"}}></Button>
+            </div>
       </div>
 
       <div ref={inViewRef2} style={{ position: 'relative', top: 100 }}>
@@ -100,25 +87,35 @@ const HomePage = () => {
             controls
             controlsList="nodownload"
             muted
-            playsInline
-          >
+            playsInline>
             <source
               src={require('../../images/myvideo.mp4')}
               type="video/mp4"
             />
             Your browser does not support the video tag.
           </video>
+
+        <br/>
+        <br/>
+          <div className = 'd-flex justify-content-center align-items-center'>
+            <Button
+            
+              variant="primary"
+              href=""
+              >
+                <h5 style = {{margin: 20, color: "white"}}>
+              PREMIUM PLAN!
+              </h5>
+            </Button>
+          </div>
+          
         </div>
       </Container>
 
-      <div style={{ height: 250 }} />
+      
       <Body />
 
-      <div id="callback">
-        <div style={{ height: 100 }} />
-        <Callback />
-      </div>
-      <div style={{ height: 100 }} />
+
     </div>
   );
 };

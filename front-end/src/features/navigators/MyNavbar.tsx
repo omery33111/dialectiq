@@ -24,7 +24,7 @@ const MyNavbar = () => {
 
   useEffect(() => {
     const scrollListener = () => {
-      setIsScrolling(window.pageYOffset > 84);
+      setIsScrolling(window.pageYOffset > 770);
     };
 
     window.addEventListener('scroll', scrollListener);
@@ -36,16 +36,17 @@ const MyNavbar = () => {
 
   const isHomePage = location.pathname === '/'; // Check if the current location is the home page
 
-  const navbarBackground = isScrolling || !isHomePage ? '#A07178' : 'transparent';
-  const containerBackground = isScrolling || !isHomePage ? '#776274' : 'transparent';
+  const containerBackground = isScrolling || !isHomePage ? '#0097E6' : 'transparent';
 
   return (
     <div>
       <Navbar
         className={`fixed-top ${isScrolling ? 'scrolling' : ''}`}
         style={{
-          background: navbarBackground,
-          transition: 'background 0.4s ease-in-out', // Smooth color transition animation
+          background: "transparent",
+          transition: 'background 0.3s ease-in-out', // Smooth color transition animation
+          boxShadow: '0 7px 8px 0 rgba(0, 0, 0, 0.5), 0 1px 30px 0 rgba(0, 0, 0, 0.30)',
+          top: 10
         }}
       >
         <Container
@@ -53,7 +54,7 @@ const MyNavbar = () => {
             backgroundColor: containerBackground,
             borderRadius: '20px',
             height: 53,
-            transition: 'background 0.4s ease-in-out', // Apply the same transition to the container background
+            transition: 'background 0.3s ease-in-out', // Apply the same transition to the container background
           }}
         >
           <Nav>

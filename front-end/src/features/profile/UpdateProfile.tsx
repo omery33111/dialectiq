@@ -61,7 +61,7 @@ const UpdateProfile = () => {
   return (
     <div style = {{display: 'flex', justifyContent: 'center'}}>
       <div style = {{width: "80%", overflow: "hidden"}}>
-      <div style = {{height: 67}}/>
+      <div style = {{height: 79}}/>
         <Row >
             <Card >
                 <Form onSubmit={handleSubmit}>
