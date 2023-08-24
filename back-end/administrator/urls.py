@@ -4,5 +4,8 @@ from . import views
 
 
 urlpatterns = [
-    # path('get_callbacks/', views.get_callback),
+    path('post_blog/', views.post_blog),
+    path('delete_blog/<int:pk>/', views.delete_blog),
+    path('patch_blog/<int:pk>/', views.patch_blog),
+    path('single_blog/<int:pk>/', views.single_blog),
 ]

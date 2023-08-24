@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import { BsPhoneFill } from 'react-icons/bs';
 import { FaUserSecret } from 'react-icons/fa';
 import { RiUserFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom'; // Import the useLocation hook
-import { useAppDispatch } from '../../app/hooks';
+
+
 
 const MyNavbar = () => {
-  const dispatch = useAppDispatch();
-  const location = useLocation(); // Use the useLocation hook to get the current location
+  const location = useLocation();
 
   const storedIsStaff = JSON.parse(localStorage.getItem('is_staff') as string);
   const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
@@ -64,12 +65,12 @@ const MyNavbar = () => {
           </Nav>
           <Nav style = {{position: "relative", top: 3}}>
             {shouldRefresh && storedIsStaff && (
-              <Nav.Link href="#admin">
+              <Nav.Link href="/adminmenu">
                 <h3
                   style={{
                     color: 'white',
                     position: 'relative',
-                    right: '100%',
+                    right: '120%',
                     top: 2,
                   }}
                 >
@@ -77,25 +78,33 @@ const MyNavbar = () => {
                 </h3>
               </Nav.Link>
             )}
-            {storedIsLogged ? (
-              <Nav.Link href="/profile_user/profile">
-                <h2
+
+                  <Nav.Link href = "/blog">
+                  <h3
                   style={{
                     color: 'white',
                     position: 'relative',
+                    right: '50%',
+                    top: 2,
                   }}
                 >
+                  <BsPhoneFill />
+                </h3>
+                  </Nav.Link>
+
+            {storedIsLogged ? (
+              <Nav.Link href="/profile_user/profile">
+                <h2
+                className = 'user-icon-top'
+                  style={{color: 'white'}}>
                   <RiUserFill />
                 </h2>
               </Nav.Link>
             ) : (
               <Nav.Link href="/authentication/login">
                 <h2
-                  style={{
-                    color: 'white',
-                    position: 'relative',
-                  }}
-                >
+                className = 'user-icon-top'
+                  style={{color: 'white'}}>
                   <RiUserFill />
                 </h2>
               </Nav.Link>

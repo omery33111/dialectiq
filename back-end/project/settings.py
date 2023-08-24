@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'authentication',
     'profile_user',
     'callback',
+    'blog',
 ]
 
 

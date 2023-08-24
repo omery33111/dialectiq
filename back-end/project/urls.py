@@ -12,6 +12,7 @@ urlpatterns = [
     path('administrator/', include('administrator.urls')),
     path('profile_user/', include('profile_user.urls')),
     path('callback/', include('callback.urls')),
+    path('blog/', include('blog.urls')),
 ]
 
 
