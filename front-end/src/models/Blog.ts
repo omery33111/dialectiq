@@ -2,7 +2,7 @@
 
 
 export interface Blog {
-    id?: string;
+    id: string;
     title: string;
     description: string;
     video: string;
@@ -13,4 +13,5 @@ export interface Blog {
     export interface BlogState {
       singleBlog: Blog
       blogs: Blog[]
+      likes: Record<string, number>;
     };

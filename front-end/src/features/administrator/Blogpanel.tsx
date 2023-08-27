@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Container, Table, Modal } from 'react-bootstrap';
-import { BsTrash } from 'react-icons/bs';
+import { BsTrash, BsTrashFill } from 'react-icons/bs';
 import { selectBlogs, getBlogsAsync } from '../blog/blogSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Blog } from '../../models/Blog';
@@ -16,10 +16,6 @@ const Blogpanel = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
 
-
-
- 
-
   const handleDeleteClick = (blog: Blog) => {
     setSelectedBlog(blog);
     setShowModal(true);
@@ -33,8 +29,8 @@ const Blogpanel = () => {
   const handleDelete = () => {
     if (selectedBlog) {
       if (selectedBlog.id) {
-      dispatch(deleteBlogAsync(selectedBlog.id));
-    }
+        dispatch(deleteBlogAsync(selectedBlog.id.toString()));
+      }
       setShowModal(false);
       window.location.reload();
     }
@@ -51,13 +47,11 @@ const Blogpanel = () => {
         <h1 style={{ padding: "15px" }}>BLOG</h1>
         <br />
         <br />
-        <Table striped bordered hover>
-          <thead>
-            <Button href={`/administrator/post_blog/`} variant="warning" className="new-blog-button">
+        <Button onClick = {() => {navigate(`/administrator/post_blog`)}} variant="warning" className="new-blog-button">
               NEW BLOG
             </Button>
-            <br />
-            <br />
+        <Table striped bordered hover>
+          <thead>
             <tr style={{ backgroundColor: "#5A5A5A", color: "white", textAlign: "center", verticalAlign: "middle" }}>
               <th>ID</th>
               <th>Title</th>
@@ -67,18 +61,19 @@ const Blogpanel = () => {
           </thead>
           <tbody>
             {blogs.slice().reverse().map((blog) => (
-              <tr key={blog.id}>
-                <td style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>{blog.id}</td>
-                <td style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{blog.title}</td>
-                <td style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{blog.description}</td>
+              <tr
+                key={blog.id}
+                style={{ cursor: "pointer" }}>
+                <td onClick={() => navigate(`/administrator/update_blog/${blog.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>{blog.id}</td>
+                <td onClick={() => navigate(`/administrator/update_blog/${blog.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{blog.title}</td>
+                <td onClick={() => navigate(`/administrator/update_blog/${blog.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{blog.description}</td>
                 <td style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>
-                  <Button style={{ color: "blue", border: "none", background: "none" }}
-                  onClick={() => navigate(`/administrator/update_blog/${blog.id}`)}>
-                    Edit
-                  </Button>
-                  |
-                  <Button style={{ color: "red", border: "none", background: "none" }} onClick={() => handleDeleteClick(blog)}>
-                    Delete
+                  <Button
+                    variant="danger"
+                    style={{borderRadius: "100%"}}
+                    onClick={() => handleDeleteClick(blog)}
+                  >
+                    <h3><BsTrashFill style={{color: "white"}} /></h3>
                   </Button>
                 </td>
               </tr>

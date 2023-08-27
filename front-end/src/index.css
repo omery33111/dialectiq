@@ -105,11 +105,63 @@ body {
 
   
   .new-blog-button {
-    width: 50%;
+    width: 10%;
     position: relative;
-    transform: translateX(1136px);
+    transform: translateY(-12px) translateX(1167px);
   }
 
+
+  
+  .submit-update-blog {
+    width: 30%;
+    transform: translateX(50px);
+  }
+
+
+  
+  .cancel-update-blog {
+    width: 30%;
+    position: relative;
+    transform: translateX(170px) translateY(-42px);
+  }
+
+
+  
+  .update-singleblog {
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+    transform: translateY(-480px) translateX(680px);
+  }
+
+
+  
+  .blog-videos {
+    width: 60%;
+    position: relative;
+    transform: translateX(0%);
+  }
+
+
+  
+  .like-button {
+    color: grey;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: relative;
+    transform: translateY(-110px) translateX(1105px);
+  }
+  
+  .like-button.liked {
+    color: red;
+  }
+  
+  .counter-like {
+    color: grey;
+    transition: color 0.3s;
+    position: absolute;
+    transform: translateY(-138px) translateX(1133px);
+  }
 
 
 /* Responsive Styling */
@@ -173,7 +225,8 @@ body {
 
     .panel-pics {
       flex-direction: column;
-      padding: 30px;
+      justify-content: center;
+      text-align: center;
     }
   
   
@@ -198,9 +251,59 @@ body {
     
   
     .new-blog-button {
-      width: 130%;
+      width: 28%;
       position: relative;
-      transform: translateX(259px);
+      transform: translateY(-12px) translateX(291px);
     }
+
+  
+  .submit-update-blog {
+    width: 30%;
+    transform: translateX(0px);
+  }
+
+
+  .cancel-update-blog {
+    width: 45%;
+    position: relative;
+    transform: translateX(-2px) translateY(20px);
+  }
+
+
+  .update-singleblog {
+    position: relative;
+    transform: translateX(-0.3%) translateY(0%);
+    justify-content: center;
+    text-align: center;
+  }
+
+  
+  .blog-videos {
+    width: 90%;
+    position: relative;
+  }
+
+  
+  .like-button {
+    color: grey;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: absolute;
+    right: 0;
+    transform: translateY(-105px) translateX(-5px);
+  }
+  
+
+  .like-button.liked {
+    color: red;
+  }
+  
+  .counter-like {
+    color: grey;
+    transition: color 0.3s;
+    position: absolute;
+    right: 0;
+    transform: translateY(-101px) translateX(3px);
+  }
     
 }

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { postBlogAsync } from './administratorSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Button, Container, Form } from 'react-bootstrap';
-import { BsCheckLg } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { BsCheckLg, BsXLg } from 'react-icons/bs';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -70,18 +70,26 @@ const BlogPost = () => {
                   </Form.Group>
 
                   <br/>
-                  <Button
-                  style = {{width: "20%"}}
-                onClick={() => {
-                  // window.location.href = '/administrator/blog';
-                }}
-                variant="warning"
-                type="submit">
-                <h6 style={{ margin: 0 }}>
-                  <BsCheckLg />
-                </h6>
-              </Button>
+                  <div>
+          <Button className = "submit-update-blog" variant="warning" type="submit">
+            <h6>
+              <BsCheckLg />
+            </h6>
+          </Button>&nbsp;
+          </div>
+
+          <div>
+          <Button className = "cancel-update-blog" variant="info">
+          <Link style = {{textDecoration: "none", color: "black"}} to="/administrator/blog/">
+            <h6>
+              <BsXLg />
+            </h6>
+            </Link>
+          </Button>
+          </div>
         </Form>
+
+        
 
       <div style = {{height: "30vh"}}/>
         </Container>

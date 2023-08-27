@@ -28,6 +28,7 @@ const MyFooter = () => {
             <p className="text-center" style = {{color: "white"}}>Copyright &copy; {new Date().getFullYear()} Omer Yanai</p>
     </footer>
 
+
     </div>
   );
 };

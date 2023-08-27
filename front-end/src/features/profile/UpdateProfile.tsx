@@ -11,7 +11,6 @@ const UpdateProfile = () => {
   const dispatch = useAppDispatch();
 
 
-
   const [picture, setPicture] = useState<any>(null);
   const [bio, setBio] = useState<string>("");
   const [first_name, setFirstName] = useState<string>("");
