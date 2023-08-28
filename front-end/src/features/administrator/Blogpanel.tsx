@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Blog } from '../../models/Blog';
 import { deleteBlogAsync } from './administratorSlice';
 import { useNavigate } from 'react-router-dom';
+import { myServer } from '../../endpoints/endpoints';
 
 const Blogpanel = () => {
   const dispatch = useAppDispatch();
@@ -54,6 +55,7 @@ const Blogpanel = () => {
           <thead>
             <tr style={{ backgroundColor: "#5A5A5A", color: "white", textAlign: "center", verticalAlign: "middle" }}>
               <th>ID</th>
+              <th>Thumbnail</th>
               <th>Title</th>
               <th>Description</th>
               <th></th>
@@ -65,6 +67,9 @@ const Blogpanel = () => {
                 key={blog.id}
                 style={{ cursor: "pointer" }}>
                 <td onClick={() => navigate(`/administrator/update_blog/${blog.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>{blog.id}</td>
+                <td onClick={() => navigate(`/administrator/update_blog/${blog.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>
+                <img alt="blogpic" height = {200} width = {200} src = {myServer + blog.picture}/>
+                  </td>
                 <td onClick={() => navigate(`/administrator/update_blog/${blog.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{blog.title}</td>
                 <td onClick={() => navigate(`/administrator/update_blog/${blog.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{blog.description}</td>
                 <td style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>

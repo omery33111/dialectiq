@@ -4,7 +4,7 @@ import { getProfile, patchProfile } from "./profileAPI";
 
 
 export interface ProfileState {
-    id: number;
+    profile_id: number;
     user: number;
     first_name: string;
     last_name: string;
@@ -14,7 +14,7 @@ export interface ProfileState {
 }
 
 const initialState: ProfileState = {
-    id: 0,
+    profile_id: 0,
     user: 0,
     bio: "",
     location: "",
@@ -51,6 +51,7 @@ export const profileSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getProfileAsync.fulfilled, (state, action) => {
+            state.profile_id = action.payload.data.profile_id
             state.bio = action.payload.data.bio
             state.first_name = action.payload.data.first_name
             state.last_name = action.payload.data.last_name

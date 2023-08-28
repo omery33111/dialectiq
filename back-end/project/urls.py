@@ -13,10 +13,12 @@ urlpatterns = [
     path('profile_user/', include('profile_user.urls')),
     path('callback/', include('callback.urls')),
     path('blog/', include('blog.urls')),
+    path('comment/', include('comment.urls')),
 ]
 
 
-
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -2,7 +2,7 @@
 
 
 export default class Profile {
-    id?: number;
+    profile_id: number = 0;
     user?: number;
     bio: string = "";
     first_name: string = "";

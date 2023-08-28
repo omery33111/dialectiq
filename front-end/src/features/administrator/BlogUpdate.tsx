@@ -18,6 +18,7 @@ const BlogUpdate = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [videoFile, setVideoFile] = useState<any>(null);
+  const [picture, setPicture] = useState<any>(null);
 
   const { id } = useParams();
 
@@ -30,6 +31,7 @@ const BlogUpdate = () => {
   useEffect(() => {
     if (singleBlog) {
       setTitle(singleBlog.video);
+      setPicture(singleBlog.picture);
       setTitle(singleBlog.title);
       setDescription(singleBlog.description);
     }
@@ -43,6 +45,10 @@ const BlogUpdate = () => {
     setDescription(e.target.value);
   };
 
+  const handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPicture(event.target.files ? event.target.files[0] : undefined);
+  };
+
   const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVideoFile(event.target.files ? event.target.files[0] : undefined);
   };
@@ -54,6 +60,7 @@ const BlogUpdate = () => {
     
     formData.append('title', title);
     formData.append('description', description);
+    formData.append('picture', picture);
     formData.append('video', videoFile);
 
     dispatch(patchBlogAsync({ blogData: formData, id: String(singleBlog.id) }));
@@ -82,6 +89,11 @@ const BlogUpdate = () => {
             </Form.Label>
             <Form.Control as="textarea" value={description} onChange={handleDescriptionChange} />
           </Form.Group>
+
+          <Form.Group controlId="formThumbnail">
+                    <Form.Label className = "blog-form-title"><h5>Thumbnail</h5></Form.Label>
+                    <Form.Control type="file" onChange = {handlePictureChange}/>
+                  </Form.Group>
 
           <Form.Group controlId="formVideo">
             <Form.Label className="blog-form-title">

@@ -6,6 +6,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=60)
     description = models.TextField(max_length=400)
     video = models.FileField()
+    picture = models.ImageField()
     date = models.DateTimeField(auto_now_add=True)
     
 

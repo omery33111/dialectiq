@@ -54,3 +54,12 @@ export const administratorURL = "http://127.0.0.1:8000/administrator";
 export const blogURL = "http://127.0.0.1:8000/blog";
 
 // export const blogURL = "/blog";
+
+
+
+
+
+// ------------------------- COMMENT ENDPOINTS:
+export const commentURL = "http://127.0.0.1:8000/comment";
+
+// export const commentURL = "/comment";

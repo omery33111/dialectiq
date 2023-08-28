@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { getBlogsAsync, selectBlogs, selectLikes, toggleLike } from './blogSlice';
 import { myServer } from '../../endpoints/endpoints';
 import ReactPlayer from 'react-player';
-import { Container } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { FaHeart } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+
 
 const Blog = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const blogs = useAppSelector(selectBlogs);
 
   const likes = useAppSelector(selectLikes);
@@ -27,7 +30,7 @@ const Blog = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const newContainerHeight = 0 + blogs.length * 120;
+    const newContainerHeight = 10 + blogs.length * 160;
     setContainerHeight(newContainerHeight);
   }, [blogs]);
 
@@ -60,19 +63,23 @@ const Blog = () => {
                     position: 'relative',
                     top: `${topPosition}px`,
                   }}>
-                  <ReactPlayer
-                    url={myServer + blog.video}
-                    controls={true}
+
+                    <div>
+                  <img
+                  onClick = {() => navigate(`/blog/blog_page/${blog.id}`)}
+                    src={myServer + blog.picture}
                     width="100%"
                     height="100%"
-                    config={{
-                      file: {
-                        attributes: {
-                          controlsList: 'nodownload',
-                        },
-                      },
-                    }}
                   />
+
+                <img 
+                onClick = {() => navigate(`/blog/blog_page/${blog.id}`)}
+                src={require('../../images/forthumbnail.png')} width="100%"
+                    alt="profile-logo" 
+                    style = {{position: "absolute", top: -4, right: 0}}/>
+
+                  </div>
+
                   <h2 style = {{padding: "10px"}}>{blog.title}</h2>
                   <p style = {{padding: "7px"}}>{blog.description}</p>
                             <h3>
@@ -84,7 +91,7 @@ const Blog = () => {
                 <div className='counter-like' style = {{color: "grey"}}>
                 {likesRecord[blog.id] || 0}
                 </div>
-              
+                    {/* <BlogComments /> */}
                 </div>
               );
             })}

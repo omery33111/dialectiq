@@ -10,6 +10,7 @@ const initialState: AdministratorState = {
     singleBlog: {
       title: "", description: "", video: "",
       id: "",
+      picture: ""
     }
 };
 

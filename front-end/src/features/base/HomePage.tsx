@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { useInView } from 'react-intersection-observer';
 import '../../index.css';
 import Body from './Body';
-import Callback from '../callback/Callback';
 import Statistics from './Statistics';
 
 const HomePage = () => {
@@ -49,8 +48,6 @@ const HomePage = () => {
   }, [inView2, isPlaying2]);
 
 
-
-  const carImages = Array.from({ length: 81 }, (_, index) => `car${index + 1}.png`);
 
   return (
     <div style={{ position: 'relative', overflow: 'hidden' }}>

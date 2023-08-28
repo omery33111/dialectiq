@@ -15,6 +15,8 @@ import Blogpanel from './features/administrator/Blogpanel';
 import Blog from './features/blog/Blog';
 import BlogPost from './features/administrator/BlogPost';
 import BlogUpdate from './features/administrator/BlogUpdate';
+import BlogComments from './features/comment/BlogComments';
+import BlogPage from './features/blog/BlogPage';
 
 
 
@@ -49,6 +51,17 @@ root.render(
           </Route>
 
           <Route path = "/blog" element={<Blog />} />
+
+          <Route path = "/blog/get_comments">
+              <Route index element = {<BlogComments />} />
+              <Route path = ":id" element = {<BlogComments />} />
+            </Route>
+
+          <Route path = "/blog/blog_page">
+              <Route index element = {<BlogPage />} />
+              <Route path = ":id" element = {<BlogPage />} />
+            </Route>
+
 
           </Route></Routes>
 

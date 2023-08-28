@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { postBlogAsync } from './administratorSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { Button, Container, Form } from 'react-bootstrap';
 import { BsCheckLg, BsXLg } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,6 +20,10 @@ const BlogPost = () => {
       setDescription(e.target.value);
     };
   
+    const handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPicture(event.target.files ? event.target.files[0] : undefined);
+    };
+  
     const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setVideoFile(event.target.files ? event.target.files[0] : undefined);
     };
@@ -28,6 +32,7 @@ const BlogPost = () => {
   
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [picture, setPicture] = useState<any>(null);
     const [videoFile, setVideoFile] = useState<any>(null);
   
     const handleSubmit = async (event: any) => {
@@ -36,9 +41,11 @@ const BlogPost = () => {
       const formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
+      formData.append('picture', picture);
       formData.append('video', videoFile);
   
       dispatch(postBlogAsync(formData));
+      console.log(formData)
 
       setTimeout(() => {
         navigate("/administrator/blog/");
@@ -63,6 +70,11 @@ const BlogPost = () => {
                 <Form.Label className = "blog-form-title"><h5>Description</h5></Form.Label>
                 <Form.Control as="textarea" value={description} onChange={handleDescriptionChange} />
               </Form.Group>
+
+              <Form.Group controlId="formThumbnail">
+                    <Form.Label className = "blog-form-title"><h5>Thumbnail</h5></Form.Label>
+                    <Form.Control type="file" onChange = {handlePictureChange}/>
+                  </Form.Group>
 
               <Form.Group controlId="formVideo">
                     <Form.Label className = "blog-form-title"><h5>Video</h5></Form.Label>

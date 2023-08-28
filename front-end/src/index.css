@@ -164,6 +164,77 @@ body {
   }
 
 
+  
+  .like-button-single {
+    color: grey;
+    cursor: pointer;
+    transition: color 0.3s;
+    position: relative;
+    transform: translateY(-110px) translateX(1255px);
+  }
+  
+  .like-button-single.liked {
+    color: red;
+  }
+  
+  .counter-like-single {
+    color: grey;
+    transition: color 0.3s;
+    position: absolute;
+    transform: translateY(-138px) translateX(1283px);
+  }
+
+
+
+  .comment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .comment-card {
+      width: 60%;
+      margin-bottom: 5px;
+  }
+
+  .comment-body {
+      display: flex;
+      align-items: flex-start;
+  }
+
+  .user-picture {
+      position: relative;
+      transform: translateY(10px) translateX(10px);
+      width: 80px;
+      height: 80px;
+      border-radius: 100%;
+      margin-right: 5%;
+  }
+
+  .comment-form {
+      width: 1450px;
+  }
+
+
+
+  .comment-button {
+      position: absolute;
+      transform: translateY(-43px) translateX(455px);
+      width: 6%;
+  }
+
+.single-line-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid gray; /* Add a border at the bottom to achieve the line effect */
+  resize: none; /* Disable textarea resizing */
+  padding: 5px; /* Add some padding for spacing */
+  font-size: 16px; /* Adjust font size as needed */
+}
+
+
+
+
 /* Responsive Styling */
 @media (max-width: 768px) {
 
@@ -304,6 +375,25 @@ body {
     position: absolute;
     right: 0;
     transform: translateY(-101px) translateX(3px);
+  }
+
+
+  .comment-card {
+    width: 100%;
+    margin-bottom: 1px;
+  }
+
+
+  .comment-form {
+    width: 580px;
+  }
+
+
+
+  .comment-button {
+    position: absolute;
+    transform: translateY(-43px) translateX(405%);
+    width: 13%;
   }
     
 }

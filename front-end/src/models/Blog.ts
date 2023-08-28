@@ -6,6 +6,7 @@ export interface Blog {
     title: string;
     description: string;
     video: string;
+    picture: string;
     date?: Date;
     }
   
