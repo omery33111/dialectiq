@@ -93,7 +93,7 @@ const MyNavbar = () => {
                   </Nav.Link>
 
             {storedIsLogged ? (
-              <Nav.Link href="/profile_user/profile">
+              <Nav.Link href="/profile/profile">
                 <h2
                 className = 'user-icon-top'
                   style={{color: 'white'}}>

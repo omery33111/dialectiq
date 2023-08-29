@@ -3,11 +3,12 @@ import { RootState } from '../../app/store';
 import { BlogState } from '../../models/Blog';
 import { getBlogs, getSingleBlog } from './blogAPI';
 
+
+
 const initialState: BlogState = {
   blogs: [],
   singleBlog: {
-    title: "", description: "", video: "", id: "",
-    picture: ''
+    title: "", description: "", video: "", id: "", picture: '', date: new Date(),
   },
   likes: {},
 };

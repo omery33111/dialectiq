@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getProfileAsync } from "./profileSlice";
+import { getProfileAsync, selectProfile } from "./profileSlice";
 import { BsFillPencilFill } from "react-icons/bs";
 import { myServer } from "../../endpoints/endpoints";
 
@@ -13,12 +13,13 @@ const Profile = () => {
 
   const dispatch = useAppDispatch();
 
+  const myProfile = useAppSelector(selectProfile)
+
 
   useEffect(() => {
     dispatch(getProfileAsync());
   }, [dispatch]);
 
-  const { first_name, last_name, location, bio, picture } = useAppSelector((state) => state.profile);
 
   return (
     <div style = {{display: 'flex', justifyContent: 'center'}}>
@@ -31,7 +32,7 @@ const Profile = () => {
                     <Row>
                     <div style = {{position: "relative", right: 15}}>
             <Button
-              onClick={() => navigate("/profile_user/profile_update")}
+              onClick={() => navigate("/profile/profile_update")}
               variant="warning">
              <h6 style = {{margin: 0}}> <BsFillPencilFill /> </h6>
             </Button>
@@ -41,17 +42,17 @@ const Profile = () => {
                 
                     <Col md={4} className="d-flex justify-content-center align-items-center">
                       
-                    {picture ? (<img alt="mypicture" height = {200} width = {200} src = {myServer + picture}/>) : ("UNKNOWN")}
+                    {myProfile.picture ? (<img alt="mypicture" height = {200} width = {200} src = {myServer + myProfile.picture}/>) : ("UNKNOWN")}
                     </Col>
                     
                     <Col md={4}>
                     <br/><br/>
 
                     <ListGroup variant="flush">
-                        <ListGroup.Item><b>FIRST NAME:</b> {first_name? (`${first_name}`) : ("UNKNOWN")}</ListGroup.Item>
+                        <ListGroup.Item><b>FIRST NAME:</b> {myProfile.first_name? (`${myProfile.first_name}`) : ("UNKNOWN")}</ListGroup.Item>
 
-                        <ListGroup.Item><b>LAST NAME:</b> {last_name? (`${last_name}`) : ("UNKNOWN")}</ListGroup.Item>
-                        <ListGroup.Item><b>LOCATION:</b> {location? (`${location}`) : ("UNKNOWN")}</ListGroup.Item>
+                        <ListGroup.Item><b>LAST NAME:</b> {myProfile.last_name? (`${myProfile.last_name}`) : ("UNKNOWN")}</ListGroup.Item>
+                        <ListGroup.Item><b>LOCATION:</b> {myProfile.location? (`${myProfile.location}`) : ("UNKNOWN")}</ListGroup.Item>
                     </ListGroup>
                         </Col>
                         <Col md={4}>
@@ -59,7 +60,7 @@ const Profile = () => {
 
                         <ListGroup variant="flush">
                         <ListGroup.Item ><b className="d-flex justify-content-center align-items-center">BIO: </b>
-                        {bio? (`${bio}`) : ("UNKNOWN")}</ListGroup.Item>
+                        {myProfile.bio? (`${myProfile.bio}`) : ("UNKNOWN")}</ListGroup.Item>
                         
                     </ListGroup>
                     

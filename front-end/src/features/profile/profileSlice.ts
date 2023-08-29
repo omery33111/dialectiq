@@ -1,27 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getProfile, patchProfile } from "./profileAPI";
+import { getProfile, getSingleProfile, patchProfile } from "./profileAPI";
+import { RootState } from "../../app/store";
+import { ProfileState } from "../../models/Profile";
 
 
-
-export interface ProfileState {
-    profile_id: number;
-    user: number;
-    first_name: string;
-    last_name: string;
-    bio: string;
-    location: string;
-    picture: string;
-}
 
 const initialState: ProfileState = {
+    profile: {
     profile_id: 0,
     user: 0,
     bio: "",
     location: "",
     picture: "",
     first_name: "",
-    last_name: "",
+    last_name: ""},
 };
+
+
 
 export const getProfileAsync = createAsyncThunk(
     'profile/getProfile',
@@ -30,6 +25,17 @@ export const getProfileAsync = createAsyncThunk(
         return response
     }
 )
+
+
+
+export const getSingleProfileAsync = createAsyncThunk(
+    'profile/getSingleProfile',
+    async (id: number) => {
+      const response = await getSingleProfile(id);
+      return response.data;
+    }
+  );
+
 
 
 export const patchProfileAsync = createAsyncThunk(
@@ -50,21 +56,19 @@ export const profileSlice = createSlice({
 
     },
     extraReducers: (builder) => {
-        builder.addCase(getProfileAsync.fulfilled, (state, action) => {
-            state.profile_id = action.payload.data.profile_id
-            state.bio = action.payload.data.bio
-            state.first_name = action.payload.data.first_name
-            state.last_name = action.payload.data.last_name
-            state.bio = action.payload.data.bio
-            state.location = action.payload.data.location
-            state.picture = action.payload.data.picture
+      builder
+        .addCase(getProfileAsync.fulfilled, (state, action) => {
+            state.profile = action.payload.data;
         })
+
+        .addCase(getSingleProfileAsync.fulfilled, (state, action) => {
+            state.profile = action.payload;
+          });
     }
 })
 
-// export const { } = profileSlice.actions;
+
+
+export const selectProfile = (state: RootState) => state.profile.profile;
+
 export default profileSlice.reducer;
-
-
-// export const selectBio = (state: RootState) => state.profile.bio;
-// export const selectProfile = (state: RootState) => state.profile.location;

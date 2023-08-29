@@ -17,6 +17,7 @@ import BlogPost from './features/administrator/BlogPost';
 import BlogUpdate from './features/administrator/BlogUpdate';
 import BlogComments from './features/comment/BlogComments';
 import BlogPage from './features/blog/BlogPage';
+import UserProfile from './features/profile/UserProfile';
 
 
 
@@ -37,9 +38,14 @@ root.render(
 
           <Route path = "/authentication/login" element={<Login />} />
 
-          <Route path = "/profile_user/profile" element={<Profile />} />
+          <Route path = "/profile/profile" element={<Profile />} />
 
-          <Route path = "/profile_user/profile_update" element={<UpdateProfile />} />
+          <Route path = "/profile/profile_update" element={<UpdateProfile />} />
+
+          <Route path = "/profile/user_profile">
+              <Route index element = {<UserProfile />} />
+              <Route path = ":id" element = {<UserProfile />} />
+          </Route>
 
           <Route path = "/adminmenu" element={<Adminmenu />} />
           <Route path = "/administrator/blog" element={<Blogpanel />} />

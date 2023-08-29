@@ -18,12 +18,18 @@ def profile(request):
         my_profile = Profile.objects.get(user = user)
         serilaizer = ProfileSerializer(my_profile, many = False)
         return Response(serilaizer.data)
+    
 
 
-        # user = request.user
-        # serializer = ProfileSerializer(user, many = False)
-        # print(serializer.data)
-        # return Response(serializer.data)
+@api_view(["GET"])
+def get_profile(request, pk = -1):
+    try:
+        profile = Profile.objects.get(pk = pk)
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data, status = status.HTTP_200_OK)
+    except Profile.DoesNotExist:
+        return Response(status = status.HTTP_404_NOT_FOUND)
+
 
 
 @api_view(["PUT"])

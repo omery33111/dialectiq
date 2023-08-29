@@ -12,6 +12,4 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
-    
-    def formatted_date(self):
-        return self.date.strftime("%Y-%m-%d %H:%M")
+

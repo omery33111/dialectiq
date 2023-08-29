@@ -68,7 +68,7 @@ const UpdateProfile = () => {
                     <Row>
                     <div style = {{position: "relative", right: 15}}>
                     <Button
-                  onClick={() => {window.location.href = "/profile_user/profile";}}
+                  onClick={() => {window.location.href = "/profile/profile";}}
                   variant="warning"
                   type="submit">
                   <h6 style = {{margin: 0}}>

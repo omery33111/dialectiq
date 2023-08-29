@@ -7,7 +7,7 @@ export interface Blog {
     description: string;
     video: string;
     picture: string;
-    date?: Date;
+    date: Date;
     }
   
   

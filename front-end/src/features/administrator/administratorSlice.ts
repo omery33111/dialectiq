@@ -8,10 +8,7 @@ import { RootState } from "../../app/store";
 const initialState: AdministratorState = {
     blogs: [],
     singleBlog: {
-      title: "", description: "", video: "",
-      id: "",
-      picture: ""
-    }
+      title: "", description: "", video: "", id: "", picture: "", date: new Date()}
 };
 
 

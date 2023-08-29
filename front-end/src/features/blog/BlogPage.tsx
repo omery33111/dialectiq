@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import BlogComments from '../comment/BlogComments'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -8,6 +8,7 @@ import { myServer } from '../../endpoints/endpoints';
 import { Container } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
 import PostComment from '../comment/PostComment';
+import { getCommentsAsync, selectComments } from '../comment/commentSlice';
 
 const BlogPage = () => {
     const navigate = useNavigate();
@@ -22,13 +23,24 @@ const BlogPage = () => {
     useEffect(() => {
         if (id !== undefined) {
         dispatch(getSingleBlogAsync(id))
+        dispatch(getCommentsAsync(Number(id)));
         console.log(id)
         }
     }, [id, dispatch])
   
     const { singleBlog } = useAppSelector((state) => state.blog);
 
+
+    const comments = useAppSelector(selectComments);
+
     
+    const commentsLength = comments.length;
+
+    const commentsContainerStyle = {
+        height: `${commentsLength * 100}vh`,
+    };
+
+
   return (
     <div>
         <div
@@ -38,7 +50,7 @@ const BlogPage = () => {
           backgroundImage: `url(${require('../../images/blogbg.png')})`,
           backgroundSize: 'auto',
           backgroundRepeat: 'repeat-y',
-          height: `140vh`,
+          height: "230vh",
           width: '100%',
         }}>
             <div style = {{height: "15vh"}}/>

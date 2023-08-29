@@ -15,6 +15,14 @@ export function getProfile() {
 
         
 
+export function getSingleProfile(id: number) {
+  return new Promise<{ data: Profile }>((resolve) =>
+    axios.get(`${profileURL}/get_profile/${id}/`).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
 export function patchProfile(profileData: any) {
     const myToken = JSON.parse(localStorage.getItem("token") as string)
     const accessToken = myToken ? myToken.access : "";
