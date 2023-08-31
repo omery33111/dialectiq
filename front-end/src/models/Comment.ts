@@ -15,9 +15,10 @@ export interface Comment {
       last_name: string
     }
     comment: string;
-    date?: Date;
+    date: Date;
   }
   
   export interface CommentState {
     comments: Comment[];
+    comment: Comment;
   }

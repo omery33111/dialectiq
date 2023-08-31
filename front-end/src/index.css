@@ -147,9 +147,9 @@ body {
   .like-button {
     color: grey;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.5s;
     position: relative;
-    transform: translateY(-110px) translateX(1105px);
+    transform: translateY(-14vh) translateX(1105px);
   }
   
   .like-button.liked {
@@ -158,7 +158,7 @@ body {
   
   .counter-like {
     color: grey;
-    transition: color 0.3s;
+    transition: color 0.5s;
     position: absolute;
     transform: translateY(-138px) translateX(1133px);
   }
@@ -233,6 +233,52 @@ body {
 }
 
 
+  .blog-time-line {
+  position: absolute;
+  transform: translateY(-120%);
+  }
+
+
+
+  .blog-date {
+    position: absolute;
+    transform: translateX(52.7vh) translateY(-9.4vh);
+    color: grey
+  }
+
+  
+
+  .single-blog-time-line {
+    width: 70%;
+    position: absolute;
+    transform: translateY(-103%) translateX(-1.3%);
+    }
+
+    
+  .sigle-blog-date {
+    position: absolute;
+    transform: translateX(62.4vh) translateY(-10.6vh);
+    color: grey
+  }
+
+    
+  .comment-date {
+    position: absolute;
+    transform: translateX(54vh) translateY(-1vh);
+    color: grey;
+  }
+
+    
+  .edit-delete {
+    position: absolute;
+    transform: translateX(56.5vh) translateY(-3.8vh);
+  }
+
+
+  .edit-delete-modal {
+    position: absolute;
+    transform: translateX(25.8vh) translateY(-3.3vh);
+  }
 
 
 /* Responsive Styling */
@@ -358,10 +404,10 @@ body {
   .like-button {
     color: grey;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.5s;
     position: absolute;
     right: 0;
-    transform: translateY(-105px) translateX(-5px);
+    transform: translateY(-730%) translateX(-5px);
   }
   
 
@@ -371,10 +417,10 @@ body {
   
   .counter-like {
     color: grey;
-    transition: color 0.3s;
+    transition: color 0.5s;
     position: absolute;
     right: 0;
-    transform: translateY(-101px) translateX(3px);
+    transform: translateY(-163px) translateX(3px);
   }
 
 
@@ -389,11 +435,52 @@ body {
   }
 
 
-
   .comment-button {
     position: absolute;
     transform: translateY(-43px) translateX(405%);
     width: 13%;
   }
+  
+
+  .blog-date {
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+    color: grey;
+    transform: translateX(14vh) translateY(-60px);
+  }
+
+  
+
+  .single-blog-time-line {
+    width: 97.3%;
+    position: absolute;
+    transform: translateY(-103%) translateX(-1.3%);
+    }
+
     
+  .sigle-blog-date {
+    position: absolute;
+    transform: translateX(18.6vh) translateY(-7.5vh);
+    color: grey
+  }
+
+    
+  .comment-date {
+    position: absolute;
+    transform: translateX(16.5vh) translateY(-1vh);
+    color: grey;
+  }
+
+    
+  .edit-delete {
+    position: absolute;
+    transform: translateX(19.5vh) translateY(-62%);
+  }
+
+    
+  .edit-delete-modal {
+    position: absolute;
+    transform: translateX(-10.2vh) translateY(-24%);
+  }
 }

@@ -76,7 +76,7 @@ export const deleteBlogAsync = createAsyncThunk(
 
         .addCase(getSingleBlogAsync.fulfilled, (state, action) => {
           state.singleBlog = action.payload
-      })
+        })
     },
   });
 

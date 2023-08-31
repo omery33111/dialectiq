@@ -39,10 +39,14 @@ const [comment, setComment] = useState<string>('');
     formData.append('blog', String(singleBlog.id));
     formData.append('profile', String(myProfile.profile_id));
     formData.append('comment', comment);
+    
 
     dispatch(postCommentAsync(formData)).then(() => {
+      setComment("")
+
       // After posting the comment, refresh the comments list
       dispatch(getCommentsAsync(Number(singleBlog.id)));
+      
     });
   };
 
@@ -60,8 +64,8 @@ const [comment, setComment] = useState<string>('');
                             className="user-picture"
                         />
                         <div>
-                            <Card.Title onClick = {() => navigate("/profile/profile")} style = {{cursor: 'pointer', width: "100%"}}>{myProfile.first_name? (myProfile.first_name) : ("UNKNOWN")} {myProfile.last_name? (myProfile.last_name) : ("UNKNOWN")}</Card.Title>
-                            <Card.Title onClick = {() => navigate("/profile/profile")} style = {{cursor: 'pointer'}}><h6>{myProfile.location? (myProfile.location) : ("UNKNOWN")}</h6></Card.Title>
+                            <Card.Title onClick = {() => navigate("/profile/profile")} style = {{cursor: 'pointer', width: "40%"}}>{myProfile.first_name? (myProfile.first_name) : ("UNKNOWN")} {myProfile.last_name? (myProfile.last_name) : ("UNKNOWN")}</Card.Title>
+                            <Card.Title onClick = {() => navigate("/profile/profile")} style = {{cursor: 'pointer', width: "20%"}}><h6>{myProfile.location? (myProfile.location) : ("UNKNOWN")}</h6></Card.Title>
                             <Form onSubmit={handleSubmit}>
                             <Card.Text>
                               
@@ -70,6 +74,7 @@ const [comment, setComment] = useState<string>('');
                             <Form.Control
                             style = {{width: "30%"}}
                               type="text"
+                              value = {comment}
                               onChange={(event) => setComment(event.target.value)}
                               required/>
                           </Form.Group>

@@ -62,6 +62,7 @@ const Blog = () => {
         }}>
         <div className="d-flex justify-content-center">
           <div className="blog-videos">
+            
             <div style={{ height: 300 }} />
             {blogs.slice().reverse().map((blog, index) => {
               const topPosition = 100 * index;
@@ -75,23 +76,35 @@ const Blog = () => {
                     top: `${topPosition}px`,
                   }}>
 
-                    <div>
+
+                <div className='blog-time-line'>
                   <img
-                  onClick = {() => navigate(`/blog/blog_page/${blog.id}`)}
+                    src={`${require('../../images/blogtimeline.png')}`}
+                    width="100%"
+                    height="100%"
+                  />
+                  <h6 className = "blog-date">{formatDate(blog.date)}</h6>
+                  </div>
+
+                <div>
+                  <img
                     src={myServer + blog.picture}
                     width="100%"
                     height="100%"
                   />
+                  </div>
+
+                    <div>
 
                 <img 
                 onClick = {() => navigate(`/blog/blog_page/${blog.id}`)}
                 src={require('../../images/forthumbnail.png')} width="100%"
                     alt="profile-logo" 
-                    style = {{position: "absolute", top: -4, right: 0}}/>
+                    style = {{position: "absolute", top: 0, right: 0}}/>
 
                   </div>
 
-                  <h2 style = {{padding: "10px"}}>{formatDate(blog.date)}</h2>
+
                   <h2 style = {{padding: "10px"}}>{blog.title}</h2>
                   <p style = {{padding: "7px"}}>{blog.description}</p>
                             <h3>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import BlogComments from '../comment/BlogComments'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getSingleBlogAsync, selectLikes, toggleLike } from './blogSlice';
 import ReactPlayer from 'react-player';
@@ -8,13 +8,13 @@ import { myServer } from '../../endpoints/endpoints';
 import { Container } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
 import PostComment from '../comment/PostComment';
-import { getCommentsAsync, selectComments } from '../comment/commentSlice';
+import { getCommentsAsync } from '../comment/commentSlice';
 
 const BlogPage = () => {
-    const navigate = useNavigate();
-
     const dispatch = useAppDispatch();
     
+    const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
+
     const likes = useAppSelector(selectLikes);
     const likesRecord = likes as Record<string, number>;
   
@@ -31,14 +31,15 @@ const BlogPage = () => {
     const { singleBlog } = useAppSelector((state) => state.blog);
 
 
-    const comments = useAppSelector(selectComments);
-
-    
-    const commentsLength = comments.length;
-
-    const commentsContainerStyle = {
-        height: `${commentsLength * 100}vh`,
-    };
+  function formatDate(dateString: any) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${year}-${month}-${day}, ${hours}:${minutes}`;
+  }
 
 
   return (
@@ -50,12 +51,23 @@ const BlogPage = () => {
           backgroundImage: `url(${require('../../images/blogbg.png')})`,
           backgroundSize: 'auto',
           backgroundRepeat: 'repeat-y',
-          height: "230vh",
+          height: "290vh",
           width: '100%',
         }}>
-            <div style = {{height: "15vh"}}/>
+
+
+            <div style = {{height: "28vh"}}/>
                     
                     <Container>
+                    <div className='single-blog-time-line'>
+                  <img
+                    src={`${require('../../images/blogtimeline.png')}`}
+                    width="100%"
+                    height="100%"
+                  />
+                  <h6 className = "sigle-blog-date">{formatDate(singleBlog.date)}</h6>
+                  </div>
+
                     <ReactPlayer
                     url={myServer + singleBlog.video}
                     controls={true}
@@ -81,8 +93,11 @@ const BlogPage = () => {
                 <div className='counter-like-single' style = {{color: "grey"}}>
                 {likesRecord[singleBlog.id] || 0}
                 </div>
-
+                    
+                {storedIsLogged && (
                 <PostComment />
+                )}
+                
                 <BlogComments />
                 
                   </Container>
