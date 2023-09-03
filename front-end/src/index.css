@@ -149,7 +149,7 @@ body {
     cursor: pointer;
     transition: color 0.5s;
     position: relative;
-    transform: translateY(-14vh) translateX(1105px);
+    transform: translateY(-14.2vh) translateX(1105px);
   }
   
   .like-button.liked {
@@ -160,7 +160,7 @@ body {
     color: grey;
     transition: color 0.5s;
     position: absolute;
-    transform: translateY(-138px) translateX(1133px);
+    transform: translateY(-16.9vh) translateX(1133px);
   }
 
 
@@ -278,6 +278,16 @@ body {
   .edit-delete-modal {
     position: absolute;
     transform: translateX(25.8vh) translateY(-3.3vh);
+  }
+
+
+  .blog-item .like-button {
+    transform: translateY(-11.5vh) translateX(1105px);
+  }
+  
+  /* Adjust the counter for the second blog and onwards */
+  .blog-item .counter-like {
+    transform: translateY(-14.3vh) translateX(1133px);
   }
 
 
@@ -482,5 +492,15 @@ body {
   .edit-delete-modal {
     position: absolute;
     transform: translateX(-10.2vh) translateY(-24%);
+  }
+
+  
+  .blog-item .like-button {
+    transform: translateY(-430%) translateX(-15px);
+  }
+  
+  /* Adjust the counter for the second blog and onwards */
+  .blog-item .counter-like {
+    transform: translateY(-397%) translateX(-5px);
   }
 }
