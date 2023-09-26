@@ -63,3 +63,12 @@ export const blogURL = "http://127.0.0.1:8000/blog";
 export const commentURL = "http://127.0.0.1:8000/comment";
 
 // export const commentURL = "/comment";
+
+
+
+
+
+// ------------------------- AMERICAN ENDPOINTS:
+export const americanURL = "http://127.0.0.1:8000/quiz_american";
+
+// export const americanURL = "/quiz_american";

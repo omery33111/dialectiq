@@ -48,6 +48,7 @@ export const blogSlice = createSlice({
       .addCase(getBlogsAsync.fulfilled, (state, action) => {
         state.blogs = action.payload;
       })
+      
       .addCase(getSingleBlogAsync.fulfilled, (state, action) =>
       {
         state.singleBlog = action.payload

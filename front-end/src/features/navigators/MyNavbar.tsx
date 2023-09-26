@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { BsPhoneFill } from 'react-icons/bs';
+import { BsFillFileTextFill, BsPhoneFill } from 'react-icons/bs';
 import { FaUserSecret } from 'react-icons/fa';
 import { RiUserFill } from 'react-icons/ri';
-import { useLocation } from 'react-router-dom'; // Import the useLocation hook
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -70,7 +70,7 @@ const MyNavbar = () => {
                   style={{
                     color: 'white',
                     position: 'relative',
-                    right: '120%',
+                    right: '170%',
                     top: 2,
                   }}
                 >
@@ -78,6 +78,20 @@ const MyNavbar = () => {
                 </h3>
               </Nav.Link>
             )}
+
+                  <Nav.Link href = "/quizes">
+                  <h3
+                  style={{
+                    color: 'white',
+                    position: 'relative',
+                    right: '105%',
+                    top: 2,
+                  }}
+                >
+                  <BsFillFileTextFill />
+                </h3>
+                  </Nav.Link>
+
 
                   <Nav.Link href = "/blog">
                   <h3

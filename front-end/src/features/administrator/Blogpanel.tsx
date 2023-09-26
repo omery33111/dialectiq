@@ -8,7 +8,7 @@ import { deleteBlogAsync } from './administratorSlice';
 import { useNavigate } from 'react-router-dom';
 import { myServer } from '../../endpoints/endpoints';
 
-const Blogpanel = () => {
+const BlogPanel = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   
@@ -108,4 +108,4 @@ const Blogpanel = () => {
   );
 };
 
-export default Blogpanel;
+export default BlogPanel;

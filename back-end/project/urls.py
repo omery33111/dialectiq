@@ -14,6 +14,7 @@ urlpatterns = [
     path('callback/', include('callback.urls')),
     path('blog/', include('blog.urls')),
     path('comment/', include('comment.urls')),
+    path('quiz_american/', include('quiz_american.urls')),
 ]
 
 

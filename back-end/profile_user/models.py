@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from quiz_american.models import QuizAmerican
 
 
 
@@ -21,9 +22,19 @@ class Profile(models.Model):
     location = models.CharField(max_length = 30, blank = True, null = True)
     picture = models.ImageField(blank = True, null = True)
     objects = ProfileManager()
+    points = models.IntegerField(default = 0)
+    questions_answered_correctly = models.ManyToManyField(QuizAmerican)
+
     
     def __init__(self, *args, **kwargs):
         super(Profile, self).__init__(*args, **kwargs)
 
     def __str__(self):
         return self.user
+
+    def mark_question_answered_correctly(self, question):
+        self.questions_answered_correctly.add(question)
+        self.save()
+        
+    def is_question_answered_correctly(self, question):
+        return self.questions_answered_correctly.filter(pk=question.pk).exists()

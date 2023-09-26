@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { changeCommentAsync, deleteCommentAsync, getCommentsAsync, getSingleCommentAsync, selectComment, selectComments } from './commentSlice';
+import { changeCommentAsync, deleteCommentAsync, getCommentsAsync, selectComments } from './commentSlice';
 import {  Button, Card, Form, Modal } from 'react-bootstrap';
 import { myServer } from '../../endpoints/endpoints';
 import { useNavigate, useParams } from 'react-router-dom';
 import { selectProfile } from '../profile/profileSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { BsFillPencilFill, BsSend, BsTrashFill } from 'react-icons/bs';
-import { getSingleBlogAsync, selectSingleBlog } from '../administrator/administratorSlice';
+import { getSingleBlogAsync, selectSingleBlog } from '../blog/blogSlice';
 
 const BlogComments = () => {
     const dispatch = useAppDispatch();
@@ -25,9 +25,6 @@ const BlogComments = () => {
         }
     }, [id, dispatch]);
 
-    // useEffect(() => {
-    //     dispatch(getSingleCommentAsync());
-    // }, [dispatch]);
 
     const [showMore, setShowMore] = useState(false);
     const [showAllModal, setShowAllModal] = useState(false); // State for showing the modal
@@ -60,9 +57,7 @@ const BlogComments = () => {
     dispatch(deleteCommentAsync(commentId));
   };
 
-//   const myProfile = useAppSelector(selectProfile)
   const singleBlog = useAppSelector(selectSingleBlog);
-  const singleComment = useAppSelector(selectComment);
   
   const [commentState, setCommentState] = useState<string>('');
 

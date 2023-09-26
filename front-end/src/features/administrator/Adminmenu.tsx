@@ -1,36 +1,17 @@
 import { Container } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Adminmenu = () => {
-  const navigate = useNavigate();
-
-  const handleUserClick = () => {
-    navigate('/');
-  };
-
-  const handleUserClick2 = () => {
-    navigate('/');
-  };
-
-  const handleUserClick3 = () => {
-    navigate('/');
-  };
-
-  const handleUserClick4 = () => {
-    navigate('/');
-  };
-
-
   return (
     <div className="d-flex justify-content-center align-items-center">
       
       <Container>
       <br/>
-      <br/>      <br/>
+      <br/>
       <br/>
         <div className = "panel-pics">
           <div>
-          <Link to="/administrator/blog" onClick={handleUserClick}>
+          <Link to="/administrator/blog">
             <div style = {{borderRadius: "10px"}}>
             <img className = "panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
             height = "300"
@@ -45,8 +26,8 @@ const Adminmenu = () => {
           </div>
 
           <div>
-          <Link to="/adminmenu/blog" onClick={handleUserClick2}>
-            <img className = "panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
+          <Link to="/administrator/american_quiz">
+            <img className = "panel-pic" src={require('../../images/portalpic2.png')} alt="portalpic1"
             height = "300"
             width = "300">
               </img>
@@ -54,7 +35,7 @@ const Adminmenu = () => {
           </div>
 
           <div>
-          <Link to="/adminmenu/blog" onClick={handleUserClick3}>
+          <Link to="/administrator/blog">
             <img className = "panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
             height = "300"
             width = "300">
@@ -63,7 +44,7 @@ const Adminmenu = () => {
           </div>
           
           <div>
-          <Link to="/adminmenu/blog" onClick={handleUserClick4}>
+          <Link to="/administrator/blog">
             <img className = "panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
             height = "300"
             width = "300">

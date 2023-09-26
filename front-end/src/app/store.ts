@@ -5,6 +5,7 @@ import callbackReducer from '../features/callback/callbackSlice';
 import administratorReducer from '../features/administrator/administratorSlice';
 import blogReducer from '../features/blog/blogSlice';
 import commentReducer from '../features/comment/commentSlice';
+import americanReducer from '../features/american/americanSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     callback: callbackReducer,
     administrator: administratorReducer,
     blog: blogReducer,
-    comment: commentReducer
+    comment: commentReducer,
+    american: americanReducer
   },
 });
 
