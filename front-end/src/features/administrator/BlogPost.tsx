@@ -45,7 +45,6 @@ const BlogPost = () => {
       formData.append('video', videoFile);
   
       dispatch(postBlogAsync(formData));
-      console.log(formData)
 
       setTimeout(() => {
         navigate("/administrator/blog/");

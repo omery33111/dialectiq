@@ -4,10 +4,14 @@ import { BsFillFileTextFill, BsPhoneFill } from 'react-icons/bs';
 import { FaUserSecret } from 'react-icons/fa';
 import { RiUserFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getMyIDAsync, selectUserID } from '../profile/profileSlice';
 
 
 
 const MyNavbar = () => {
+  const dispatch = useAppDispatch();
+  
   const location = useLocation();
 
   const storedIsStaff = JSON.parse(localStorage.getItem('is_staff') as string);
@@ -19,7 +23,13 @@ const MyNavbar = () => {
     if (storedIsStaff) {
       setShouldRefresh(true);
     }
+    
   }, [storedIsStaff]);
+
+  useEffect(() => {
+    dispatch(getMyIDAsync());
+    
+  }, [dispatch]);
 
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -39,6 +49,7 @@ const MyNavbar = () => {
 
   const containerBackground = isScrolling || !isHomePage ? '#0097E6' : 'transparent';
 
+  const userID = useAppSelector(selectUserID);
   return (
     <div>
       <Navbar
@@ -107,7 +118,7 @@ const MyNavbar = () => {
                   </Nav.Link>
 
             {storedIsLogged ? (
-              <Nav.Link href="/profile/profile">
+              <Nav.Link href={`/profile/user_profile/${userID}/`}>
                 <h2
                 className = 'user-icon-top'
                   style={{color: 'white'}}>

@@ -17,4 +17,6 @@ urlpatterns = [
     path('delete_american_subject/<int:pk>/', views.delete_american_subject),
 
     path('get_americans_of_subject/<int:pk>/', views.get_americans_of_subject),
+
+    path('update_user_profile/<int:pk>/', views.update_user_profile),
 ]

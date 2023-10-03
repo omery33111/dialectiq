@@ -25,4 +25,6 @@ export interface AmericanQuestion {
 
       americanAnswer: AmericanAnswer;
       americanAnswers: AmericanAnswer[];
+
+      selectedAnswers: boolean;
     };

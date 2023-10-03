@@ -64,7 +64,7 @@ const BlogUpdate = () => {
     formData.append('picture', picture);
     formData.append('video', videoFile);
 
-    dispatch(patchBlogAsync({ blogData: formData, id: String(singleBlog.id) }));
+    dispatch(patchBlogAsync({ blogData: formData, id: String(id) }));
     setTimeout(() => {
       navigate('/administrator/blog/');
     }, 150);

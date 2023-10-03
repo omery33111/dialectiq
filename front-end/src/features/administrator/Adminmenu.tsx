@@ -9,11 +9,11 @@ const Adminmenu = () => {
       <br/>
       <br/>
       <br/>
-        <div className = "panel-pics">
+        <div className = "admin-panel-pics">
           <div>
           <Link to="/administrator/blog">
             <div style = {{borderRadius: "10px"}}>
-            <img className = "panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
+            <img className = "admin-panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
             height = "300"
             width = "300"
             >
@@ -27,7 +27,7 @@ const Adminmenu = () => {
 
           <div>
           <Link to="/administrator/american_quiz">
-            <img className = "panel-pic" src={require('../../images/portalpic2.png')} alt="portalpic1"
+            <img className = "admin-panel-pic" src={require('../../images/portalpic2.png')} alt="portalpic1"
             height = "300"
             width = "300">
               </img>
@@ -36,7 +36,7 @@ const Adminmenu = () => {
 
           <div>
           <Link to="/administrator/blog">
-            <img className = "panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
+            <img className = "admin-panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
             height = "300"
             width = "300">
               </img>
@@ -45,7 +45,7 @@ const Adminmenu = () => {
           
           <div>
           <Link to="/administrator/blog">
-            <img className = "panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
+            <img className = "admin-panel-pic" src={require('../../images/portalpic1.png')} alt="portalpic1"
             height = "300"
             width = "300">
               </img>

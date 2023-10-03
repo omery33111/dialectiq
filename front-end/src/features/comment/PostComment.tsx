@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { myServer } from '../../endpoints/endpoints'
-import { getProfileAsync, selectProfile } from '../profile/profileSlice';
+import { getMyIDAsync, getProfileAsync, selectProfile, selectUserID } from '../profile/profileSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectSingleBlog } from '../blog/blogSlice';
 import { BsSend } from "react-icons/bs";
@@ -18,6 +18,7 @@ const PostComment = () => {
 
     useEffect(() => {
         dispatch(getProfileAsync());
+        dispatch(getMyIDAsync());
       }, [dispatch]);
       
 
@@ -26,7 +27,8 @@ const PostComment = () => {
   const myProfile = useAppSelector(selectProfile)
 
 
-    
+  const userID = useAppSelector(selectUserID);
+  
   const singleBlog = useAppSelector(selectSingleBlog);
 
 
@@ -58,14 +60,14 @@ const [comment, setComment] = useState<string>('');
                 <Card className="comment-card">
                     <Card.Body className="comment-body">
                         <img
-                            onClick = {() => navigate("/profile/profile")} style = {{cursor: 'pointer'}}
+                            onClick = {() => navigate(`/profile/user_profile/${userID}/`)} style = {{cursor: 'pointer'}}
                             src={myServer + myProfile.picture}
                             alt='addcomment'
                             className="user-picture"
                         />
                         <div>
-                            <Card.Title onClick = {() => navigate("/profile/profile")} style = {{cursor: 'pointer', width: "40%"}}>{myProfile.first_name? (myProfile.first_name) : ("UNKNOWN")} {myProfile.last_name? (myProfile.last_name) : ("UNKNOWN")}</Card.Title>
-                            <Card.Title onClick = {() => navigate("/profile/profile")} style = {{cursor: 'pointer', width: "20%"}}><h6>{myProfile.location? (myProfile.location) : ("UNKNOWN")}</h6></Card.Title>
+                            <Card.Title onClick = {() => navigate(`/profile/user_profile/${userID}/`)} style = {{cursor: 'pointer', width: "40%"}}>{myProfile.first_name? (myProfile.first_name) : ("UNKNOWN")} {myProfile.last_name? (myProfile.last_name) : ("UNKNOWN")}</Card.Title>
+                            <Card.Title onClick = {() => navigate(`/profile/user_profile/${userID}/`)} style = {{cursor: 'pointer', width: "20%"}}><h6>{myProfile.location? (myProfile.location) : ("UNKNOWN")}</h6></Card.Title>
                             <Form onSubmit={handleSubmit}>
                             <Card.Text>
                               

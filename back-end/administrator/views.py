@@ -10,6 +10,10 @@ from quiz_american.models import QuizAmerican, AmericanSubject
 from blog.serializers import BlogSerializer
 from blog.models import Blog
 
+from profile_user.serializers import ProfileSerializer
+from profile_user.models import Profile
+
+
 
 
 class IsStaff(BasePermission):
@@ -148,3 +152,17 @@ def get_americans_of_subject(request, pk):
         return Response(serializer.data)
     except AmericanSubject.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated, IsStaff])
+def update_user_profile(request, pk = -1):
+    if request.method == "PUT":
+        profile = Profile.objects.get(pk = pk)
+        serializer = ProfileSerializer(profile, data = request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)

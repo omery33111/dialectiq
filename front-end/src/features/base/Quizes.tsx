@@ -43,15 +43,6 @@ const Quizes = () => {
             </Link>
           </div>
           
-          <div>
-          <Link to="">
-            <img className = "panel-pic" src={require('../../images/middlesection.png')} alt="portalpic1"
-            height = "300"
-            width = "300">
-              </img>
-            </Link>
-          </div>
-         
         </div>
         <br/>
       <br/>

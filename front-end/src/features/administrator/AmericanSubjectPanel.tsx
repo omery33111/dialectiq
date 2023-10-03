@@ -61,6 +61,7 @@ const AmericanSubjectPanel = () => {
             <tr style={{ backgroundColor: "#5A5A5A", color: "white", textAlign: "center", verticalAlign: "middle" }}>
               <th>ID</th>
               <th>American Subject</th>
+              <th>Description</th>
               <th></th>
             </tr>
           </thead>
@@ -71,6 +72,7 @@ const AmericanSubjectPanel = () => {
                 style={{ cursor: "pointer" }}>
                 <td onClick = {() => {navigate(`/administrator/update_american_subject/${subject.id}/`)}} style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>{subject.id}</td>
                 <td onClick = {() => {navigate(`/administrator/update_american_subject/${subject.id}/`)}} style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>{subject.subject_name}</td>
+                <td onClick = {() => {navigate(`/administrator/update_american_subject/${subject.id}/`)}} style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>{subject.description}</td>
                   <td style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>
                   <Button
                     variant="danger"

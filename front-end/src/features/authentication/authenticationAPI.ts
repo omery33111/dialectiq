@@ -13,7 +13,6 @@ const login = async (userData: Login) => {
 
     if (response.data) {
         localStorage.setItem("token", JSON.stringify(response.data));
-        setupLogoutTimer(); // Set up the logout timer
     }
 
     return response.data;
@@ -25,22 +24,7 @@ const logout = () => {
     localStorage.removeItem("userName");
 };
 
-// Function to set up the logout timer
-const setupLogoutTimer = () => {
-    const logoutTimeout = 10 * 1000; // 10 seconds in milliseconds
-    let timerId: NodeJS.Timeout | null = null;
 
-    // Clear the existing timer if present
-    if (timerId) {
-        clearTimeout(timerId);
-    }
-
-    // Set up a new timer
-    timerId = setTimeout(() => {
-        logout();
-        timerId = null;
-    }, logoutTimeout);
-};
 
 const authenticationService = {
     register,

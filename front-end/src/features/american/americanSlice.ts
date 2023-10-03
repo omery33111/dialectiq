@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { AmericanState } from '../../models/American';
 import { getAmericans, getSingleAmerican, getSingleAmericanSubject, postAnswerAmerican } from './americanAPI';
-import { AmericanAnswer } from '../../models/AmericanAnswer';
 
 
 
@@ -11,12 +10,14 @@ const initialState: AmericanState = {
   american: {
     subject: {id: "", subject_name: ""}, id: "", question: "", answer1: "", answer2: "", answer3: "", answer4: "", correct_answer: 0},
   
-  subject: { id: "", subject_name: "" },
-  subjects: [{ id: "", subject_name: "" }],
+  subject: { id: "", description: "", subject_name: "", picture: ""},
+  subjects: [{ id: "", description: "", subject_name: "", picture: ""}],
   subjectAmericans: [],
 
   americanAnswer: {id: "", user: 0, user_answer: 0, question: 0},
-  americanAnswers: []
+  americanAnswers: [],
+  
+  selectedAnswers: false
 };
 
 
@@ -62,6 +63,9 @@ export const americanSlice = createSlice({
   name: 'american',
   initialState,
   reducers: {
+    saveAnswers: (state, action) => {
+      state.selectedAnswers = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -84,6 +88,8 @@ export const americanSlice = createSlice({
 });
 
 
+
+export const { saveAnswers } = americanSlice.actions;
 
 export const selectAmericans = (state: RootState) => state.american.americans;
 export const selectSingleAmerican = (state: RootState) => state.american.american;

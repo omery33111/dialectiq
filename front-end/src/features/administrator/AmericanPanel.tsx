@@ -57,7 +57,7 @@ const AmericanPanel = () => {
           <thead>
             <tr style={{ backgroundColor: "#5A5A5A", color: "white", textAlign: "center", verticalAlign: "middle" }}>
               <th>ID</th>
-              <th>Subject</th>
+              {/* <th>Subject</th> */}
               <th>Question</th>
               <th>Answer1</th>
               <th>Answer2</th>
@@ -72,7 +72,7 @@ const AmericanPanel = () => {
                 key={american.id}
                 style={{ cursor: "pointer"}}>
                 <td style={{ textAlign: "center", verticalAlign: "middle", height: "100px", color: "black" }}>{american.id}</td>
-                <td onClick={() => navigate(`/administrator/update_american/${american.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{american.subject.subject_name}</td>
+                {/* <td onClick={() => navigate(`/administrator/update_american/${american.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{american.subject.subject_name}</td> */}
                 <td onClick={() => navigate(`/administrator/update_american/${american.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{american.question}</td>
                 <td onClick={() => navigate(`/administrator/update_american/${american.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{american.answer1}</td>
                 <td onClick={() => navigate(`/administrator/update_american/${american.id}`)} style={{ textAlign: "center", verticalAlign: "middle", height: "100px" }}>{american.answer2}</td>

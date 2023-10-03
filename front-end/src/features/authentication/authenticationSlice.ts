@@ -16,7 +16,7 @@ export interface AuthenticationState
     access: string | null,
     refresh: string | null,
     is_staff: Boolean,
-    message: string
+    message: string,
 }
 
 
@@ -30,7 +30,7 @@ const initialState: AuthenticationState =
     access: "",
     refresh: "",
     is_staff: false,
-    message: ""
+    message: "",
 };
 
 export const registerAsync = createAsyncThunk("authentication/register", async (user: Register, thunkAPI) =>

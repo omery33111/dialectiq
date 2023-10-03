@@ -18,29 +18,46 @@ const AmericanSubjectPost = () => {
 
 
   const [subject_name, setSubject] = useState('');
+  const [description, setDescription] = useState('');
+  const [thePicture, setPicture] = useState<any>(null);
 
 
   const handleSubjectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubject(e.target.value);
   };
 
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDescription(e.target.value);
+  };
+
+  const handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPicture(event.target.files ? event.target.files[0] : undefined);
+  };
+
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-
-    const formData = new FormData();
+  
+    const formData: any = new FormData();
     formData.append('subject_name', subject_name);
-
+    formData.append('description', description);
+    formData.append('picture', thePicture);
+  
     const newSubject: AmericanSubject = {
       subject_name: subject_name,
+      description: description,
+      picture: thePicture,
       id: AmericanSubject.id
     };
-      console.log(newSubject)
-    dispatch(postAmericanSubjectAsync(newSubject));
-
+  
+    console.log(newSubject);
+  
+    dispatch(postAmericanSubjectAsync(formData));
+  
     setTimeout(() => {
       navigate("/administrator/american_subject/");
     }, 150);
   };
+  
 
   return (
     <div>
@@ -55,6 +72,16 @@ const AmericanSubjectPost = () => {
                 <Form.Label className = "blog-form-title"><h5>American Quiz Subject</h5></Form.Label>
                 <Form.Control type="textarea" value={subject_name} onChange={handleSubjectChange} />
               </Form.Group>
+          
+        <Form.Group controlId="formDescription">
+                <Form.Label className = "blog-form-title"><h5>Description</h5></Form.Label>
+                <Form.Control type="textarea" value={description} onChange={handleDescriptionChange} />
+              </Form.Group>
+
+              <Form.Group controlId="formPicture">
+                    <Form.Label className = "blog-form-title"><h5>Picture</h5></Form.Label>
+                    <Form.Control type="file" onChange = {handlePictureChange}/>
+                  </Form.Group>
 
           <br />
           <div>

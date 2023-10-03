@@ -8,7 +8,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import HomePage from './features/base/HomePage';
 import Login from './features/authentication/Login';
-import Profile from './features/profile/Profile';
 import UpdateProfile from './features/profile/UpdateProfile';
 import Adminmenu from './features/administrator/Adminmenu';
 import Blog from './features/blog/Blog';
@@ -27,6 +26,7 @@ import AmericanSubjectUpdate from './features/administrator/AmericanSubjectUpdat
 import AmericanSubjectPanel from './features/administrator/AmericanSubjectPanel';
 import AmericanSubjects from './features/american/AmericanSubjects';
 import AmericanQuiz from './features/american/AmericanQuiz';
+import AmericanFinish from './features/american/AmericanFinish';
 
 
 
@@ -46,8 +46,6 @@ root.render(
           <Route path = "/" element={<HomePage />} />
 
           <Route path = "/authentication/login" element={<Login />} />
-
-          <Route path = "/profile/profile" element={<Profile />} />
 
           <Route path = "/profile/profile_update" element={<UpdateProfile />} />
 
@@ -84,7 +82,9 @@ root.render(
 
           <Route path = "/quizes" element={<Quizes />} />
           <Route path = "/quizes/american_quiz/subjects" element={<AmericanSubjects />} />
-          
+
+          <Route path = "/quizes/american_quiz/american_finish" element={<AmericanFinish />} />
+            
           <Route path = "/quizes/american_quiz/american_test">
               <Route index element = {<AmericanQuiz />} />
               <Route path = ":id" element = {<AmericanQuiz />} />

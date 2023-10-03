@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -7,7 +6,7 @@ from rest_framework import status
 from profile_user.models import Profile
 
 from quiz_american.serializers import QuizAmericanAnswerSerializer, AmericanSubjectSerializer, GetQuizAmericanSerializer
-from quiz_american.models import QuizAmerican, AmericanSubject
+from quiz_american.models import QuizAmerican, AmericanSubject, QuizAmericanAnswer
 
 
 
@@ -30,27 +29,50 @@ def post_answer_american_quiz(request):
 
                 correct_answer = question.correct_answer
 
+                # Access the subject of the question
+                subject_id = question.subject.id if question.subject else None
+
                 user_profile = Profile.objects.get(user=request.user)
+
+                # Initialize quiz_count
+                quiz_count = None
 
                 if user_answer == correct_answer:
                     if user_profile.is_question_answered_correctly(question):
                         response_data = {"result": "You already answered this question correctly."}
                     else:
+                        # Calculate points per question based on quiz_count
+                        if subject_id is not None:
+                            quiz_count = QuizAmerican.objects.filter(subject_id=subject_id).count()
+                            if quiz_count > 0:
+                                points_per_question = 100 / quiz_count
+                                user_profile.points += points_per_question
                         response_data = {"result": "Correct!"}
-                        user_profile.points += 10
                         user_profile.mark_question_answered_correctly(question)
-                        user_profile.save()
-                else:
-                    response_data = {"result": "Wrong!"}
-                    user_profile.points -= 5
                     user_profile.save()
+                else:
+                    if user_profile.is_question_answered_correctly(question):
+                        user_profile.points -= 5
+                        user_profile.save()
+                    response_data = {"result": "Wrong!"}
+
+                response_data['subject'] = subject_id
 
                 response_data_list.append(response_data)
+
+                if subject_id is not None:
+                    response_data['quiz_count'] = quiz_count
 
             else:
                 response_data_list.append(serializer.errors)
 
         return Response(response_data_list, status=200)
+
+
+
+
+
+
 
 
 

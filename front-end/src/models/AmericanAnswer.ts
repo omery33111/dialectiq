@@ -12,4 +12,6 @@ export interface AmericanAnswer {
     export interface AmericanState {
       americanAnswer: AmericanAnswer;
       americanAnswers: AmericanAnswer[];
+
+      selectedAnswers: boolean;
     };
