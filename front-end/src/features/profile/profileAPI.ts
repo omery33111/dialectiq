@@ -14,6 +14,12 @@ export function getProfile() {
         axios.get(profileURL + "/profile", config).then(res => resolve({ data: res.data }))))}
 
 
+
+export function getForumProfiles(page: number) {
+  return new Promise<{ data: Profile[] }>((resolve =>
+    axios.get(`${profileURL}/forum_profiles?page=${page}`).then(res => resolve({ data: res.data }))))}
+        
+
         
 export function getUserSingleBlogComments(id: number) {
     const myToken = JSON.parse(localStorage.getItem("token") as string)
@@ -56,13 +62,13 @@ export function getSingleProfile(id: number) {
 
 
 
-export function patchProfile(profileData: any) {
-    const myToken = JSON.parse(localStorage.getItem("token") as string)
-    const accessToken = myToken ? myToken.access : "";
-    let config = {
-        headers: {
-            'Authorization': 'Bearer ' + accessToken
-        }
+export function changeProfile(profileData: any, id: string) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
     }
-    return new Promise<{ data: Profile }>((resolve) => 
-    axios.put(profileURL + '/profile_update', profileData, config).then(res => resolve({ data: res.data })))}
+  return new Promise<{ data: Profile }>((resolve) =>
+    axios.put(`${profileURL}/user_update/${id}/`, profileData, config).then((res) => resolve({ data: res.data }))
+  );
+}

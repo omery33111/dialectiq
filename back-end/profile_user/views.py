@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.core.paginator import Paginator, PageNotAnInteger
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -14,6 +14,9 @@ from comment.models import Comment
 
 from quiz_american.serializers import QuizAmericanAnswer
 from quiz_american.models import AmericanSubject
+
+from quiz_sentence.serializers import QuizSentenceAnswer
+from quiz_sentence.models import SentenceSubject
 
 
 
@@ -108,13 +111,23 @@ def user_answered_quizes(request, pk=-1):
     # Get all the AmericanSubject IDs that the user has answered
     answered_american_subject_ids = QuizAmericanAnswer.objects.filter(user_id=user_id).values_list('question__subject__id', flat=True)
 
+    # Get all the SentenceSubject IDs that the user has answered once
+    answered_sentence_subject_ids = QuizSentenceAnswer.objects.filter(user_id=user_id).values_list('question__subject__id', flat=True)
+
     # Get all the AmericanSubject objects that the user has answered once
     user_quizes = AmericanSubject.objects.filter(id__in=answered_american_subject_ids).distinct()
+
+    # Get all the SentenceSubject objects that the user has answered once
+    user_quizes_sentence = SentenceSubject.objects.filter(id__in=answered_sentence_subject_ids).distinct()
+
+    # Combine the two querysets into a single queryset
+    user_quizes = user_quizes.union(user_quizes_sentence)
 
     # Get the descriptions, subject names, and pictures of the once answered AmericanSubject objects
     once_answered_american_subject_data = []
     for american_subject in user_quizes:
         once_answered_american_subject_data.append({
+            'id': american_subject.id,  # Add the 'id' field here
             'description': american_subject.description,
             'subject_name': american_subject.subject_name,
             'picture': american_subject.picture.url,
@@ -125,6 +138,7 @@ def user_answered_quizes(request, pk=-1):
         return Response(once_answered_american_subject_data, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
     
 
 
@@ -138,4 +152,30 @@ def user_update(request, pk = -1):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+
+
+@api_view(["GET"])
+def forum_profiles(request):
+    # Define the number of profiles to load per page
+    profiles_per_page = 8
+
+    # Get the page number from the query parameter
+    page = request.GET.get("page", 1)
+
+    # Query all profiles and order them by a field (e.g., you can order by the date field)
+    all_profiles = Profile.objects.order_by("date")
+
+    # Use Django Paginator to paginate the profiles
+    paginator = Paginator(all_profiles, profiles_per_page)
+
+    try:
+        profiles = paginator.page(page)
+    except PageNotAnInteger:
+        return Response({"error": "Invalid page number."}, status=400)
+
+    # Serialize the profiles to JSON using the ProfileSerializer
+    serializer = ProfileSerializer(profiles, many=True)
+
+    return Response(serializer.data)
 # ------------------------- PROFILE END ------------------------- #

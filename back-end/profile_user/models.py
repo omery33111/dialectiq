@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from quiz_american.models import QuizAmerican
+from quiz_sentence.models import QuizSentence
 
 
 
@@ -17,13 +18,14 @@ class ProfileManager(models.Manager):
 class Profile(models.Model):
     profile_id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
-    first_name = models.CharField(max_length=20, blank=True, null=True)
-    last_name = models.CharField(max_length=20, blank=True, null=True)
-    bio = models.TextField(max_length=50, blank=True, null=True, default="I'm New!")
-    location = models.CharField(max_length=30, blank=True, null=True)
-    picture = models.ImageField(blank=True, null=True)
+    first_name = models.CharField(max_length=20, blank=True, null=True, default="UNKNOWN")
+    last_name = models.CharField(max_length=20, blank=True, null=True, default="UNKNOWN")
+    bio = models.TextField(max_length=350, blank=True, null=True, default="I'm New!")
+    location = models.CharField(max_length=30, blank=True, null=True, default="UNKNOWN")
+    picture = models.ImageField(blank=True, null=True, default="defaultprofile.png")
     points = models.IntegerField(default = 100)
     questions_answered_correctly = models.ManyToManyField(QuizAmerican, blank=True, null=True)
+    questions_answered_correctly_sentencequiz = models.ManyToManyField(QuizSentence, blank=True, null=True)
     objects = ProfileManager()
     date = models.DateTimeField(auto_now_add=True)
 
@@ -35,11 +37,17 @@ class Profile(models.Model):
         return str(self.user)
 
     def mark_question_answered_correctly(self, question):
-        self.questions_answered_correctly.add(question)
+        if isinstance(question, QuizAmerican):
+            self.questions_answered_correctly.add(question)
+        elif isinstance(question, QuizSentence):
+            self.questions_answered_correctly_sentencequiz.add(question)
         self.save()
 
     def is_question_answered_correctly(self, question):
-        return self.questions_answered_correctly.filter(pk=question.pk).exists()
+        if isinstance(question, QuizAmerican):
+            return self.questions_answered_correctly.filter(pk=question.pk).exists()
+        elif isinstance(question, QuizSentence):
+            return self.questions_answered_correctly_sentencequiz.filter(pk=question.pk).exists()
 
     def save(self, *args, **kwargs):
         if self.points < 0:

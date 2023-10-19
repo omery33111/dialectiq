@@ -70,13 +70,6 @@ def post_answer_american_quiz(request):
 
 
 
-
-
-
-
-
-
-
 @api_view(['GET'])
 def get_americans(request):
     if request.method == 'GET':

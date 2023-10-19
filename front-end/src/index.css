@@ -417,6 +417,18 @@ body {
     display: flex;
     align-items: center;
   }
+
+  
+  .circle-container-forum {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 49%;
+    transform: translate(-50%, -50%);
+  }
+
   
   .circle {
     z-index: 1;
@@ -464,7 +476,7 @@ body {
   .user-comments-card-date {
     font-size: 0.8rem;
     position: relative;
-    transform: translateX(53vh);
+    transform: translateX(48vh);
   }
   
 
@@ -478,12 +490,17 @@ body {
   .progress-bar {
     width: 51%;
   }
+  
+  
+  .progress-bar-forum {
+    width: 77.7%;
+  }
 
 
   .scrollbar-user-comments {
-    width: 56%;
+    width: 60%;
     overflow-y: auto;
-    max-height: 820px;
+    max-height: 667px;
   }
   
 
@@ -524,24 +541,57 @@ body {
   .scrollbar-pic {
     width: 100%;
     position: relative;
-    transform: translateX(18%);
+    transform: translateX(19.5%);
   }
   
 
   .scrollbar-pic-quiz {
     width: 100%;
     position: relative;
-    transform: translateX(9%);
+    transform: translateX(11%);
   }
   
 
   .profile-hierarchy {
     position: absolute;
     width: 50%;
-    transform: translateX(120vh) translateY(-63.7vh);
+    transform: translateX(115vh) translateY(-96.7vh);
     overflow: hidden;
   }
+  
 
+  .forum-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18rem;
+    position: relative;
+    transform: translateX(-14vh);
+  }
+  
+  .forum-item {
+    width: 18rem;
+    flex-grow: 1;
+    flex-basis: 200;
+    cursor: pointer;
+  }
+
+  
+  .forum-progressbar {
+    position: relative;
+    transform: translateY(-4.3vh);
+  }
+
+
+  .pagination-container {
+    position: relative;
+    transform: translate(-4.1vh, -5vh);
+    justify-content: center;
+    text-align: center;
+    display: flex;
+  }
+
+  
   
 
 /* Responsive Styling */
@@ -899,4 +949,15 @@ body {
     position: relative;
     transform: translateX(26%);
   }
+
+
+  .pagination-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -170%);
+    display: flex;
+    justify-content: center;
+  }
+
 }

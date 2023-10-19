@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework import status
 
+from quiz_sentence.serializers import QuizSentenceSerializer, SentenceSubjectSerializer
+from quiz_sentence.models import QuizSentence, SentenceSubject
+
 from quiz_american.serializers import QuizAmericanSerializer, AmericanSubjectSerializer
 from quiz_american.models import QuizAmerican, AmericanSubject
 
@@ -100,6 +103,87 @@ def patch_american(request, pk = -1):
             return Response(serializer.data)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~ AMERICAN QUIZ END ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ COMPLETE THE SENTENCE QUIZ START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+@permission_classes([IsAuthenticated, IsStaff])
+@api_view(['POST'])
+def post_sentence_quiz(request):
+    if request.method == 'POST':
+        serializer = QuizSentenceSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+    
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated, IsStaff])
+def delete_sentence(request, pk = -1):
+    if request.method == "DELETE":
+        try:
+            sentence = QuizSentence.objects.get(pk = pk)
+            sentence.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except QuizSentence.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated, IsStaff])
+def patch_sentence(request, pk = -1):
+    if request.method == "PUT":
+        sentence = QuizSentence.objects.get(pk = pk)
+        serializer = QuizSentenceSerializer(sentence, data = request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ COMPLETE THE SENTENCE QUIZ END ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ COMPLETE THE SENTENCE SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+@api_view(['POST'])
+def post_sentence_subject(request):
+    if request.method == 'POST':
+        serializer = SentenceSubjectSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+    
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated, IsStaff])
+def patch_sentence_subject(request, pk = -1):
+    if request.method == "PUT":
+        subject = SentenceSubject.objects.get(pk = pk)
+        serializer = SentenceSubjectSerializer(subject, data = request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated, IsStaff])
+def delete_sentence_subject(request, pk = -1):
+    if request.method == "DELETE":
+        try:
+            sentence_subject = SentenceSubject.objects.get(pk = pk)
+            sentence_subject.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except SentenceSubject.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ COMPLETE THE SENTENCE SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
 

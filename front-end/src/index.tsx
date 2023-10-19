@@ -8,7 +8,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import HomePage from './features/base/HomePage';
 import Login from './features/authentication/Login';
-import UpdateProfile from './features/profile/UpdateProfile';
 import Adminmenu from './features/administrator/Adminmenu';
 import Blog from './features/blog/Blog';
 import BlogPost from './features/administrator/BlogPost';
@@ -27,6 +26,16 @@ import AmericanSubjectPanel from './features/administrator/AmericanSubjectPanel'
 import AmericanSubjects from './features/american/AmericanSubjects';
 import AmericanQuiz from './features/american/AmericanQuiz';
 import AmericanFinish from './features/american/AmericanFinish';
+import Forum from './features/forum/Forum';
+import SentencePanel from './features/administrator/SentencePanel';
+import SentenceSubjectPanel from './features/administrator/SentenceSubjectPanel';
+import SentenceSubjectPost from './features/administrator/SentenceSubjectPost';
+import SentencePost from './features/administrator/SentencePost';
+import SentenceSubjectUpdate from './features/administrator/SentenceSubjectUpdate';
+import SentenceUpdate from './features/administrator/SentenceUpdate';
+import SentenceSubjects from './features/sentence/SentenceSubjects';
+import SentenceQuiz from './features/sentence/SentenceQuiz';
+import SentenceFinish from './features/sentence/SentenceFinish';
 
 
 
@@ -47,8 +56,6 @@ root.render(
 
           <Route path = "/authentication/login" element={<Login />} />
 
-          <Route path = "/profile/profile_update" element={<UpdateProfile />} />
-
           <Route path = "/profile/user_profile">
               <Route index element = {<UserProfile />} />
               <Route path = ":id" element = {<UserProfile />} />
@@ -57,10 +64,14 @@ root.render(
           <Route path = "/adminmenu" element={<Adminmenu />} />
           <Route path = "/administrator/blog" element={<BlogPanel />} />
           <Route path = "/administrator/post_blog" element={<BlogPost />} />
+          <Route path = "/administrator/sentence_quiz" element={<SentencePanel />} />
           <Route path = "/administrator/american_quiz" element={<AmericanPanel />} />
           <Route path = "/administrator/post_american" element={<AmericanPost />} />
+          <Route path = "/administrator/post_sentence" element={<SentencePost />} />
           <Route path = "/administrator/american_subject" element={<AmericanSubjectPanel />} />
+          <Route path = "/administrator/sentence_subject" element={<SentenceSubjectPanel />} />
           <Route path = "/administrator/post_american_subject" element={<AmericanSubjectPost />} />
+          <Route path = "/administrator/post_sentence_subject" element={<SentenceSubjectPost />} />
           
 
           <Route path = "/administrator/update_blog">
@@ -73,21 +84,42 @@ root.render(
               <Route path = ":id" element = {<AmericanUpdate />} />
           </Route>
 
+          <Route path = "/administrator/update_sentence">
+              <Route index element = {<SentenceUpdate />} />
+              <Route path = ":id" element = {<SentenceUpdate />} />
+          </Route>
+
           <Route path = "/administrator/update_american_subject">
               <Route index element = {<AmericanSubjectUpdate />} />
               <Route path = ":id" element = {<AmericanSubjectUpdate />} />
           </Route>
+
+          <Route path = "/administrator/update_sentence_subject">
+              <Route index element = {<SentenceSubjectUpdate />} />
+              <Route path = ":id" element = {<SentenceSubjectUpdate />} />
+          </Route>
+
+          <Route path = "/forum_profiles" element={<Forum />} />
 
           <Route path = "/blog" element={<Blog />} />
 
           <Route path = "/quizes" element={<Quizes />} />
           <Route path = "/quizes/american_quiz/subjects" element={<AmericanSubjects />} />
 
+          <Route path = "/quizes/sentence_quiz/subjects" element={<SentenceSubjects />} />
+
           <Route path = "/quizes/american_quiz/american_finish" element={<AmericanFinish />} />
+
+          <Route path = "/quizes/sentence_quiz/sentence_finish" element={<SentenceFinish />} />
             
           <Route path = "/quizes/american_quiz/american_test">
               <Route index element = {<AmericanQuiz />} />
               <Route path = ":id" element = {<AmericanQuiz />} />
+          </Route>
+            
+          <Route path = "/quizes/sentence_quiz/sentence_test">
+              <Route index element = {<SentenceQuiz />} />
+              <Route path = ":id" element = {<SentenceQuiz />} />
           </Route>
 
           <Route path = "/blog/get_comments">

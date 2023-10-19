@@ -72,3 +72,12 @@ export const commentURL = "http://127.0.0.1:8000/comment";
 export const americanURL = "http://127.0.0.1:8000/quiz_american";
 
 // export const americanURL = "/quiz_american";
+
+
+
+
+
+// ------------------------- COMPLETE THE SENTENCE ENDPOINTS:
+export const sentenceURL = "http://127.0.0.1:8000/quiz_sentence";
+
+// export const sentenceURL = "/quiz_sentence";

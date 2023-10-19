@@ -17,6 +17,7 @@ export default class Profile {
 
   export interface ProfileState {
     profile: Profile;
+    profiles: Profile[];
 
     userID: string;
 
@@ -31,10 +32,12 @@ export default class Profile {
     ]
 
     user_quizes: [
-      {description: string;
-      subject_name: string;
-      picture: string;}
-  ]
+      {
+        id: number;
+        description: string;
+        subject_name: string;
+        picture: string;}
+    ]
   }
 
   

@@ -6,6 +6,7 @@ import administratorReducer from '../features/administrator/administratorSlice';
 import blogReducer from '../features/blog/blogSlice';
 import commentReducer from '../features/comment/commentSlice';
 import americanReducer from '../features/american/americanSlice';
+import sentenceReducer from '../features/sentence/sentenceSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     administrator: administratorReducer,
     blog: blogReducer,
     comment: commentReducer,
-    american: americanReducer
+    american: americanReducer,
+    sentence: sentenceReducer,
   },
 });
 

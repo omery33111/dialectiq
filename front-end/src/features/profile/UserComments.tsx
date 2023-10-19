@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getSingleProfileAsync, getUserSingleBlogCommentsAsync, selectProfile, selectSingleBlogUserComments } from './profileSlice';
-import { useNavigate, useParams } from 'react-router-dom';
-import { myServer } from '../../endpoints/endpoints';
+import { useEffect } from 'react';
 import { Card } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { myServer } from '../../endpoints/endpoints';
+import { getSingleProfileAsync, getUserSingleBlogCommentsAsync, selectProfile, selectSingleBlogUserComments } from './profileSlice';
 
 
 
@@ -103,17 +103,20 @@ const UserComments = () => {
 
                                 <div className = "user-single-comment">
 
-                                <div style = {{flexDirection: "column"}}>
-                                <Card.Title onClick = {() => window.location.reload()} style = {{cursor: 'pointer', width: "150%", position: "relative", top: -80, right: -90}}>
-                                    {userProfile.first_name || 'UNKNOWN'}{' '}
-                                    {userProfile.last_name || 'UNKNOWN'}
+                                <div style = {{position: "absolute", textAlign: "left", justifyContent: "left"}}>
+                                <Card.Title onClick = {() => window.location.reload()} style = {{cursor: 'pointer', transform: "translateX(240px) translateY(-80px)"}}>
+                                <div style = {{width: "400px"}}>
+                                  {userProfile.first_name}{' '}
+                                    
+                                    {userProfile.last_name}
+                                    </div>
                                 </Card.Title>
-                                <Card.Title onClick = {() => window.location.reload()} style = {{cursor: 'pointer', width: "150%", position: "relative", top: -80, right: -45}}>
-                                    <h6>{userProfile.location || 'UNKNOWN'}</h6>
+                                <Card.Title onClick = {() => window.location.reload()} style = {{cursor: 'pointer', transform: "translateX(242px) translateY(-85px)", fontSize: "0.8rem"}}>
+                                    {userProfile.location}
                                 </Card.Title>
                                 </div>
 
-                                <Card.Text style = {{position: "relative", top: -23, right: -15}}>
+                                <Card.Text style = {{position: "relative", transform: "translateX(107px) translateY(-24px)"}}>
                                     {handleComment(comment)}
                                 </Card.Text>
 

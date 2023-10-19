@@ -15,6 +15,14 @@ urlpatterns = [
     path('post_american_subject/', views.post_american_subject),
     path('patch_american_subject/<int:pk>/', views.patch_american_subject),
     path('delete_american_subject/<int:pk>/', views.delete_american_subject),
+    
+    path('post_sentence_quiz/', views.post_sentence_quiz),
+    path('patch_sentence/<int:pk>/', views.patch_sentence),
+    path('delete_sentence/<int:pk>/', views.delete_sentence),
+
+    path('post_sentence_subject/', views.post_sentence_subject),
+    path('patch_sentence_subject/<int:pk>/', views.patch_sentence_subject),
+    path('delete_sentence_subject/<int:pk>/', views.delete_sentence_subject),
 
     path('get_americans_of_subject/<int:pk>/', views.get_americans_of_subject),
 

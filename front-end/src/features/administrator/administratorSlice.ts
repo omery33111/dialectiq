@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AdministratorState } from "../../models/Administrator";
-import { deleteAmerican, deleteAmericanSubject, deleteBlog, getAmericanSubjects, getAmericansOfSubject, getSingleAmericanSubject, patchAmerican, patchAmericanSubject, patchBlog, postAmerican, postAmericanSubject, postBlog } from "./administratorAPI";
+import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteSentence, deleteSentenceSubject, getAmericanSubjects, getAmericansOfSubject, getSingleAmericanSubject, getSingleSentenceSubject, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject } from "./administratorAPI";
 import { RootState } from "../../app/store";
 import { AmericanSubject } from "../../models/AmericanSubject";
+import { SentenceSubject } from "../../models/SentenceSubject";
 
 
 
@@ -20,7 +21,11 @@ const initialState: AdministratorState = {
   subjectAmericans: [],
 
   americanAnswer: {id: "", user: 0, user_answer: 0, question: 0},
-  americanAnswers: []
+  americanAnswers: [],
+
+  sentence: {
+    subject: {id: "", subject_name: ""}, id: "", question: "", correct_answer: ""},
+  sentences: [],
 };
 
 
@@ -45,10 +50,30 @@ export const postAmericanAsync = createAsyncThunk(
 
 
 
+export const postSentenceAsync = createAsyncThunk(
+    'administrator/postSentence',
+    async (sentenceData: any) => {
+    const response = await postSentence(sentenceData);
+    return response.data;
+  }
+);
+
+
+
 export const patchBlogAsync = createAsyncThunk(
   'administrator/patchBlog',
   async (data: {blogData: any, id: string}) => {
   const response = await patchBlog(data.blogData, data.id);
+  return response;
+}
+)
+
+
+
+export const patchSentenceAsync = createAsyncThunk(
+  'administrator/patchSentence',
+  async (data: {sentenceData: any, id: string}) => {
+  const response = await patchSentence(data.sentenceData, data.id);
   return response;
 }
 )
@@ -74,6 +99,15 @@ export const deleteAmericanAsync = createAsyncThunk(
 
 
 
+export const deleteSentenceAsync = createAsyncThunk(
+  'administrator/deleteSentence',
+  async (id: string) => { await deleteSentence(id);
+  return { id };
+  }
+);
+
+
+
 export const deleteBlogAsync = createAsyncThunk(
   'administrator/deleteBlog',
   async (id: string) => { await deleteBlog(id);
@@ -90,6 +124,26 @@ export const postAmericanSubjectAsync = createAsyncThunk(
       return response.data;
   }
 );
+
+
+
+export const postSentenceSubjectAsync = createAsyncThunk(
+  'administrator/postSentenceSubject',
+  async (SentenceSubjectData: SentenceSubject) => {
+      const response = await postSentenceSubject(SentenceSubjectData);
+      return response.data;
+  }
+);
+
+
+
+export const patchSentenceSubjectAsync = createAsyncThunk(
+  'administrator/patchSentenceSubject',
+  async (data: {subjectData: any, id: string}) => {
+  const response = await patchSentenceSubject(data.subjectData, data.id);
+  return response;
+}
+)
 
 
 
@@ -122,9 +176,27 @@ export const getSingleAmericanSubjectAsync = createAsyncThunk(
 );
 
 
+
+export const getSingleSentenceSubjectAsync = createAsyncThunk(
+  'administrator/getSingleSentenceSubject',
+  async (id: string) => {
+    const response = await getSingleSentenceSubject(id);
+    return response.data;
+  }
+);
+
+
 export const deleteAmericanSubjectAsync = createAsyncThunk(
   'administrator/deleteAmericanSubject',
   async (id: string) => { await deleteAmericanSubject(id);
+  return { id };
+  }
+);
+
+
+export const deleteSentenceSubjectAsync = createAsyncThunk(
+  'administrator/deleteSentenceSubject',
+  async (id: string) => { await deleteSentenceSubject(id);
   return { id };
   }
 );
@@ -159,8 +231,20 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
             state.americans = [...state.americans, action.payload];
         })
 
+        .addCase(postSentenceAsync.fulfilled, (state, action) => {
+            state.sentences = [...state.sentences, action.payload];
+        })
+
         .addCase(patchAmericanAsync.fulfilled, (state, action) => {
           state.american = { ...state.american, ...action.payload }
+        })
+
+        .addCase(patchSentenceAsync.fulfilled, (state, action) => {
+          state.sentence = { ...state.sentence, ...action.payload }
+        })
+
+        .addCase(deleteSentenceAsync.fulfilled, (state, action) => {
+          state.sentences = state.sentences.filter(sentence => sentence.id !== action.payload.id)
         })
 
         .addCase(deleteAmericanAsync.fulfilled, (state, action) => {
@@ -180,6 +264,14 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
           state.subjects = [...state.subjects, action.payload];
         })
 
+        .addCase(postSentenceSubjectAsync.fulfilled, (state, action) => {
+          state.subjects = [...state.subjects, action.payload];
+        })
+
+        .addCase(patchSentenceSubjectAsync.fulfilled, (state, action) => {
+          state.subject = { ...state.subject, ...action.payload }
+        })
+
         .addCase(patchAmericanSubjectAsync.fulfilled, (state, action) => {
           state.subject = { ...state.subject, ...action.payload }
         })
@@ -192,7 +284,15 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
           state.subject = action.payload
         })
 
+        .addCase(getSingleSentenceSubjectAsync.fulfilled, (state, action) => {
+          state.subject = action.payload
+        })
+
         .addCase(deleteAmericanSubjectAsync.fulfilled, (state, action) => {
+          state.subjects = state.subjects.filter(subject => subject.id !== action.payload.id)
+        })
+
+        .addCase(deleteSentenceSubjectAsync.fulfilled, (state, action) => {
           state.subjects = state.subjects.filter(subject => subject.id !== action.payload.id)
         })
 
@@ -212,7 +312,7 @@ export const selectSingleBlog = (state: RootState) => state.administrator.single
 export const selectSigleAmerican = (state: RootState) => state.administrator.american;
 export const selectAmericans = (state: RootState) => state.administrator.americans;
 
-
+export const selectSingleSubjectOfSentence = (state: RootState) => state.administrator.subject;
 
 export const selectAllSubjectsOfAmerican = (state: RootState) => state.administrator.subjects;
 export const selectSingleSubjectOfAmerican = (state: RootState) => state.administrator.subject;

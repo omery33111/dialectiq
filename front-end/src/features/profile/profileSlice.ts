@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getMyID, getProfile, getSingleProfile, getUserQuizes, getUserSingleBlogComments, patchProfile } from "./profileAPI";
 import { RootState } from "../../app/store";
 import { ProfileState } from "../../models/Profile";
+import { changeProfile, getForumProfiles, getMyID, getProfile, getSingleProfile, getUserQuizes, getUserSingleBlogComments } from "./profileAPI";
 
 const initialState: ProfileState = {
   profile: {
@@ -16,6 +16,8 @@ const initialState: ProfileState = {
     date: new Date(),
   },
 
+  profiles: [],
+
   user_blogs: [{
     id: 0,
   blog_info: {
@@ -27,7 +29,8 @@ const initialState: ProfileState = {
   comments: [],}],
 
   user_quizes: [
-    {description: "",
+    {id: 0,
+    description: "",
     subject_name: "",
     picture: ""}
     ],
@@ -39,6 +42,15 @@ export const getProfileAsync = createAsyncThunk(
   "profile/getProfile",
   async () => {
     const response = await getProfile();
+    return response;
+  }
+);
+
+
+export const getForumProfilesAsync = createAsyncThunk(
+  "profile/getForumProfiles",
+  async (page: number) => {
+    const response = await getForumProfiles(page);
     return response;
   }
 );
@@ -81,13 +93,14 @@ export const getSingleProfileAsync = createAsyncThunk(
   }
 );
 
-export const patchProfileAsync = createAsyncThunk(
-  "profile/patchProfile",
-  async (profileData: any) => {
-    const response = await patchProfile(profileData);
-    return response;
+export const changeProfileAsync = createAsyncThunk(
+  'profile/changeProfile',
+  async (data: {profileData: any, id: string}) => {
+  const response = await changeProfile(data.profileData, data.id);
+  return response;
   }
-);
+)
+
 
 export const profileSlice = createSlice({
   name: "profile",
@@ -105,6 +118,10 @@ export const profileSlice = createSlice({
         state.profile = action.payload.data;
       })
 
+      .addCase(getForumProfilesAsync.fulfilled, (state, action) => {
+        state.profiles = action.payload.data;
+      })
+
       .addCase(getSingleProfileAsync.fulfilled, (state, action) => {
         state.profile = action.payload;
       })
@@ -115,11 +132,14 @@ export const profileSlice = createSlice({
 
       .addCase(getUserSingleBlogCommentsAsync.fulfilled, (state, action) => {
         state.user_blogs = action.payload;
-        console.log(action.payload);
       })
 
       .addCase(getUserQuizesAsync.fulfilled, (state, action) => {
         state.user_quizes = action.payload;
+      })
+
+      .addCase(changeProfileAsync.fulfilled, (state, action) => {
+        state.profile = { ...state.profile, ...action.payload }
       });
   },
 });
@@ -128,6 +148,7 @@ export const profileSlice = createSlice({
 
 export const { setPoints } = profileSlice.actions;
 
+export const selectProfiles = (state: RootState) => state.profile.profiles;
 export const selectProfile = (state: RootState) => state.profile.profile;
 export const selectUserID = (state: RootState) => state.profile.userID;
 export const selectSingleBlogUserComments = (state: RootState) => state.profile.user_blogs;

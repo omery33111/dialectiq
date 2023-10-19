@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { BsFillFileTextFill, BsPhoneFill } from 'react-icons/bs';
+import { BsBrowserSafari, BsFillFileTextFill, BsPhoneFill } from 'react-icons/bs';
 import { FaUserSecret } from 'react-icons/fa';
 import { RiUserFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
@@ -81,7 +81,7 @@ const MyNavbar = () => {
                   style={{
                     color: 'white',
                     position: 'relative',
-                    right: '170%',
+                    right: '245%',
                     top: 2,
                   }}
                 >
@@ -89,6 +89,20 @@ const MyNavbar = () => {
                 </h3>
               </Nav.Link>
             )}
+
+                  <Nav.Link href = "/forum_profiles">
+                  <h3
+                  style={{
+                    color: 'white',
+                    position: 'relative',
+                    right: '170%',
+                    top: 2,
+                  }}
+                >
+                  <BsBrowserSafari />
+                </h3>
+                  </Nav.Link>
+
 
                   <Nav.Link href = "/quizes">
                   <h3
@@ -137,13 +151,6 @@ const MyNavbar = () => {
           </Nav>
         </Container>
       </Navbar>
-      <style>
-        {`
-          .scrolling {
-            background: #A07178;
-          }
-        `}
-      </style>
       
     </div>
   );

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getSingleProfileAsync, getUserQuizesAsync, getUserSingleBlogCommentsAsync, selectProfile, selectSingleBlogUserComments, selectUserAnsweredQuizes } from './profileSlice';
+import { getUserQuizesAsync, selectUserAnsweredQuizes } from './profileSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { myServer } from '../../endpoints/endpoints';
 import { Card } from 'react-bootstrap';
@@ -22,7 +22,6 @@ const UserQuizes = () => {
 
   }, [id, dispatch]);
 
-  const userProfile = useAppSelector(selectProfile);
 
   return (
     <div>
@@ -40,9 +39,8 @@ const UserQuizes = () => {
     {userQuizes.slice().reverse().map((quiz, index) => (
         <div key={index}>
             <Card
-              onClick={() => { navigate(`/quizes/american_quiz/american_test/${index}/`) }}
               className="card-with-bg-image"
-              style={{ backgroundImage: `url(${myServer + quiz.picture})`, margin: "0px", marginTop: `${index === 0 ? 0 : 10}px`, marginBottom: `${index === userQuizes.length - 1 ? 0 : 10}px` }}
+              style={{ cursor: "pointer", backgroundImage: `url(${myServer + quiz.picture})`, margin: "0px", marginTop: `${index === 0 ? 0 : 10}px`, marginBottom: `${index === userQuizes.length - 1 ? 0 : 10}px` }}
             >
               <Card.Body>
                 <Card.Title className='profile-american-subject-card-text' style = {{color: "white"}}>{quiz.subject_name}</Card.Title>
@@ -60,7 +58,6 @@ const UserQuizes = () => {
     </div>
     </div>
 
-    <div style = {{height: "40vh"}}/>
     </div>
   );
 };

@@ -15,6 +15,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('comment/', include('comment.urls')),
     path('quiz_american/', include('quiz_american.urls')),
+    path('quiz_sentence/', include('quiz_sentence.urls')),
 ]
 
 

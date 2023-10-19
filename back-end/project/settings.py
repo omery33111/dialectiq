@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'blog',
     'comment',
     'quiz_american',
+    'quiz_sentence',
 ]
 
 
