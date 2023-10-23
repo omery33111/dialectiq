@@ -36,6 +36,7 @@ import SentenceUpdate from './features/administrator/SentenceUpdate';
 import SentenceSubjects from './features/sentence/SentenceSubjects';
 import SentenceQuiz from './features/sentence/SentenceQuiz';
 import SentenceFinish from './features/sentence/SentenceFinish';
+import CommunityPanel from './features/administrator/CommunityPanel';
 
 
 
@@ -72,6 +73,9 @@ root.render(
           <Route path = "/administrator/sentence_subject" element={<SentenceSubjectPanel />} />
           <Route path = "/administrator/post_american_subject" element={<AmericanSubjectPost />} />
           <Route path = "/administrator/post_sentence_subject" element={<SentenceSubjectPost />} />
+          <Route path = "/administrator/community" element={<CommunityPanel />} />
+
+          
           
 
           <Route path = "/administrator/update_blog">

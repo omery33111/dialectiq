@@ -7,11 +7,9 @@ import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getMyIDAsync, selectUserID } from '../profile/profileSlice';
 
-
-
 const MyNavbar = () => {
   const dispatch = useAppDispatch();
-  
+
   const location = useLocation();
 
   const storedIsStaff = JSON.parse(localStorage.getItem('is_staff') as string);
@@ -23,13 +21,18 @@ const MyNavbar = () => {
     if (storedIsStaff) {
       setShouldRefresh(true);
     }
-    
   }, [storedIsStaff]);
 
+  
+  const userID = useAppSelector(selectUserID);
+
   useEffect(() => {
-    dispatch(getMyIDAsync());
-    
-  }, [dispatch]);
+    if (storedIsLogged) {
+      if (!userID) {
+        dispatch(getMyIDAsync());
+      }
+    }
+  }, [dispatch, storedIsLogged]);
 
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -49,16 +52,15 @@ const MyNavbar = () => {
 
   const containerBackground = isScrolling || !isHomePage ? '#0097E6' : 'transparent';
 
-  const userID = useAppSelector(selectUserID);
   return (
     <div>
       <Navbar
         className={`fixed-top ${isScrolling ? 'scrolling' : ''}`}
         style={{
-          background: "transparent",
-          transition: 'background 0.3s ease-in-out', // Smooth color transition animation
+          background: 'transparent',
+          transition: 'background 0.3s ease-in-out',
           boxShadow: '0 7px 8px 0 rgba(0, 0, 0, 0.5), 0 1px 30px 0 rgba(0, 0, 0, 0.30)',
-          top: 10
+          top: 10,
         }}
       >
         <Container
@@ -66,7 +68,7 @@ const MyNavbar = () => {
             backgroundColor: containerBackground,
             borderRadius: '20px',
             height: 53,
-            transition: 'background 0.3s ease-in-out', // Apply the same transition to the container background
+            transition: 'background 0.3s ease-in-out',
           }}
         >
           <Nav>
@@ -74,7 +76,7 @@ const MyNavbar = () => {
               Dialectiq
             </Navbar.Brand>
           </Nav>
-          <Nav style = {{position: "relative", top: 3}}>
+          <Nav style={{ position: 'relative', top: 3 }}>
             {shouldRefresh && storedIsStaff && (
               <Nav.Link href="/adminmenu">
                 <h3
@@ -90,60 +92,54 @@ const MyNavbar = () => {
               </Nav.Link>
             )}
 
-                  <Nav.Link href = "/forum_profiles">
-                  <h3
-                  style={{
-                    color: 'white',
-                    position: 'relative',
-                    right: '170%',
-                    top: 2,
-                  }}
-                >
-                  <BsBrowserSafari />
-                </h3>
-                  </Nav.Link>
+            <Nav.Link href="/forum_profiles">
+              <h3
+                style={{
+                  color: 'white',
+                  position: 'relative',
+                  right: '170%',
+                  top: 2,
+                }}
+              >
+                <BsBrowserSafari />
+              </h3>
+            </Nav.Link>
 
+            <Nav.Link href="/quizes">
+              <h3
+                style={{
+                  color: 'white',
+                  position: 'relative',
+                  right: '105%',
+                  top: 2,
+                }}
+              >
+                <BsFillFileTextFill />
+              </h3>
+            </Nav.Link>
 
-                  <Nav.Link href = "/quizes">
-                  <h3
-                  style={{
-                    color: 'white',
-                    position: 'relative',
-                    right: '105%',
-                    top: 2,
-                  }}
-                >
-                  <BsFillFileTextFill />
-                </h3>
-                  </Nav.Link>
-
-
-                  <Nav.Link href = "/blog">
-                  <h3
-                  style={{
-                    color: 'white',
-                    position: 'relative',
-                    right: '50%',
-                    top: 2,
-                  }}
-                >
-                  <BsPhoneFill />
-                </h3>
-                  </Nav.Link>
+            <Nav.Link href="/blog">
+              <h3
+                style={{
+                  color: 'white',
+                  position: 'relative',
+                  right: '50%',
+                  top: 2,
+                }}
+              >
+                <BsPhoneFill />
+              </h3>
+            </Nav.Link>
 
             {storedIsLogged ? (
               <Nav.Link href={`/profile/user_profile/${userID}/`}>
-                <h2
-                className = 'user-icon-top'
-                  style={{color: 'white'}}>
+                <h2 className="user-icon-top" style={{ color: 'white' }}>
                   <RiUserFill />
                 </h2>
               </Nav.Link>
             ) : (
               <Nav.Link href="/authentication/login">
-                <h2
-                className = 'user-icon-top'
-                  style={{color: 'white'}}>
+                <h2 className="user-icon-top" style={{ color: 'white' }}>
                   <RiUserFill />
                 </h2>
               </Nav.Link>
@@ -151,7 +147,6 @@ const MyNavbar = () => {
           </Nav>
         </Container>
       </Navbar>
-      
     </div>
   );
 };

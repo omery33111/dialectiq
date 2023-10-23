@@ -10,6 +10,8 @@ import { FaHeart } from 'react-icons/fa';
 import PostComment from '../comment/PostComment';
 import { getCommentsAsync } from '../comment/commentSlice';
 
+
+
 const BlogPage = () => {
     const dispatch = useAppDispatch();
     
@@ -42,6 +44,8 @@ const BlogPage = () => {
   }
 
 
+
+
   return (
     <div>
         <div
@@ -68,19 +72,36 @@ const BlogPage = () => {
                   <h6 className = "sigle-blog-date">{formatDate(singleBlog.date)}</h6>
                   </div>
 
-                    <ReactPlayer
-                    url={myServer + singleBlog.video}
-                    controls={true}
-                    width="100%"
-                    height="100%"
-                    config={{
-                      file: {
-                        attributes: {
-                          controlsList: 'nodownload',
-                        },
+                <div>
+
+              
+                {/* <ReactPlayer
+                  url={myServer + singleBlog.video}
+                  controls={true}
+                  width="100%"
+                  height="100%"
+                  config={{
+                    file: {
+                      attributes: {
+                        controlsList: 'nodownload scrollbar download',
                       },
-                    }}
-                  />
+                    },
+                  }}
+                /> */}
+
+
+            <ReactPlayer
+                  url={singleBlog.youtube}
+                  controls
+                  width="100%"
+                  height="70vh"
+                />
+
+            
+
+
+
+                  </div>
 
                   <h2 style = {{padding: "10px"}}>{singleBlog.title}</h2>
                   <p style = {{padding: "7px"}}>{singleBlog.description}</p>

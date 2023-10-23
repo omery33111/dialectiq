@@ -5,6 +5,7 @@ export interface Blog {
     id: string;
     title: string;
     description: string;
+    youtube: string;
     video: string;
     picture: string;
     date: Date;

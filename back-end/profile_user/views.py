@@ -178,4 +178,23 @@ def forum_profiles(request):
     serializer = ProfileSerializer(profiles, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+def search_profile(request):
+    first_name = request.GET.get("first_name", None)
+
+    # Check if the first_name parameter is None
+    if first_name is None:
+        return Response({"error": "The first_name parameter is required."})
+
+    # Filter the Profile objects by first_name
+    profiles = Profile.objects.filter(first_name__icontains=first_name)
+
+    # Serialize the Profile objects
+    serializer = ProfileSerializer(profiles, many=True)
+
+    # Return the serialized Profile objects
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 # ------------------------- PROFILE END ------------------------- #

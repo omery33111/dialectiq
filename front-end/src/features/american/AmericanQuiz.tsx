@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAmericansOfSubjectAsync, selectSubjectAmericans } from '../administrator/administratorSlice';
 import { getSingleAmericanSubjectAsync, postAnswerAmericanAsync, saveAnswers, selectSingleSubjectOfAmerican } from './americanSlice';
 import { AmericanQuestion } from '../../models/American';
-import { getProfileAsync, selectProfile, setPoints } from '../profile/profileSlice';
+import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
 
 
 
@@ -30,12 +30,21 @@ const AmericanQuiz = () => {
 
 const [userPoints, setUserPoints] = useState<number | null>(null);
 
+
+const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
+
+const userID = useAppSelector(selectUserID);
+
 useEffect(() => {
+  if (storedIsLogged) {
+    if (!userID) {
   dispatch(getProfileAsync()).then(() => {
     const storedPoints = JSON.parse(localStorage.getItem("points") as string);
     const profilePoints = myProfile.points;
     setUserPoints(storedPoints !== null ? storedPoints : profilePoints);
   });
+  }
+}
 }, []);
 
   

@@ -13,5 +13,7 @@ urlpatterns = [
     path('user_blogcomments/<int:pk>/', views.user_blogcomments),
     path('user_answeredquizes/<int:pk>/', views.user_answered_quizes),
 
-    path('forum_profiles', views.forum_profiles)
+    path('forum_profiles', views.forum_profiles),
+
+    path('search_profile', views.search_profile)
 ]

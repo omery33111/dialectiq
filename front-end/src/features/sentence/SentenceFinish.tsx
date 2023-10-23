@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getProfileAsync, selectProfile } from '../profile/profileSlice';
+import { getProfileAsync, selectProfile, selectUserID } from '../profile/profileSlice';
 import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom';
 import ConfettiExplosion from 'react-confetti-explosion';
@@ -10,10 +10,16 @@ const AmericanFinish = () => {
   const navigate = useNavigate()
   const myProfile = useAppSelector(selectProfile);
 
+  const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
+
+  const userID = useAppSelector(selectUserID);
+
   useEffect(() => {
+    if (storedIsLogged) {
+      if (!userID) {
     dispatch(getProfileAsync());
-    
-  
+  }
+}
   }, [dispatch]);
 
   const localStoragePoints = JSON.parse(localStorage.getItem("points") as string);

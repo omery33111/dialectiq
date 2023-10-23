@@ -42,23 +42,11 @@ const Adminmenu = () => {
           </div>
 
           <div>
-            <Link to="/administrator/blog">
+            <Link to="/administrator/community">
               <img
                 className="admin-panel-pic"
-                src={require('../../images/portalpic1.png')}
-                alt="portalpic1"
-                height="300"
-                width="300"
-              />
-            </Link>
-          </div>
-
-          <div>
-            <Link to="/administrator/blog">
-              <img
-                className="admin-panel-pic"
-                src={require('../../images/portalpic1.png')}
-                alt="portalpic1"
+                src={require('../../images/portalpic3.png')}
+                alt="portalpic3"
                 height="300"
                 width="300"
               />

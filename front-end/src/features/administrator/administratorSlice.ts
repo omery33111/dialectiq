@@ -9,7 +9,7 @@ import { SentenceSubject } from "../../models/SentenceSubject";
 
 const initialState: AdministratorState = {
   blogs: [],
-  singleBlog: { title: "", description: "", video: "", id: "", picture: "", date: new Date() },
+  singleBlog: { title: "", description: "", youtube: "", video: "", id: "", picture: "", date: new Date() },
 
   american: {
     subject: {id: "", subject_name: ""}, id: "", question: "", answer1: "", answer2: "", answer3: "", answer4: "", correct_answer: 0

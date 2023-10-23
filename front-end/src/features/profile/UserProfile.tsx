@@ -8,6 +8,7 @@ import MyProgressBar from "./MyProgressBar";
 import UserComments from "./UserComments";
 import UserQuizes from "./UserQuizes";
 import { changeProfileAsync, getMyIDAsync, getSingleProfileAsync, selectProfile, selectUserID } from "./profileSlice";
+import { selectIsStaff } from "../authentication/authenticationSlice";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -49,10 +50,10 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (userProfile) {
-      setFirstName(userProfile.first_name || ''); // Initialize with user's first name or an empty string
-      setLastName(userProfile.last_name || ''); // Initialize with user's last name or an empty string
-      setLocation(userProfile.location || ''); // Initialize with user's location or an empty string
-      setBio(userProfile.bio || ''); // Initialize with user's bio or an empty string
+      setFirstName(userProfile.first_name || '');
+      setLastName(userProfile.last_name || '');
+      setLocation(userProfile.location || ''); 
+      setBio(userProfile.bio || ''); 
     }
   }, [userProfile]);
   
@@ -86,6 +87,8 @@ const UserProfile = () => {
     window.location.reload();
   };
 
+  const isStaff = JSON.parse(localStorage.getItem('is_staff') as string);
+
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ width: "85%", overflow: "hidden" }}>
@@ -97,7 +100,7 @@ const UserProfile = () => {
                 <br />
                 <br />
                 <br />
-                {String(userID) === String(userProfile.user) && (
+                {(String(userID) === String(userProfile.user) || isStaff) && (
                   <div style={{ position: "relative", right: 15 }}>
                     {editing ? (
                       <Button onClick={saveProfile} variant="warning">

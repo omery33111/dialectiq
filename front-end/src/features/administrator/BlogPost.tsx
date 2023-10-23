@@ -20,6 +20,10 @@ const BlogPost = () => {
       setDescription(e.target.value);
     };
   
+    const handleYoutubeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setYoutube(e.target.value);
+    };
+  
     const handlePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setPicture(event.target.files ? event.target.files[0] : undefined);
     };
@@ -30,6 +34,7 @@ const BlogPost = () => {
   
   
   
+    const [youtube, setYoutube] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [picture, setPicture] = useState<any>(null);
@@ -39,6 +44,7 @@ const BlogPost = () => {
       event.preventDefault();
   
       const formData = new FormData();
+      formData.append('youtube', youtube);
       formData.append('title', title);
       formData.append('description', description);
       formData.append('picture', picture);
@@ -65,9 +71,15 @@ const BlogPost = () => {
                 <Form.Label className = "blog-form-title"><h5>Title</h5></Form.Label>
                 <Form.Control type="text" value={title} onChange={handleTitleChange} />
               </Form.Group>
+
               <Form.Group controlId="formDescription">
                 <Form.Label className = "blog-form-title"><h5>Description</h5></Form.Label>
                 <Form.Control as="textarea" value={description} onChange={handleDescriptionChange} />
+              </Form.Group>
+              
+              <Form.Group controlId="formYoutube">
+                <Form.Label className = "blog-form-title"><h5>Youtube</h5></Form.Label>
+                <Form.Control as="textarea" value={youtube} onChange={handleYoutubeChange} />
               </Form.Group>
 
               <Form.Group controlId="formThumbnail">

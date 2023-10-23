@@ -8,7 +8,7 @@ import { getBlogs, getSingleBlog } from './blogAPI';
 const initialState: BlogState = {
   blogs: [],
   singleBlog: {
-    title: "", description: "", video: "", id: "", picture: '', date: new Date(),
+    title: "", description: "", youtube: "", video: "", id: "", picture: '', date: new Date(),
   },
   likes: {},
 };
