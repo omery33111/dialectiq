@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AdministratorState } from "../../models/Administrator";
-import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteSentence, deleteSentenceSubject, getAmericanSubjects, getAmericansOfSubject, getSingleAmericanSubject, getSingleSentenceSubject, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject } from "./administratorAPI";
+import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteSentence, deleteSentenceSubject, deleteVoice, deleteVoiceSubject, getAmericanSubjects, getAmericansOfSubject, getSingleAmericanSubject, getSingleSentenceSubject, getSingleVoiceSubject, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, patchVoice, patchVoiceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject, postVoice, postVoiceSubject } from "./administratorAPI";
 import { RootState } from "../../app/store";
 import { AmericanSubject } from "../../models/AmericanSubject";
 import { SentenceSubject } from "../../models/SentenceSubject";
+import { VoiceSubject } from "../../models/VoiceSubject";
 
 
 
@@ -26,6 +27,10 @@ const initialState: AdministratorState = {
   sentence: {
     subject: {id: "", subject_name: ""}, id: "", question: "", correct_answer: ""},
   sentences: [],
+
+  voice: {
+    subject: {id: "", subject_name: ""}, id: "", question: "", correct_answer: ""},
+  voices: [],
 };
 
 
@@ -60,10 +65,30 @@ export const postSentenceAsync = createAsyncThunk(
 
 
 
+export const postVoiceAsync = createAsyncThunk(
+    'administrator/postVoice',
+    async (voiceData: any) => {
+    const response = await postVoice(voiceData);
+    return response.data;
+  }
+);
+
+
+
 export const patchBlogAsync = createAsyncThunk(
   'administrator/patchBlog',
   async (data: {blogData: any, id: string}) => {
   const response = await patchBlog(data.blogData, data.id);
+  return response;
+}
+)
+
+
+
+export const patchVoiceAsync = createAsyncThunk(
+  'administrator/patchVoice',
+  async (data: {voiceData: any, id: string}) => {
+  const response = await patchVoice(data.voiceData, data.id);
   return response;
 }
 )
@@ -108,6 +133,15 @@ export const deleteSentenceAsync = createAsyncThunk(
 
 
 
+export const deleteVoiceAsync = createAsyncThunk(
+  'administrator/deleteVoice',
+  async (id: string) => { await deleteVoice(id);
+  return { id };
+  }
+);
+
+
+
 export const deleteBlogAsync = createAsyncThunk(
   'administrator/deleteBlog',
   async (id: string) => { await deleteBlog(id);
@@ -134,6 +168,26 @@ export const postSentenceSubjectAsync = createAsyncThunk(
       return response.data;
   }
 );
+
+
+
+export const postVoiceSubjectAsync = createAsyncThunk(
+  'administrator/postVoiceSubject',
+  async (voiceSubjectData: VoiceSubject) => {
+      const response = await postVoiceSubject(voiceSubjectData);
+      return response.data;
+  }
+);
+
+
+
+export const patchVoiceSubjectAsync = createAsyncThunk(
+  'administrator/patchVoiceSubject',
+  async (data: {subjectData: any, id: string}) => {
+  const response = await patchVoiceSubject(data.subjectData, data.id);
+  return response;
+}
+)
 
 
 
@@ -186,12 +240,33 @@ export const getSingleSentenceSubjectAsync = createAsyncThunk(
 );
 
 
+
+export const getSingleVoiceSubjectAsync = createAsyncThunk(
+  'administrator/getSingleVoiceSubject',
+  async (id: string) => {
+    const response = await getSingleVoiceSubject(id);
+    return response.data;
+  }
+);
+
+
+
 export const deleteAmericanSubjectAsync = createAsyncThunk(
   'administrator/deleteAmericanSubject',
   async (id: string) => { await deleteAmericanSubject(id);
   return { id };
   }
 );
+
+
+
+export const deleteVoiceSubjectAsync = createAsyncThunk(
+  'administrator/deleteVoiceSubject',
+  async (id: string) => { await deleteVoiceSubject(id);
+  return { id };
+  }
+);
+
 
 
 export const deleteSentenceSubjectAsync = createAsyncThunk(
@@ -235,12 +310,24 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
             state.sentences = [...state.sentences, action.payload];
         })
 
+        .addCase(postVoiceAsync.fulfilled, (state, action) => {
+            state.voices = [...state.voices, action.payload];
+        })
+
         .addCase(patchAmericanAsync.fulfilled, (state, action) => {
           state.american = { ...state.american, ...action.payload }
         })
 
         .addCase(patchSentenceAsync.fulfilled, (state, action) => {
           state.sentence = { ...state.sentence, ...action.payload }
+        })
+
+        .addCase(patchVoiceAsync.fulfilled, (state, action) => {
+          state.voice = { ...state.voice, ...action.payload }
+        })
+
+        .addCase(deleteVoiceAsync.fulfilled, (state, action) => {
+          state.voices = state.voices.filter(sentence => sentence.id !== action.payload.id)
         })
 
         .addCase(deleteSentenceAsync.fulfilled, (state, action) => {
@@ -268,6 +355,14 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
           state.subjects = [...state.subjects, action.payload];
         })
 
+        .addCase(postVoiceSubjectAsync.fulfilled, (state, action) => {
+          state.subjects = [...state.subjects, action.payload];
+        })
+
+        .addCase(patchVoiceSubjectAsync.fulfilled, (state, action) => {
+          state.subject = { ...state.subject, ...action.payload }
+        })
+
         .addCase(patchSentenceSubjectAsync.fulfilled, (state, action) => {
           state.subject = { ...state.subject, ...action.payload }
         })
@@ -288,11 +383,19 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
           state.subject = action.payload
         })
 
+        .addCase(getSingleVoiceSubjectAsync.fulfilled, (state, action) => {
+          state.subject = action.payload
+        })
+
         .addCase(deleteAmericanSubjectAsync.fulfilled, (state, action) => {
           state.subjects = state.subjects.filter(subject => subject.id !== action.payload.id)
         })
 
         .addCase(deleteSentenceSubjectAsync.fulfilled, (state, action) => {
+          state.subjects = state.subjects.filter(subject => subject.id !== action.payload.id)
+        })
+
+        .addCase(deleteVoiceSubjectAsync.fulfilled, (state, action) => {
           state.subjects = state.subjects.filter(subject => subject.id !== action.payload.id)
         })
 
@@ -313,6 +416,8 @@ export const selectSigleAmerican = (state: RootState) => state.administrator.ame
 export const selectAmericans = (state: RootState) => state.administrator.americans;
 
 export const selectSingleSubjectOfSentence = (state: RootState) => state.administrator.subject;
+
+export const selectSingleSubjectOfVoice = (state: RootState) => state.administrator.subject;
 
 export const selectAllSubjectsOfAmerican = (state: RootState) => state.administrator.subjects;
 export const selectSingleSubjectOfAmerican = (state: RootState) => state.administrator.subject;

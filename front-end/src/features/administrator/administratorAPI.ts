@@ -1,10 +1,12 @@
 import axios from "axios";
-import { administratorURL, americanURL, sentenceURL } from "../../endpoints/endpoints";
+import { administratorURL, americanURL, sentenceURL, voiceURL } from "../../endpoints/endpoints";
 import { Blog } from "../../models/Blog";
 import { AmericanQuestion } from "../../models/American";
 import { AmericanSubject } from "../../models/AmericanSubject";
 import { SentenceSubject } from "../../models/SentenceSubject";
 import { SentenceQuestion } from "../../models/Sentence";
+import { VoiceQuestion } from "../../models/Voice";
+import { VoiceSubject } from "../../models/VoiceSubject";
 
 
 
@@ -42,6 +44,19 @@ export function patchBlog(blogData: any, id: string) {
     }
   return new Promise<{ data: Blog }>((resolve) =>
     axios.put(`${administratorURL}/patch_blog/${id}/`, blogData, config).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
+export function patchVoice(VoiceData: any, id: string) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: VoiceQuestion }>((resolve) =>
+    axios.put(`${administratorURL}/patch_voice/${id}/`, VoiceData, config).then((res) => resolve({ data: res.data }))
   );
 }
 
@@ -99,6 +114,19 @@ export function deleteSentence(id: string) {
 
 
 
+export function deleteVoice(id: string) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: VoiceQuestion }>((resolve) =>
+    axios.delete(`${administratorURL}/delete_voice/${id}/`, config).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
 export function deleteSentenceSubject(id: string) {
   const myToken = JSON.parse(localStorage.getItem("token") as string)
   const accessToken = myToken ? myToken.access : "";
@@ -107,6 +135,19 @@ export function deleteSentenceSubject(id: string) {
     }
   return new Promise<{ data: SentenceSubject }>((resolve) =>
     axios.delete(`${administratorURL}/delete_sentence_subject/${id}/`, config).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
+export function deleteVoiceSubject(id: string) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: VoiceSubject }>((resolve) =>
+    axios.delete(`${administratorURL}/delete_voice_subject/${id}/`, config).then((res) => resolve({ data: res.data }))
   );
 }
 
@@ -138,6 +179,19 @@ export function postSentence(sentenceData: SentenceQuestion) {
 
 
 
+export function postVoice(voiceData: VoiceQuestion) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+    const accessToken = myToken ? myToken.access : "";
+    let config = {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      }
+  return new Promise<{ data: VoiceQuestion }>((resolve) =>
+  axios.post(`${administratorURL}/post_voice_quiz/`, voiceData, config).then(res => resolve({data: res.data}))
+)
+}
+
+
+
 export function postAmericanSubject(AmericanSubjectData: AmericanSubject) {
   const myToken = JSON.parse(localStorage.getItem("token") as string)
   const accessToken = myToken ? myToken.access : "";
@@ -159,6 +213,32 @@ export function postSentenceSubject(SentenceSubjectData: SentenceSubject) {
     }
   return new Promise<{ data: SentenceSubject }>((resolve) =>
     axios.post(`${administratorURL}/post_sentence_subject/`, SentenceSubjectData, config).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
+export function postVoiceSubject(VoiceSubjectData: VoiceSubject) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: VoiceSubject }>((resolve) =>
+    axios.post(`${administratorURL}/post_voice_subject/`, VoiceSubjectData, config).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
+export function patchVoiceSubject(SubjectData: any, id: string) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: VoiceSubject }>((resolve) =>
+    axios.put(`${administratorURL}/patch_voice_subject/${id}/`, SubjectData, config).then((res) => resolve({ data: res.data }))
   );
 }
 
@@ -203,6 +283,15 @@ export function getSingleSentenceSubject(id: string) {
 
   return new Promise<{ data: SentenceSubject }>((resolve) =>
     axios.get(`${sentenceURL}/get_sentence_subject/${id}/`).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
+export function getSingleVoiceSubject(id: string) {
+
+  return new Promise<{ data: VoiceSubject }>((resolve) =>
+    axios.get(`${voiceURL}/get_voice_subject/${id}/`).then((res) => resolve({ data: res.data }))
   );
 }
 

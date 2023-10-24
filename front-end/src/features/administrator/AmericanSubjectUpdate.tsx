@@ -65,12 +65,6 @@ const AmericanSubjectUpdate = () => {
       formData.append('picture', thePicture);
     }
 
-    const newSubject = {
-      subject_name: subject_name,
-      description: description,
-      picture: thePicture,
-      id: AmericanSubject.id
-    };
 
     dispatch(patchAmericanSubjectAsync({ subjectData: formData, id: String(id) }));
 

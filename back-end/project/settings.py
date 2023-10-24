@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'comment',
     'quiz_american',
     'quiz_sentence',
+    'quiz_voice',
 ]
 
 

@@ -81,3 +81,12 @@ export const americanURL = "http://127.0.0.1:8000/quiz_american";
 export const sentenceURL = "http://127.0.0.1:8000/quiz_sentence";
 
 // export const sentenceURL = "/quiz_sentence";
+
+
+
+
+
+// ------------------------- VOICE QUIZ ENDPOINTS:
+export const voiceURL = "http://127.0.0.1:8000/quiz_voice";
+
+// export const voiceURL = "/quiz_voice";

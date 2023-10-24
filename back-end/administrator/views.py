@@ -13,6 +13,9 @@ from quiz_american.models import QuizAmerican, AmericanSubject
 from blog.serializers import BlogSerializer
 from blog.models import Blog
 
+from quiz_voice.serializers import QuizVoiceSerializer, VoiceSubjectSerializer
+from quiz_voice.models import QuizVoice, VoiceSubject
+
 from profile_user.serializers import ProfileSerializer
 from profile_user.models import Profile
 
@@ -106,6 +109,46 @@ def patch_american(request, pk = -1):
 
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ AMERICAN QUIZ SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+@api_view(['POST'])
+def post_american_subject(request):
+    if request.method == 'POST':
+        serializer = AmericanSubjectSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+    
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated, IsStaff])
+def patch_american_subject(request, pk = -1):
+    if request.method == "PUT":
+        subject = AmericanSubject.objects.get(pk = pk)
+        serializer = AmericanSubjectSerializer(subject, data = request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated, IsStaff])
+def delete_american_subject(request, pk = -1):
+    if request.method == "DELETE":
+        try:
+            american_subject = AmericanSubject.objects.get(pk = pk)
+            american_subject.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except AmericanSubject.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ AMERICAN QUIZ SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~ COMPLETE THE SENTENCE QUIZ START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 @permission_classes([IsAuthenticated, IsStaff])
 @api_view(['POST'])
@@ -183,15 +226,56 @@ def delete_sentence_subject(request, pk = -1):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except SentenceSubject.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~ COMPLETE THE SENTENCE SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ COMPLETE THE SENTENCE SUBJECT END ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~ AMERICAN QUIZ SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ VOICE QUIZ START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+@permission_classes([IsAuthenticated, IsStaff])
 @api_view(['POST'])
-def post_american_subject(request):
+def post_voice_quiz(request):
     if request.method == 'POST':
-        serializer = AmericanSubjectSerializer(data = request.data)
+        serializer = QuizVoiceSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated, IsStaff])
+def delete_voice(request, pk = -1):
+    if request.method == "DELETE":
+        try:
+            voice = QuizVoice.objects.get(pk = pk)
+            voice.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except QuizVoice.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated, IsStaff])
+def patch_voice(request, pk = -1):
+    if request.method == "PUT":
+        voice = QuizVoice.objects.get(pk = pk)
+        serializer = QuizVoiceSerializer(voice, data = request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ VOICE QUIZ END ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ VOICE QUIZ SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+@api_view(['POST'])
+def post_voice_subject(request):
+    if request.method == 'POST':
+        serializer = VoiceSubjectSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
@@ -201,10 +285,10 @@ def post_american_subject(request):
 
 @api_view(["PUT"])
 @permission_classes([IsAuthenticated, IsStaff])
-def patch_american_subject(request, pk = -1):
+def patch_voice_subject(request, pk = -1):
     if request.method == "PUT":
-        subject = AmericanSubject.objects.get(pk = pk)
-        serializer = AmericanSubjectSerializer(subject, data = request.data)
+        subject = VoiceSubject.objects.get(pk = pk)
+        serializer = VoiceSubjectSerializer(subject, data = request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -215,15 +299,15 @@ def patch_american_subject(request, pk = -1):
 
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated, IsStaff])
-def delete_american_subject(request, pk = -1):
+def delete_voice_subject(request, pk = -1):
     if request.method == "DELETE":
         try:
-            american_subject = AmericanSubject.objects.get(pk = pk)
-            american_subject.delete()
+            voice_subject = VoiceSubject.objects.get(pk = pk)
+            voice_subject.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        except AmericanSubject.DoesNotExist:
+        except VoiceSubject.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~ AMERICAN QUIZ SUBJECT START ~~~~~~~~~~~~~~~~~~~~~~~~~ #
+# ~~~~~~~~~~~~~~~~~~~~~~~~~ VOICE QUIZ SUBJECT END ~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
 

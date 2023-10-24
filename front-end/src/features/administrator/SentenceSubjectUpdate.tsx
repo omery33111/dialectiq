@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { patchAmericanSubjectAsync, patchSentenceSubjectAsync, selectSingleSubjectOfSentence } from './administratorSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Button, Container, Form } from 'react-bootstrap';
 import { BsCheckLg, BsXLg } from 'react-icons/bs';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getSingleAmericanSubjectAsync, selectSingleSubjectOfAmerican } from '../american/americanSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getSingleAmericanSubjectAsync } from '../american/americanSlice';
+import { patchSentenceSubjectAsync, selectSingleSubjectOfSentence } from './administratorSlice';
 
 
 
@@ -65,12 +65,6 @@ const SentenceSubjectUpdate = () => {
       formData.append('picture', thePicture);
     }
 
-    const newSubject = {
-      subject_name: subject_name,
-      description: description,
-      picture: thePicture,
-      id: SentenceSubject.id
-    };
 
     dispatch(patchSentenceSubjectAsync({ subjectData: formData, id: String(id) }));
 

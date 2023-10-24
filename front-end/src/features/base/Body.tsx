@@ -1,7 +1,5 @@
-import React from 'react';
-import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, Container } from 'react-bootstrap';
+import Carousel from 'react-bootstrap/Carousel';
 import Callback from '../callback/Callback';
 
 const Body = () => {
@@ -37,7 +35,6 @@ const Body = () => {
             src={require(`../../images/calendar.png`)}
             alt="calendar"/>
       
-                  
             <div id="callback">
               <Callback />
             </div>

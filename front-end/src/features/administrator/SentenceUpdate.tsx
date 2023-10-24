@@ -64,7 +64,7 @@ const SentenceUpdate = () => {
     <div>
       <div style={{ height: 200 }} />
       <Container>
-        <h1>AMERICAN QUIZ</h1>
+        <h1>SENTENCE QUIZ</h1>
         <br />
         <br />
         <Form onSubmit={handleSubmit} className="blog-form">

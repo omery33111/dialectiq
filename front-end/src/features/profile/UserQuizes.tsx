@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getUserQuizesAsync, selectUserAnsweredQuizes } from './profileSlice';
+import { getUserQuizesAsync, getUserSingleBlogCommentsAsync, selectSingleBlogUserComments, selectUserAnsweredQuizes } from './profileSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { myServer } from '../../endpoints/endpoints';
 import { Card } from 'react-bootstrap';
@@ -12,12 +12,15 @@ const UserQuizes = () => {
   const navigate = useNavigate();
   
   const userQuizes = useAppSelector(selectUserAnsweredQuizes);
+  const userComments = useAppSelector(selectSingleBlogUserComments);
 
   const { id } = useParams();
 
   useEffect(() => {
     if (id !== undefined) {
       dispatch(getUserQuizesAsync(Number(id)));
+
+      dispatch(getUserSingleBlogCommentsAsync(Number(id)));
     }
 
   }, [id, dispatch]);
@@ -25,14 +28,24 @@ const UserQuizes = () => {
 
   return (
     <div>
+      {userComments.length + userQuizes.length < 2 ? ("") : (
+    <div>
     <div className = 'profile-hierarchy'>
 
       <div className = "scrollbar-pic-quiz">
+
+        
+          
+          <div>
           <img
             src={require('../../images/recentquizes.png')}
             width = "340"/>
             <br/>
             <br/>
+            </div>
+
+        
+          
           </div>
 
     <div className = "scrollbar-user-comments">
@@ -56,8 +69,10 @@ const UserQuizes = () => {
           
       
     </div>
+    
     </div>
-
+    </div>
+    )}
     </div>
   );
 };

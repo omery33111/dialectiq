@@ -72,6 +72,11 @@ const Adminmenu = () => {
             <h4 style = {{textDecoration: "none", color: "black"}}>Complete The Sentence Quiz</h4>
             </Link>
           </div>
+          <div>
+          <Link to="/administrator/voice_quiz">
+            <h4 style = {{textDecoration: "none", color: "black"}}>Voice Test Quiz</h4>
+            </Link>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

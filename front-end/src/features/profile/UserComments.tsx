@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { myServer } from '../../endpoints/endpoints';
-import { getSingleProfileAsync, getUserSingleBlogCommentsAsync, selectProfile, selectSingleBlogUserComments } from './profileSlice';
+import { getSingleProfileAsync, getUserQuizesAsync, getUserSingleBlogCommentsAsync, selectProfile, selectSingleBlogUserComments, selectUserAnsweredQuizes } from './profileSlice';
 
 
 
@@ -12,6 +12,7 @@ const UserComments = () => {
   const navigate = useNavigate();
   
   const userComments = useAppSelector(selectSingleBlogUserComments);
+  const userQuizes = useAppSelector(selectUserAnsweredQuizes);
 
   const { id } = useParams();
 
@@ -19,6 +20,8 @@ const UserComments = () => {
     if (id !== undefined) {
       dispatch(getUserSingleBlogCommentsAsync(Number(id)));
       dispatch(getSingleProfileAsync(Number(id)));
+
+      dispatch(getUserQuizesAsync(Number(id)));
     }
 
   }, [id, dispatch]);
@@ -46,13 +49,21 @@ const UserComments = () => {
 
   return (
     <div>
-
+      {userComments.length + userQuizes.length < 2 ? ("") : (
+    <div>
+      
       <div className = "scrollbar-pic">
+      
+          
+          <div>
           <img
             src={require('../../images/recentcomments.png')}
             width = "350"/>
             <br/>
             <br/>
+            </div>
+
+        
           </div>
     
     <div className = "scrollbar-user-comments">
@@ -135,6 +146,7 @@ const UserComments = () => {
     </div>
     </div>
 
+    </div>)}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { AmericanAnswer } from "./AmericanAnswer";
 import { AmericanSubject } from "./AmericanSubject";
 import { Blog } from "./Blog";
 import { SentenceQuestion } from "./Sentence";
+import { VoiceQuestion } from "./Voice";
 
 
 
@@ -22,4 +23,7 @@ export interface AdministratorState {
 
     sentence: SentenceQuestion;
     sentences: SentenceQuestion[];
+
+    voice: VoiceQuestion;
+    voices: VoiceQuestion[];
   };

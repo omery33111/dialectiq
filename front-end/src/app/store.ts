@@ -7,6 +7,7 @@ import blogReducer from '../features/blog/blogSlice';
 import commentReducer from '../features/comment/commentSlice';
 import americanReducer from '../features/american/americanSlice';
 import sentenceReducer from '../features/sentence/sentenceSlice';
+import voiceReducer from '../features/voice/voiceSlice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     comment: commentReducer,
     american: americanReducer,
     sentence: sentenceReducer,
+    voice: voiceReducer,
   },
 });
 

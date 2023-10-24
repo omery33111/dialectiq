@@ -24,6 +24,14 @@ urlpatterns = [
     path('patch_sentence_subject/<int:pk>/', views.patch_sentence_subject),
     path('delete_sentence_subject/<int:pk>/', views.delete_sentence_subject),
 
+    path('post_voice_quiz/', views.post_voice_quiz),
+    path('patch_voice/<int:pk>/', views.patch_voice),
+    path('delete_voice/<int:pk>/', views.delete_voice),
+
+    path('post_voice_subject/', views.post_voice_subject),
+    path('patch_voice_subject/<int:pk>/', views.patch_voice_subject),
+    path('delete_voice_subject/<int:pk>/', views.delete_voice_subject),
+
     path('get_americans_of_subject/<int:pk>/', views.get_americans_of_subject),
 
     path('update_user_profile/<int:pk>/', views.update_user_profile),
