@@ -21,4 +21,7 @@ export interface Comment {
   export interface CommentState {
     comments: Comment[];
     comment: Comment;
+
+    isLoading: boolean;
+    isError: boolean;
   }

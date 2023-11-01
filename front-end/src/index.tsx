@@ -45,6 +45,10 @@ import SentenceSubjects from './features/sentence/SentenceSubjects';
 import VoiceSubjects from './features/voice/VoiceSubjects';
 import './index.css';
 import VoiceQuiz from './features/voice/VoiceQuiz';
+import VoiceFinish from './features/voice/VoiceFinish';
+import ErrorPage from './features/base/ErrorPage';
+import CallbackPanel from './features/administrator/CallbackPanel';
+import Registration from './features/administrator/Registration';
 
 
 
@@ -60,7 +64,7 @@ root.render(
     <Routes>
 
           <Route path = "/" element={<App />}>
-          
+
           <Route path = "/" element={<HomePage />} />
 
           <Route path = "/authentication/login" element={<Login />} />
@@ -71,6 +75,8 @@ root.render(
           </Route>
 
           <Route path = "/adminmenu" element={<Adminmenu />} />
+          <Route path = "/administrator/callback/registration" element={<Registration />} />
+          <Route path = "/administrator/callback" element={<CallbackPanel />} />
           <Route path = "/administrator/blog" element={<BlogPanel />} />
           <Route path = "/administrator/post_blog" element={<BlogPost />} />
           <Route path = "/administrator/american_quiz" element={<AmericanPanel />} />
@@ -123,9 +129,9 @@ root.render(
               <Route path = ":id" element = {<VoiceSubjectUpdate />} />
           </Route>
 
-          <Route path = "/forum_profiles" element={<Forum />} />
+          <Route path = "/forum" element={<Forum />} />
 
-          <Route path = "/blog" element={<Blog />} />
+          <Route path = "/paged_blogs" element={<Blog />} />
 
           <Route path = "/quizes" element={<Quizes />} />
           <Route path = "/quizes/american_quiz/subjects" element={<AmericanSubjects />} />
@@ -137,6 +143,8 @@ root.render(
           <Route path = "/quizes/american_quiz/american_finish" element={<AmericanFinish />} />
 
           <Route path = "/quizes/sentence_quiz/sentence_finish" element={<SentenceFinish />} />
+          
+          <Route path = "/quizes/voice_quiz/voice_finish" element={<VoiceFinish />} />
             
           <Route path = "/quizes/american_quiz/american_test">
               <Route index element = {<AmericanQuiz />} />
@@ -163,7 +171,11 @@ root.render(
               <Route path = ":id" element = {<BlogPage />} />
             </Route>
 
-          </Route></Routes>
+          </Route>
+
+          <Route path="/*" element={<ErrorPage />} />
+
+          </Routes>
 
     </BrowserRouter>
     

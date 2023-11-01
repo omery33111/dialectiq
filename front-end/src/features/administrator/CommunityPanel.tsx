@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { getForumProfilesAsync, selectProfiles } from "../profile/profileSlice";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import Pagination from "react-bootstrap/Pagination";
-import { Card, Container } from "react-bootstrap";
-import { myServer } from "../../endpoints/endpoints";
+import Pagination from '@mui/material/Pagination';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { useEffect, useState } from "react";
+import { Button, Card, Container, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import ReactFlipCard from 'reactjs-flip-card'
+import ReactFlipCard from 'reactjs-flip-card';
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { myServer } from "../../endpoints/endpoints";
+import { getForumProfilesAsync, getProfilesAmountAsync, searchProfileAsync, selectProfiles, selectProfilesAmount, selectSearchProfile, updateSearchProfile } from "../profile/profileSlice";
+import { GoSearch } from "react-icons/go";
 
 
 
@@ -19,10 +20,25 @@ const CommunityPanel = () => {
 
   useEffect(() => {
     dispatch(getForumProfilesAsync(page));
+
+    dispatch(getProfilesAmountAsync());
   }, [page]);
 
   const profiles = useAppSelector(selectProfiles);
+  const profilesAmount = useAppSelector(selectProfilesAmount);
 
+  
+  const ItemsPerPage = 8;
+
+  const totalPages = Math.ceil(profilesAmount / ItemsPerPage);
+
+  // Calculate the page numbers for the "next" pages
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
+
+  
   const ProgressBarColor = (points: any) => {
     if (points >= 0 && points < 250) {
       return "grey";
@@ -45,24 +61,57 @@ const CommunityPanel = () => {
     }
   };
 
-  
-  const itemsPerPage = 12;
 
-  const hasMorePages = profiles.length === itemsPerPage;
-  
+  const searchProfile = useAppSelector(selectSearchProfile);
+
+  const handleSearchClick = () => {
+    dispatch(searchProfileAsync({ searchQuery: searchProfile }));
+  };
+
 
   return (
     <div>
+
+
       <Container>
-      <div style={{ height: "20rem" }} />
+
+
+
+      <div style={{ height: "18rem" }} />
+
+      <div>
+          <Form>
+          <div className='search-item'>
+            <Form.Group controlId="formProductName">
+              <Form.Control
+                type="text"
+                onChange={(event) => dispatch(updateSearchProfile(event.target.value))}
+                value={searchProfile}/>
+            </Form.Group>
+            </div>
+
+            <div className='search-item2'>
+            <Button variant = "" style = {{fontSize: "1.5rem", cursor: "pointer", padding: 0}} onClick={handleSearchClick}>
+            <GoSearch/>
+            </Button>
+            </div>
+
+          </Form>
+        </div>
+
+      <hr/>
+
+      
 
       <div className="pagination-container">
-          <Pagination>
-            <Pagination.Prev onClick={() => setPage(page - 1)} disabled={page === 1} />
-            <Pagination.Item active>{page}</Pagination.Item>
-            <Pagination.Next onClick={() => setPage(page + 1)} disabled={!hasMorePages} />
-          </Pagination>
+      <Pagination
+            count={totalPages}
+            page={page}
+            onChange={(event, newPage) => setPage(newPage)}
+            size="small"
+          />
         </div>
+
 
       <div className="forum-container">
         {profiles.map((profile) => (

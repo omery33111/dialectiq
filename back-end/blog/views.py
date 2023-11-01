@@ -4,6 +4,37 @@ from rest_framework import status
 
 from .models import Blog
 from .serializers import BlogSerializer
+from django.core.paginator import Paginator, PageNotAnInteger
+
+
+
+@api_view(["GET"])
+def paged_blogs(request, page):
+    blogs_per_page = 5
+
+    all_blogs = Blog.objects.order_by('date')
+
+    if request.user.is_authenticated:
+        paginator = Paginator(all_blogs, blogs_per_page)
+    else:
+        # If the user is not authenticated, show only the first page
+        paginator = Paginator(all_blogs[:blogs_per_page], blogs_per_page)
+
+    try:
+        blogs = paginator.page(page)
+    except PageNotAnInteger:
+        return Response({"error": "Invalid page number."}, status=400)
+
+    serializer = BlogSerializer(blogs, many=True)
+
+    return Response(serializer.data)
+
+
+
+@api_view(["GET"])
+def blogs_amount(request):
+    blogs_amount = Blog.objects.count()
+    return Response({blogs_amount}, status=status.HTTP_200_OK)
 
 
 

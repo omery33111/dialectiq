@@ -52,6 +52,18 @@ const Adminmenu = () => {
               />
             </Link>
           </div>
+
+          <div>
+            <Link to="/administrator/callback">
+              <img
+                className="admin-panel-pic"
+                src={require('../../images/portalpic4.png')}
+                alt="portalpic3"
+                height="300"
+                width="300"
+              />
+            </Link>
+          </div>
         </div>
         <br />
         <br />

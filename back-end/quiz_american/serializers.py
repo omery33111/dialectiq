@@ -32,3 +32,11 @@ class QuizAmericanAnswerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['user']
         return QuizAmericanAnswer.objects.create(**validated_data, user = user)
+
+
+
+class GetQuizAmericanAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuizAmericanAnswer
+        fields = '__all__'
+    

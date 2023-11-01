@@ -4,8 +4,8 @@ import { BsTrash, BsTrashFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { VoiceQuestion } from '../../models/Voice';
-import { getVoicesAsync, selectVoices } from '../voice/voiceSlice';
-import { deleteVoiceAsync } from './administratorSlice';
+import { deleteVoiceAsync, getPagedVoicesAsync, getVoicesAmountAsync, selectVoices, selectVoicesAmount } from './administratorSlice';
+import { Pagination } from '@mui/material';
 
 
 
@@ -38,14 +38,38 @@ const VoicePanel = () => {
     }
   };
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getVoicesAsync());
-  }, [dispatch]);
+    dispatch(getPagedVoicesAsync(page));
+
+    dispatch(getVoicesAmountAsync());
+  }, [page]);
+
+  const voicesAmount = useAppSelector(selectVoicesAmount);
+
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(voicesAmount / itemsPerPage);
+
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
 
   return (
     <div>
       <div style={{ height: 200 }} />
       <Container className="blog-table">
+      <div className="pagination-admin">
+        <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(event, newPage) => setPage(newPage)}
+              size="small"
+            />
+          </div>
+          
         <h1 style={{ padding: "15px" }}>VOICE TEST</h1>
         <br />
         <br />

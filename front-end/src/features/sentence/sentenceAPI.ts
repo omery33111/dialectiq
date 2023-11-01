@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { SentenceQuestion } from "../../models/Sentence";
 import { sentenceURL } from "../../endpoints/endpoints";
 import { SentenceSubject } from "../../models/SentenceSubject";
@@ -7,13 +7,15 @@ import { SentenceAnswer } from "../../models/SentenceAnswer";
 
 
 export function postAnswerSentence(sentenceAnswerData: SentenceAnswer, answers: { user_answer: number, question: number }[]) {
-  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const myToken = JSON.parse(localStorage.getItem("token") as string);
   const accessToken = myToken ? myToken.access : "";
 
-  let config = {
-      headers: { 'Authorization': `Bearer ${accessToken}` }
-    }
+  const config: AxiosRequestConfig = {}; // Define the config object with AxiosRequestConfig type
 
+  if (accessToken) {
+    config.headers = { 'Authorization': `Bearer ${accessToken}` };
+  }
+  
   const data = {
     sentenceAnswerData: sentenceAnswerData,
     answers: answers
@@ -31,6 +33,18 @@ export function getSentences()
   return new Promise<{ data: SentenceQuestion[] }>((resolve) =>
     axios.get(`${sentenceURL}/get_sentences/`).then((res) => resolve({ data: res.data })));
 }
+
+
+export function getPagedSentenceSubjects(page: number) {
+  return new Promise<{ data: SentenceSubject[] }>((resolve =>
+    axios.get(`${sentenceURL}/paged_sentence_subjects/${page}/`).then(res => resolve({ data: res.data }))))
+}
+
+
+export function getSentenceSubjectsAmount() {
+  return new Promise<{ data: number }>((resolve =>
+      axios.get(`${sentenceURL}/sentence_subjects_amount/`).then(res => resolve({ data: res.data }))))}
+
 
 
 

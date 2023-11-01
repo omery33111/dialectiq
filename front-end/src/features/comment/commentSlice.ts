@@ -13,7 +13,9 @@ const initialState: CommentState = {
                                                   location: "",
                                                   picture: "",
                                                   first_name: "",
-                                                  last_name: ""}, comment: "", date: new Date()}
+                                                  last_name: ""}, comment: "", date: new Date()},
+  isLoading: false,
+  isError: false
 };
 
 
@@ -79,6 +81,13 @@ export const commentSlice = createSlice({
       .addCase(getCommentsAsync.fulfilled, (state, action) =>
       {
         state.comments = action.payload
+        state.isLoading = false;
+      })
+      .addCase(getCommentsAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCommentsAsync.rejected, (state) => {
+        state.isError = true;
       })
 
       .addCase(getSingleCommentAsync.fulfilled, (state, action) => {

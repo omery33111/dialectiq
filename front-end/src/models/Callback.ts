@@ -9,4 +9,6 @@ export interface Callback {
   
   export interface CallbackState {
     callbacks: Callback[];
+
+    callbackAmount: number;
   }

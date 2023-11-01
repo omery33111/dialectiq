@@ -1,11 +1,13 @@
+import { Pagination } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Button, Container, Table, Modal } from 'react-bootstrap';
+import { Button, Container, Modal, Table } from 'react-bootstrap';
 import { BsTrash, BsTrashFill } from 'react-icons/bs';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { deleteAmericanAsync } from './administratorSlice';
 import { useNavigate } from 'react-router-dom';
-import { getAmericansAsync, selectAmericans } from '../american/americanSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AmericanQuestion } from '../../models/American';
+import { deleteAmericanAsync, getAmericansAmountAsync, getPagedAmericansAsync, selectAmericans, selectAmericansAmount } from './administratorSlice';
+
+
 
 const AmericanPanel = () => {
   const dispatch = useAppDispatch();
@@ -36,14 +38,39 @@ const AmericanPanel = () => {
     }
   };
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getAmericansAsync());
-  }, [dispatch]);
+    dispatch(getPagedAmericansAsync(page));
+
+    dispatch(getAmericansAmountAsync());
+  }, [page]);
+
+  const americansAmount = useAppSelector(selectAmericansAmount);
+
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(americansAmount / itemsPerPage);
+
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
 
   return (
     <div>
       <div style={{ height: 200 }} />
       <Container className="blog-table">
+        
+      <div className="pagination-admin">
+        <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(event, newPage) => setPage(newPage)}
+              size="small"
+            />
+          </div>
+          
         <h1 style={{ padding: "15px" }}>AMERICAN</h1>
         <br />
         <br />

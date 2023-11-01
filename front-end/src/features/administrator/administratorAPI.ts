@@ -1,12 +1,87 @@
 import axios from "axios";
-import { administratorURL, americanURL, sentenceURL, voiceURL } from "../../endpoints/endpoints";
+import { administratorURL, americanURL, registerURL, sentenceURL, voiceURL } from "../../endpoints/endpoints";
 import { Blog } from "../../models/Blog";
-import { AmericanQuestion } from "../../models/American";
 import { AmericanSubject } from "../../models/AmericanSubject";
 import { SentenceSubject } from "../../models/SentenceSubject";
 import { SentenceQuestion } from "../../models/Sentence";
 import { VoiceQuestion } from "../../models/Voice";
 import { VoiceSubject } from "../../models/VoiceSubject";
+import { AmericanQuestion } from "../../models/American";
+import { Callback } from "../../models/Callback";
+import { Register } from "../../models/Authentication";
+
+
+
+const register = async (userData: Register) => {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  const response = await axios.post(registerURL, userData, config)
+  return response.data
+}
+
+
+
+export function getPagedCallbacks(page: number) {
+  return new Promise<{ data: Callback[] }>((resolve =>
+    axios.get(`${administratorURL}/paged_callbacks/${page}/`).then(res => resolve({ data: res.data }))))
+}
+
+
+export function getCallbacksAmount() {
+  return new Promise<{ data: number }>((resolve =>
+      axios.get(`${administratorURL}/callbacks_amount/`).then(res => resolve({ data: res.data }))))}
+
+
+
+export function deleteCallback(id: string) {
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: Blog }>((resolve) =>
+    axios.delete(`${administratorURL}/delete_callback/${id}/`, config).then((res) => resolve({ data: res.data }))
+  );
+}
+
+
+
+export function getPagedVoices(page: number) {
+  return new Promise<{ data: VoiceQuestion[] }>((resolve =>
+    axios.get(`${administratorURL}/paged_voices/${page}/`).then(res => resolve({ data: res.data }))))
+}
+
+
+export function getVoicesAmount() {
+    return new Promise<{ data: number }>((resolve =>
+        axios.get(`${administratorURL}/voices_amount/`).then(res => resolve({ data: res.data }))))}
+
+
+
+export function getPagedSentences(page: number) {
+  return new Promise<{ data: SentenceQuestion[] }>((resolve =>
+    axios.get(`${administratorURL}/paged_sentences/${page}/`).then(res => resolve({ data: res.data }))))
+}
+
+
+export function getSentencesAmount() {
+    return new Promise<{ data: number }>((resolve =>
+        axios.get(`${administratorURL}/sentences_amount/`).then(res => resolve({ data: res.data }))))}
+
+
+
+export function getPagedAmericans(page: number) {
+  return new Promise<{ data: AmericanQuestion[] }>((resolve =>
+    axios.get(`${administratorURL}/paged_americans/${page}/`).then(res => resolve({ data: res.data }))))
+}
+
+
+export function getAmericansAmount() {
+    return new Promise<{ data: number }>((resolve =>
+        axios.get(`${administratorURL}/americans_amount/`).then(res => resolve({ data: res.data }))))}
 
 
 

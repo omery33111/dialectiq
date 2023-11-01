@@ -21,6 +21,8 @@ export default class Profile {
 
     userID: string;
 
+    profileAmount: number;
+
     user_blogs: [
       {id: number;
         blog_info: {
@@ -38,6 +40,11 @@ export default class Profile {
         subject_name: string;
         picture: string;}
     ]
+
+    searchProfile: string;
+
+    isLoading: boolean;
+    isError: boolean;
   }
 
   

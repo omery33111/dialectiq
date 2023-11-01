@@ -4,8 +4,8 @@ import { BsTrash, BsTrashFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { SentenceQuestion } from '../../models/Sentence';
-import { getSentencesAsync, selectSentences } from '../sentence/sentenceSlice';
-import { deleteAmericanAsync, deleteSentenceAsync } from './administratorSlice';
+import { deleteSentenceAsync, getPagedSentencesAsync, getSentencesAmountAsync, selectSentences, selectSentencesAmount } from './administratorSlice';
+import { Pagination } from '@mui/material';
 
 const SentencePanel = () => {
   const dispatch = useAppDispatch();
@@ -36,14 +36,39 @@ const SentencePanel = () => {
     }
   };
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getSentencesAsync());
-  }, [dispatch]);
+    dispatch(getPagedSentencesAsync(page));
+
+    dispatch(getSentencesAmountAsync());
+  }, [page]);
+
+  const sentencesAmount = useAppSelector(selectSentencesAmount);
+
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(sentencesAmount / itemsPerPage);
+
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
 
   return (
     <div>
       <div style={{ height: 200 }} />
       <Container className="blog-table">
+
+      <div className="pagination-admin">
+        <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(event, newPage) => setPage(newPage)}
+              size="small"
+            />
+          </div>
+          
         <h1 style={{ padding: "15px" }}>COMPLETE THE SENTENCE</h1>
         <br />
         <br />

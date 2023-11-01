@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { BlogState } from '../../models/Blog';
-import { getBlogs, getSingleBlog } from './blogAPI';
+import { getBlogs, getBlogsAmount, getPagedBlogs, getSingleBlog } from './blogAPI';
 
 
 
@@ -11,7 +11,33 @@ const initialState: BlogState = {
     title: "", description: "", youtube: "", video: "", id: "", picture: '', date: new Date(),
   },
   likes: {},
+
+  blogAmount: 0,
+
+  isLoading: false,
+  isError: false
 };
+
+
+
+export const getPagedBlogsAsync = createAsyncThunk(
+  "blog/getPagedBlogs",
+  async (page: number) => {
+    const response = await getPagedBlogs(page);
+    return response;
+  }
+);
+
+
+export const getBlogsAmountAsync = createAsyncThunk(
+  "blog/getBlogsAmount",
+  async () => {
+    const response = await getBlogsAmount();
+    return response;
+  }
+);
+
+
 
 export const getBlogsAsync = createAsyncThunk('blog/getBlogs', async () => {
   const response = await getBlogs();
@@ -47,11 +73,34 @@ export const blogSlice = createSlice({
     builder
       .addCase(getBlogsAsync.fulfilled, (state, action) => {
         state.blogs = action.payload;
+        state.isLoading = false;
+        state.isError = false;
+      })
+      .addCase(getBlogsAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBlogsAsync.rejected, (state) => {
+        state.isError = true;
       })
       
       .addCase(getSingleBlogAsync.fulfilled, (state, action) =>
       {
         state.singleBlog = action.payload
+        state.isLoading = false;
+      })
+      .addCase(getSingleBlogAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSingleBlogAsync.rejected, (state) => {
+        state.isError = true;
+      })
+      
+      .addCase(getPagedBlogsAsync.fulfilled, (state, action) => {
+        state.blogs = action.payload.data;
+      })
+
+      .addCase(getBlogsAmountAsync.fulfilled, (state, action) => {
+        state.blogAmount = action.payload.data;
       })
   },
 });
@@ -60,6 +109,12 @@ export const blogSlice = createSlice({
 
 export const { toggleLike } = blogSlice.actions;
 
+export const selectBlogisError = (state: RootState) => state.blog.isError;
+export const selectBlogisLoading = (state: RootState) => state.blog.isLoading;
+
+export const selectSingleBlogisLoading = (state: RootState) => state.blog.isLoading;
+
+export const selectBlogsAmount = (state: RootState) => state.blog.blogAmount;
 export const selectBlogs = (state: RootState) => state.blog.blogs;
 export const selectLikes = (state: RootState) => state.blog.likes;
 export const selectSingleBlog = (state: RootState) => state.blog.singleBlog;

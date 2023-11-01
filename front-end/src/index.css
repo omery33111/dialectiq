@@ -106,7 +106,7 @@ body {
     padding: 30px;
     color: white;
     border-radius: 40px;
-    margin-right: 60px;
+    margin-right: 20px;
   }
 
 
@@ -585,14 +585,165 @@ body {
 
   .pagination-container {
     position: relative;
-    transform: translate(-4.1vh, -5vh);
-    justify-content: center;
+    transform: translate(1150px, -7vh);
+    justify-content: left;
     text-align: center;
     display: flex;
   }
 
+
+  .pagination-blog {
+    position: relative;
+    transform: translate(-20%, 0vh);
+    justify-content: right;
+    text-align: center;
+    display: flex;
+  }
+
+
+  .pagination-quiz {
+    position: relative;
+    transform: translate(-5%, 0vh);
+    justify-content: right;
+    text-align: center;
+    display: flex;
+  }
+
+
+  .pagination-admin {
+    position: relative;
+    transform: translate(0%, 160px);
+    justify-content: left;
+    text-align: center;
+    display: flex;
+  }
+
+
+  .search-item {
+    position: relative;
+    justify-content: left;
+    text-align: center;
+    display: flex;
+    transform: translate(40px, 30px);
+  }
+
+
+  .search-item2 {
+    /* position: relative; */
+    justify-content: space-between;
+    /* text-align: center; */
+    display: flex;
+    transform: translate(268px, -12px);
+    z-index: 1;
+  }
+
+
+
+@keyframes cloud1 {
+    0% {
+        margin-left: -1000px;
+    }
+    100% {
+        margin-left: 150%;
+    }
+}
+
+@keyframes cloud2 {
+    0% {
+        margin-left: 150%;
+    }
+    100% {
+        margin-left: -900px;
+    }
+}
+
+@keyframes cloud3 {
+    0% {
+        margin-left: -800px;
+    }
+    100% {
+        margin-left: 150%;
+    }
+}
+
+@keyframes cloud4 {
+    0% {
+        margin-left: -800px;
+    }
+    100% {
+        margin-left: 150%;
+    }
+}
+
+@keyframes cloud5 {
+    0% {
+        margin-left: 150%;
+    }
+    100% {
+        margin-left: -900px;
+    }
+}
+
+
+.cloud1 {
   
+animation-name: cloud1;
+  animation-duration: 25s;
+  animation-iteration-count: infinite;
+  animation-direction: linear;
+  overflow: hidden;
+}
+
+.cloud2 {
+   
+  animation-name: cloud2;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-direction: linear;
+  overflow: hidden;
+}
+
+.cloud3 {
+  animation-name: cloud3;
+  animation-duration: 25s;
+  animation-iteration-count: infinite;
+  animation-direction: linear;
+  overflow: hidden;
+}
+
+.cloud4 {
+  animation-name: cloud4;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-direction: linear;
+  overflow: hidden;
+}
+
+.cloud5 {
+  animation-name: cloud5;
+  animation-duration: 30s;
+  animation-iteration-count: infinite;
+  animation-direction: linear;
+  overflow: hidden;
+}
+
+
+@keyframes fadeIn {
+   0% {opacity: 0;}
+   50% {opacity: 1;}
+   100% {opacity: 0;}
+} 
+
+div.fadeIn {
+	animation-duration: 18s;
+	animation-name: fadeIn;
+  animation-iteration-count: infinite;
+  padding-top: 200px;
+}
   
+.animate-pop {
+  font-size: 3.5rem;
+}
 
 /* Responsive Styling */
 @media (max-width: 768px) {
@@ -722,7 +873,7 @@ body {
     transition: color 0.5s;
     position: absolute;
     right: 0;
-    transform: translateY(-730%) translateX(-5px);
+    transform: translateY(-430%) translateX(-5px);
   }
   
 
@@ -735,7 +886,7 @@ body {
     transition: color 0.5s;
     position: absolute;
     right: 0;
-    transform: translateY(-163px) translateX(3px);
+    transform: translateY(-97px) translateX(3px);
   }
 
 
@@ -958,6 +1109,15 @@ body {
     transform: translate(-50%, -170%);
     display: flex;
     justify-content: center;
+  }
+
+
+  .pagination-blog {
+    position: relative;
+    transform: translate(0%, 0vh);
+    justify-content: center;
+    text-align: center;
+    display: flex;
   }
 
 }

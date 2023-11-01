@@ -1,14 +1,20 @@
+import { CircularProgress, Pagination } from '@mui/material';
 import { useEffect, useState } from 'react';
-import {
-  getBlogsAsync,
-  selectBlogs,
-  selectLikes,
-  toggleLike,
-} from './blogSlice';
-import { myServer } from '../../endpoints/endpoints';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Container } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { myServer } from '../../endpoints/endpoints';
+import {
+  getBlogsAmountAsync,
+  getPagedBlogsAsync,
+  selectBlogisLoading,
+  selectBlogs,
+  selectBlogsAmount,
+  selectLikes,
+  toggleLike
+} from './blogSlice';
+import { selectIsLogged } from '../authentication/authenticationSlice';
 
 const Blog = () => {
   const dispatch = useAppDispatch();
@@ -18,11 +24,9 @@ const Blog = () => {
 
   const likes = useAppSelector(selectLikes);
 
-  const likesRecord = likes as Record<string, number>; // Assert the type
+  const likesRecord = likes as Record<string, number>;
 
   useEffect(() => {
-    dispatch(getBlogsAsync());
-
     const storedLikes = localStorage.getItem('blogLikes');
     if (storedLikes) {
       const parsedLikes = JSON.parse(storedLikes);
@@ -47,6 +51,32 @@ const Blog = () => {
     return `${year}-${month}-${day}, ${hours}:${minutes}`;
   }
 
+
+
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(getPagedBlogsAsync(page));
+
+    dispatch(getBlogsAmountAsync());
+  }, [page]);
+
+  const blogsAmount = useAppSelector(selectBlogsAmount);
+
+  const itemsPerPage = 5;
+
+  const totalPages = Math.ceil(blogsAmount / itemsPerPage);
+
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
+
+  const isLoading = useAppSelector(selectBlogisLoading);
+
+  const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
+  
+
   return (
     <div>
       <div
@@ -60,9 +90,35 @@ const Blog = () => {
           width: '100%',
         }}
       >
+
+       <div style = {{height: "15rem"}}/>
+        
+        {storedIsLogged && (
+          <div>
+          <div className="pagination-blog">
+          <Pagination
+                count={totalPages}
+                page={page}
+                onChange={(event, newPage) => setPage(newPage)}
+                size="small"
+              />
+            </div>
+
+          <Container>
+          <hr />
+          </Container>
+          </div>
+        )}
+       
+
+        
+
+       
         <div className="d-flex justify-content-center">
+          
           <div className="blog-videos">
-            <div style={{ height: 300 }} />
+            
+            <div style={{ height: 230 }} />
             {blogs.slice().reverse().map((blog, index) => {
               const topPosition = 100 * index;
               const blogClassName = index > 0 ? 'blog-item' : ''; // Set classname for the second blog and onwards
@@ -86,11 +142,18 @@ const Blog = () => {
                     <h6 className="blog-date">{formatDate(blog.date)}</h6>
                   </div>
                   <div>
-                    <img
+                  {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
+                      <img
                       src={myServer + blog.picture}
                       width="100%"
                       height="100%"
                     />
+                    )}
+                    
                   </div>
                   <div>
                     <img
@@ -101,8 +164,20 @@ const Blog = () => {
                       style={{ position: 'absolute', top: 0, right: 0 }}
                     />
                   </div>
-                  <h2 style={{ padding: '10px' }}>{blog.title}</h2>
-                  <p style={{ padding: '7px' }}>{blog.description}</p>
+                  {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
+                  <h2 style={{ padding: '10px' }}>{blog.title}</h2>)}
+
+                  {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
+                  <p style={{ padding: '7px' }}>{blog.description}</p>)}
+                  
                   <h3>
                     <FaHeart
                       className={`like-button ${

@@ -16,4 +16,9 @@ export interface Blog {
       singleBlog: Blog
       blogs: Blog[]
       likes: Record<string, number>;
+
+      blogAmount: number;
+
+      isLoading: boolean;
+      isError: boolean;
     };

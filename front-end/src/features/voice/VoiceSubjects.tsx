@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { myServer } from '../../endpoints/endpoints';
-import { getVoiceSubjectsAsync, selectAllSubjectsOfVoice } from './voiceSlice';
+import { getPagedVoiceSubjectsAsync, getVoiceSubjectsAmountAsync, getVoiceSubjectsAsync, selectAllSubjectsOfVoice, selectPagedVoiceSubjectisLoading, selectVoiceSubjectsAmount } from './voiceSlice';
+import { CircularProgress, Pagination } from '@mui/material';
 
 const VoiceSubjects = () => {
   const dispatch = useAppDispatch();
@@ -11,14 +12,45 @@ const VoiceSubjects = () => {
 
   const subjects = useAppSelector(selectAllSubjectsOfVoice);
 
-  useEffect(() => {
-    dispatch(getVoiceSubjectsAsync());
-  }, [dispatch]);
+  const [page, setPage] = useState(1);
 
+  useEffect(() => {
+    dispatch(getPagedVoiceSubjectsAsync(page));
+
+    dispatch(getVoiceSubjectsAmountAsync());
+  }, [page]);
+
+  const voiceSubjectsAmount = useAppSelector(selectVoiceSubjectsAmount);
+
+  const itemsPerPage = 7;
+
+  const totalPages = Math.ceil(voiceSubjectsAmount / itemsPerPage);
+
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
+
+
+  const isLoading = useAppSelector(selectPagedVoiceSubjectisLoading);
+  
   return (
     <div>
       <div style={{ height: 200 }} />
       <Container>
+
+      <div className="pagination-quiz">
+        <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(event, newPage) => setPage(newPage)}
+              size="small"
+            />
+          </div>
+
+        <hr />
+        <br />
+        
         <h1 style={{ padding: "15px", justifyContent: "center", textAlign: "center" }}>VOICE QUIZ</h1>
         <br />
         <br />
@@ -30,12 +62,17 @@ const VoiceSubjects = () => {
               className="card-with-bg-image"
               style={{ backgroundImage: `url(${myServer + subject.picture})`}}
             >
+              {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
               <Card.Body>
                 <Card.Title className='american-subject-card-text' style = {{color: "white"}}>VOICE QUIZ</Card.Title>
                 <Card.Text className='american-subject-card-text' style = {{color: "white"}}>
                   {subject.subject_name}
                 </Card.Text>
-              </Card.Body>
+              </Card.Body>)}
             </Card>
           ))}
         </div>

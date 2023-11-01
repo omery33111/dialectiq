@@ -2,6 +2,7 @@ import { AmericanQuestion } from "./American";
 import { AmericanAnswer } from "./AmericanAnswer";
 import { AmericanSubject } from "./AmericanSubject";
 import { Blog } from "./Blog";
+import { Callback } from "./Callback";
 import { SentenceQuestion } from "./Sentence";
 import { VoiceQuestion } from "./Voice";
 
@@ -26,4 +27,14 @@ export interface AdministratorState {
 
     voice: VoiceQuestion;
     voices: VoiceQuestion[];
+
+    callbacks: Callback[];
+
+    americanAmount: number;
+    sentenceAmount: number;
+    voiceAmount: number;
+    callbackAmount: number;
+
+    isLoading: boolean;
+    isError: boolean;
   };

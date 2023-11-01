@@ -1,14 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AdministratorState } from "../../models/Administrator";
-import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteSentence, deleteSentenceSubject, deleteVoice, deleteVoiceSubject, getAmericanSubjects, getAmericansOfSubject, getSingleAmericanSubject, getSingleSentenceSubject, getSingleVoiceSubject, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, patchVoice, patchVoiceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject, postVoice, postVoiceSubject } from "./administratorAPI";
+import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteCallback, deleteSentence, deleteSentenceSubject, deleteVoice, deleteVoiceSubject, getAmericanSubjects, getAmericansAmount, getAmericansOfSubject, getCallbacksAmount, getPagedAmericans, getPagedCallbacks, getPagedSentences, getPagedVoices, getSentencesAmount, getSingleAmericanSubject, getSingleSentenceSubject, getSingleVoiceSubject, getVoicesAmount, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, patchVoice, patchVoiceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject, postVoice, postVoiceSubject } from "./administratorAPI";
 import { RootState } from "../../app/store";
 import { AmericanSubject } from "../../models/AmericanSubject";
 import { SentenceSubject } from "../../models/SentenceSubject";
 import { VoiceSubject } from "../../models/VoiceSubject";
+import { Register } from "../../models/Authentication";
+import authenticationService from "../authentication/authenticationAPI";
 
 
 
 const initialState: AdministratorState = {
+  callbacks: [],
   blogs: [],
   singleBlog: { title: "", description: "", youtube: "", video: "", id: "", picture: "", date: new Date() },
 
@@ -31,7 +34,114 @@ const initialState: AdministratorState = {
   voice: {
     subject: {id: "", subject_name: ""}, id: "", question: "", correct_answer: ""},
   voices: [],
+
+  americanAmount: 0,
+  sentenceAmount: 0,
+  voiceAmount: 0,
+  callbackAmount: 0,
+
+  isLoading: false,
+  isError: false,
 };
+
+
+
+export const registerAsync = createAsyncThunk("administrator/register", async (user: Register, thunkAPI) =>
+{
+        try
+        {
+            return await authenticationService.register(user)
+        }
+        catch (error: any)
+        {
+            
+            return thunkAPI.rejectWithValue(error.response.data.error)
+        }
+})
+
+
+
+export const getPagedCallbacksAsync = createAsyncThunk(
+  "administrator/getPagedCallbacks",
+  async (page: number) => {
+    const response = await getPagedCallbacks(page);
+    return response;
+  }
+);
+
+
+export const getCallbacksAmountAsync = createAsyncThunk(
+  "administrator/getCallbacksAmount",
+  async () => {
+    const response = await getCallbacksAmount();
+    return response;
+  }
+);
+
+
+export const deleteCallbackAsync = createAsyncThunk(
+  'administrator/deleteCallback',
+  async (id: string) => { await deleteCallback(id);
+  return { id };
+  }
+);
+
+
+
+export const getPagedVoicesAsync = createAsyncThunk(
+  "administrator/getPagedVoices",
+  async (page: number) => {
+    const response = await getPagedVoices(page);
+    return response;
+  }
+);
+
+
+export const getVoicesAmountAsync = createAsyncThunk(
+  "administrator/getVoicesAmount",
+  async () => {
+    const response = await getVoicesAmount();
+    return response;
+  }
+);
+
+
+
+export const getPagedSentencesAsync = createAsyncThunk(
+  "administrator/getPagedSentences",
+  async (page: number) => {
+    const response = await getPagedSentences(page);
+    return response;
+  }
+);
+
+
+export const getSentencesAmountAsync = createAsyncThunk(
+  "administrator/getSentencesAmount",
+  async () => {
+    const response = await getSentencesAmount();
+    return response;
+  }
+);
+
+
+
+export const getPagedAmericansAsync = createAsyncThunk(
+  "administrator/getPagedAmericans",
+  async (page: number) => {
+    const response = await getPagedAmericans(page);
+    return response;
+  }
+);
+
+
+export const getAmericansAmountAsync = createAsyncThunk(
+  "administrator/getAmericansAmount",
+  async () => {
+    const response = await getAmericansAmount();
+    return response;
+  }
+);
 
 
 
@@ -395,6 +505,10 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
           state.subjects = state.subjects.filter(subject => subject.id !== action.payload.id)
         })
 
+        .addCase(deleteCallbackAsync.fulfilled, (state, action) => {
+          state.callbacks = state.callbacks.filter(callback => callback.id !== action.payload.id)
+        })
+
         .addCase(deleteVoiceSubjectAsync.fulfilled, (state, action) => {
           state.subjects = state.subjects.filter(subject => subject.id !== action.payload.id)
         })
@@ -403,17 +517,73 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
         .addCase(getAmericansOfSubjectAsync.fulfilled, (state, action) =>
         {
           state.subjectAmericans = action.payload
+          state.isLoading = false;
+        })
+        .addCase(getAmericansOfSubjectAsync.pending, (state) => {
+          state.isLoading = true;
+        })
+        .addCase(getAmericansOfSubjectAsync.rejected, (state) => {
+          state.isError = true;
+        })
+
+        .addCase(getPagedAmericansAsync.fulfilled, (state, action) => {
+          state.americans = action.payload.data;
+        })
+  
+        .addCase(getAmericansAmountAsync.fulfilled, (state, action) => {
+          state.americanAmount = action.payload.data;
+        })
+
+        .addCase(getPagedSentencesAsync.fulfilled, (state, action) => {
+          state.sentences = action.payload.data;
+        })
+  
+        .addCase(getSentencesAmountAsync.fulfilled, (state, action) => {
+          state.sentenceAmount = action.payload.data;
+        })
+
+        .addCase(getPagedVoicesAsync.fulfilled, (state, action) => {
+          state.voices = action.payload.data;
+        })
+  
+        .addCase(getVoicesAmountAsync.fulfilled, (state, action) => {
+          state.voiceAmount = action.payload.data;
+        })
+
+        .addCase(getPagedCallbacksAsync.fulfilled, (state, action) => {
+          state.callbacks = action.payload.data;
+        })
+  
+        .addCase(getCallbacksAmountAsync.fulfilled, (state, action) => {
+          state.callbackAmount = action.payload.data;
+        })
+
+        .addCase(registerAsync.fulfilled, (state, action) =>
+        {
+            state.isLoading = false
         })
     },
   });
 
 
 
+export const selectAmericanQuestionsisLoading = (state: RootState) => state.administrator.isLoading;
+
+export const selectCallbacksAmount = (state: RootState) => state.administrator.callbackAmount;
+export const selectVoicesAmount = (state: RootState) => state.administrator.voiceAmount;
+export const selectSentencesAmount = (state: RootState) => state.administrator.sentenceAmount;
+export const selectAmericansAmount = (state: RootState) => state.administrator.americanAmount;
+
+export const selectCallbacks = (state: RootState) => state.administrator.callbacks;
 
 export const selectSingleBlog = (state: RootState) => state.administrator.singleBlog;
 
 export const selectSigleAmerican = (state: RootState) => state.administrator.american;
 export const selectAmericans = (state: RootState) => state.administrator.americans;
+
+export const selectSentences = (state: RootState) => state.administrator.sentences;
+
+export const selectVoices = (state: RootState) => state.administrator.voices;
 
 export const selectSingleSubjectOfSentence = (state: RootState) => state.administrator.subject;
 

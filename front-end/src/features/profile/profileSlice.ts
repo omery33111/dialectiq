@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { ProfileState } from "../../models/Profile";
-import { changeProfile, getForumProfiles, getMyID, getProfile, getSingleProfile, getUserQuizes, getUserSingleBlogComments } from "./profileAPI";
+import { changeProfile, getForumProfiles, getMyID, getProfile, getProfilesAmount, getSingleProfile, getUserQuizes, getUserSingleBlogComments, searchProfile } from "./profileAPI";
 
 const initialState: ProfileState = {
   profile: {
@@ -35,8 +35,28 @@ const initialState: ProfileState = {
     picture: ""}
     ],
 
-  userID: ""
+  userID: "",
+
+  profileAmount: 0,
+
+  searchProfile: "",
+
+  isLoading: false,
+  isError: false
 };
+
+
+
+
+export const searchProfileAsync = createAsyncThunk(
+  'product/searchProfile',
+  async (data: {searchQuery: string}) => {
+    const response = await searchProfile(data.searchQuery);
+    return response.data;
+  }
+);
+
+
 
 export const getProfileAsync = createAsyncThunk(
   "profile/getProfile",
@@ -85,6 +105,16 @@ export const getMyIDAsync = createAsyncThunk(
 
 
 
+export const getProfilesAmountAsync = createAsyncThunk(
+  "profile/getProfilesAmount",
+  async () => {
+    const response = await getProfilesAmount();
+    return response;
+  }
+);
+
+
+
 export const getSingleProfileAsync = createAsyncThunk(
   "profile/getSingleProfile",
   async (id: number) => {
@@ -110,24 +140,57 @@ export const profileSlice = createSlice({
       state.profile.points = action.payload;
       localStorage.setItem("points", JSON.stringify(action.payload));
     },
+
+    setMyID: (state, action) => {
+      state.profile.points = action.payload;
+      localStorage.setItem("myID", JSON.stringify(action.payload));
+    },
+
+    updateSearchProfile: (state, action) => {
+      state.searchProfile = action.payload
+    }
   },
 
   extraReducers: (builder) => {
     builder
+      .addCase(searchProfileAsync.fulfilled, (state, action) =>
+      {
+        state.profiles = action.payload
+      })
+
       .addCase(getProfileAsync.fulfilled, (state, action) => {
         state.profile = action.payload.data;
       })
 
       .addCase(getForumProfilesAsync.fulfilled, (state, action) => {
         state.profiles = action.payload.data;
+        state.isLoading = false;
+      })
+      .addCase(getForumProfilesAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getForumProfilesAsync.rejected, (state) => {
+        state.isError = true;
       })
 
       .addCase(getSingleProfileAsync.fulfilled, (state, action) => {
         state.profile = action.payload;
+        state.isLoading = false;
+        state.isError = false;
+      })
+      .addCase(getSingleProfileAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSingleProfileAsync.rejected, (state) => {
+        state.isError = true;
       })
 
       .addCase(getMyIDAsync.fulfilled, (state, action) => {
         state.userID = action.payload.data;
+      })
+
+      .addCase(getProfilesAmountAsync.fulfilled, (state, action) => {
+        state.profileAmount = action.payload.data;
       })
 
       .addCase(getUserSingleBlogCommentsAsync.fulfilled, (state, action) => {
@@ -146,11 +209,19 @@ export const profileSlice = createSlice({
 
 
 
-export const { setPoints } = profileSlice.actions;
+export const { setPoints, setMyID, updateSearchProfile } = profileSlice.actions;
+
+export const selectPagedForumisLoading = (state: RootState) => state.profile.isLoading;
+
+export const selectProfileisError = (state: RootState) => state.profile.isError;
+export const selectProfileisLoading = (state: RootState) => state.profile.isLoading;
+
+export const selectSearchProfile = (state: RootState) => state.profile.searchProfile;
 
 export const selectProfiles = (state: RootState) => state.profile.profiles;
 export const selectProfile = (state: RootState) => state.profile.profile;
 export const selectUserID = (state: RootState) => state.profile.userID;
+export const selectProfilesAmount = (state: RootState) => state.profile.profileAmount;
 export const selectSingleBlogUserComments = (state: RootState) => state.profile.user_blogs;
 export const selectUserAnsweredQuizes = (state: RootState) => state.profile.user_quizes;
 

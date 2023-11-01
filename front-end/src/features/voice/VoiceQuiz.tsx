@@ -4,8 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getSingleVoiceSubjectAsync, selectSingleSubjectOfVoice } from '../administrator/administratorSlice';
 import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
-import { getVoicesOfSubjectAsync, selectSubjectQuizes } from './voiceSlice';
+import { getVoicesOfSubjectAsync, postAnswerVoiceAsync, selectSubjectQuizes, selectVoiceQuestionsisLoading } from './voiceSlice';
 import { myServer } from '../../endpoints/endpoints';
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -33,13 +34,11 @@ const userID = useAppSelector(selectUserID);
 
 useEffect(() => {
   if (storedIsLogged) {
-    if (!userID) {
   dispatch(getProfileAsync()).then(() => {
     const storedPoints = JSON.parse(localStorage.getItem("points") as string);
     const profilePoints = myProfile.points;
     setUserPoints(storedPoints !== null ? storedPoints : profilePoints);
   });
-  }
 }
 }, []);
 
@@ -81,13 +80,16 @@ useEffect(() => {
       user_answer: userAnswers,
     };
 
-    // dispatch(postAnswerVoiceAsync({ voiceAnswerData, answers }));
+    dispatch(postAnswerVoiceAsync({ voiceAnswerData, answers }));
 
 
     setTimeout(() => {
       navigate("/quizes/voice_quiz/voice_finish");
     }, 150);
   };
+
+
+  const isLoading = useAppSelector(selectVoiceQuestionsisLoading);
 
 
   return (
@@ -101,7 +103,13 @@ useEffect(() => {
             <div style = {{padding: "3%"}}>
             <h1>Voice Quiz</h1><br/>
 
-              {singleSubject.description}
+            {isLoading ? (
+          <div>
+            <CircularProgress />
+            </div>
+            ) : (
+              singleSubject.description)}
+              
             </div>
           </Card>
           <br />
@@ -114,21 +122,31 @@ useEffect(() => {
               {QuizQuestions.map((question, index) => (
     <div key={question.id}>
 
+                    {isLoading ? (
+                      <div>
+                        <CircularProgress />
+                        </div>
+                        ) : (
         <audio controls controlsList = "nodownload" style = {{width: '100%'}}>
           <source src={myServer + question.question} />
           Your browser does not support the audio element.
-        </audio>
+        </audio>)}
 
-    <ListGroup variant="flush" style={{ padding: "5%" }}>
-      <Form.Group controlId={`formAnswer${index}`}>
-        <Form.Control
-          type="textarea"
-          onChange={(e: any) => handleAnswerChange(e, index)}
-        />
-      </Form.Group>
-    </ListGroup>
-  </div>
-))}
+              {isLoading ? (
+                    <div>
+                      <CircularProgress />
+                    </div>
+                      ) : (
+                  <ListGroup variant="flush" style={{ padding: "5%" }}>
+                    <Form.Group controlId={`formAnswer${index}`}>
+                      <Form.Control
+                        type="textarea"
+                        onChange={(e: any) => handleAnswerChange(e, index)}
+                      />
+                    </Form.Group>
+                  </ListGroup>)}
+                </div>
+              ))}
                  
               
             </Card.Body>

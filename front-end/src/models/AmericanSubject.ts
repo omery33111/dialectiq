@@ -14,4 +14,7 @@ export interface AmericanSubject {
       subjectAmericans: AmericanQuestion[]
       subjects: AmericanSubject[];
       subject: AmericanSubject;
+
+      isLoading: boolean;
+      isError: boolean;
     };

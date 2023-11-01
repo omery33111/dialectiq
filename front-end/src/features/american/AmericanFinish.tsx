@@ -16,7 +16,7 @@ const AmericanFinish = () => {
 
   useEffect(() => {
     if (storedIsLogged) {
-      if (!userID) {
+      if (userID) {
     dispatch(getProfileAsync());
   }
 }
@@ -26,8 +26,10 @@ const AmericanFinish = () => {
 
 
   const timer = setTimeout(() => {
-    navigate('/quizes/american_quiz/subjects');
+    // navigate('/quizes/american_quiz/subjects');
   }, 5000);
+
+  
 
   return (
     <div className="page-container">
@@ -35,32 +37,39 @@ const AmericanFinish = () => {
       <img className="congrats-image" src={require('../../images/congrats.png')} alt="congrats" width="600" height="300" />
 
       <div className="centered-container">
-        <h1 className="points-count-quiz">
-          <CountUp start={0} end={myProfile.points - localStoragePoints} duration={2} />
-        </h1>
+  {storedIsLogged ? (
+    <h1 className="points-count-quiz">
+      <CountUp start={0} end={myProfile.points - localStoragePoints} duration={2} />
+    </h1>
+  ) : (
+    <div className="animate-pop">
+      You successfully completed the test!
+    </div>
+  )}
 
-          
-        <div className = 'redirected'>
-        <h5>YOU ARE BEING REDIRECTED...</h5>
-      </div>
-      <ConfettiExplosion
-          force={0.9}          
-          duration={4500}      
-          particleCount={400}
-          width={2300}         
-          height="180vh"       
-          particleSize={10}/>
+  <div className='redirected'>
+    <h5>YOU ARE BEING REDIRECTED...</h5>
+  </div>
+  <ConfettiExplosion
+    force={0.9}
+    duration={4500}
+    particleCount={400}
+    width={2300}
+    height="180vh"
+    particleSize={10}
+  />
+</div>
 
 
-
-
-
-
-      </div>
       <br />
       <br />
-
-      <img className="congrats-message-image" src={require('../../images/congratsmessageamerican.png')} alt="congratsmessageamerican" width="750" height="200" />
+      {storedIsLogged ? (
+        <img className="congrats-message-image" src={require('../../images/congratsmessageamerican.png')} alt="congratsmessageamerican" width="750" height="200" />
+      ) : (
+        <img className="congrats-message-image" src={require('../../images/congratsmessagequiznonprem.png')} alt="congratsmessageamerican" width="750" height="200" />
+      )}
+      
+      
     </div>
   );
 };

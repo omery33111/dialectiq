@@ -3,10 +3,11 @@ import { changeCommentAsync, deleteCommentAsync, getCommentsAsync, selectComment
 import {  Button, Card, Form, Modal } from 'react-bootstrap';
 import { myServer } from '../../endpoints/endpoints';
 import { useNavigate, useParams } from 'react-router-dom';
-import { selectProfile } from '../profile/profileSlice';
+import { selectProfile, selectProfileisLoading } from '../profile/profileSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { BsFillPencilFill, BsSend, BsTrashFill } from 'react-icons/bs';
-import { getSingleBlogAsync, selectSingleBlog } from '../blog/blogSlice';
+import { getSingleBlogAsync, selectBlogisLoading, selectSingleBlog } from '../blog/blogSlice';
+import { CircularProgress } from '@mui/material';
 
 const BlogComments = () => {
     const dispatch = useAppDispatch();
@@ -81,6 +82,8 @@ const BlogComments = () => {
 
     const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
+    const isLoading = useAppSelector(selectBlogisLoading);
+
     return (
         <div>
             <div className="comment-container">
@@ -89,20 +92,36 @@ const BlogComments = () => {
                 {firstComment && (
                     <Card key={firstComment.id} className="comment-card">
                         <Card.Body className="comment-body">
+                        {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
                             <img
                                 onClick = {() => navigate(`/profile/user_profile/${firstComment.user}/`)} style = {{cursor: 'pointer'}}
                                 src={myServer + firstComment.profile.picture}
                                 alt={`${firstComment.profile.first_name} ${firstComment.profile.last_name}`}
                                 className="user-picture"
-                            />
+                            />)}
                             <div>
+                            {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
                                 <Card.Title onClick = {() => navigate(`/profile/user_profile/${firstComment.user}/`)} style = {{cursor: 'pointer', width: "100%"}}>
-                                    {firstComment.profile.first_name || 'UNKNOWN'}{' '}
-                                    {firstComment.profile.last_name || 'UNKNOWN'}
-                                </Card.Title>
+                                    
+                                    {firstComment.profile.first_name}{' '}
+                                    {firstComment.profile.last_name}
+                                </Card.Title>)}
+                                {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
                                 <Card.Title  onClick = {() => navigate(`/profile/user_profile/${firstComment.user}/`)} style = {{cursor: 'pointer', width: "100%"}}>
-                                    <h6>{firstComment.profile.location || 'UNKNOWN'}</h6>
-                                </Card.Title>
+                                    <h6>{firstComment.profile.location}</h6>
+                                </Card.Title>)}
 
                                     
 
@@ -167,19 +186,34 @@ const BlogComments = () => {
                 {remainingComments.map(comment => (
                     <Card key={comment.id} className="comment-card">
                         <Card.Body className="comment-body">
+                        {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
                             <img
                                 src={myServer + comment.profile.picture}
                                 alt={`${comment.profile.first_name} ${comment.profile.last_name}`}
                                 className="user-picture"
-                            />
+                            />)}
                             <div>
+                            {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
                                 <Card.Title onClick = {() => navigate(`/profile/user_profile/${comment.user}/`)} style = {{cursor: 'pointer', width: "100%"}}>
-                                    {comment.profile.first_name || 'UNKNOWN'}{' '}
-                                    {comment.profile.last_name || 'UNKNOWN'}
-                                </Card.Title>
+                                    {comment.profile.first_name}{' '}
+                                    {comment.profile.last_name}
+                                </Card.Title>)}
+                                {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
                                 <Card.Title onClick = {() => navigate(`/profile/user_profile/${comment.user}/`)} style = {{cursor: 'pointer', width: "100%"}}>
-                                    <h6>{comment.profile.location || 'UNKNOWN'}</h6>
-                                </Card.Title>
+                                    <h6>{comment.profile.location}</h6>
+                                </Card.Title>)}
                                 <Card.Text>
 
                                 {editingCommentId === comment.id ? (
@@ -206,7 +240,12 @@ const BlogComments = () => {
                                 )}
 
                                     </Card.Text>
-                                <small className = 'comment-date'>{formatDate(comment.date)}</small>
+                                    {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
+                                <small className = 'comment-date'>{formatDate(comment.date)}</small>)}
 
                                 {String(comment.user) === String(userProfile.user) && (
                                     <div className = "edit-delete">
@@ -280,11 +319,11 @@ const BlogComments = () => {
                                 />
                                 <div>
                                     <Card.Title  onClick = {() => navigate(`/profile/user_profile/${comment.user}/`)} style = {{cursor: 'pointer', width: "100%"}}>
-                                        {comment.profile.first_name || 'UNKNOWN'}{' '}
-                                        {comment.profile.last_name || 'UNKNOWN'}
+                                        {comment.profile.first_name}{' '}
+                                        {comment.profile.last_name}
                                     </Card.Title>
                                     <Card.Title  onClick = {() => navigate(`/profile/user_profile/${comment.user}/`)} style = {{cursor: 'pointer', width: "100%"}}>
-                                        <h6>{comment.profile.location || 'UNKNOWN'}</h6>
+                                        <h6>{comment.profile.location}</h6>
                                     </Card.Title>
                                     <Card.Text>{comment.comment}</Card.Text>
                                     <small style = {{position: "absolute", bottom: 3, right: 11, color: "grey"}}>{formatDate(comment.date)}</small>

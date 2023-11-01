@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Button, Container, Table, Modal } from 'react-bootstrap';
 import { BsTrash, BsTrashFill } from 'react-icons/bs';
-import { selectBlogs, getBlogsAsync } from '../blog/blogSlice';
+import { selectBlogs, getBlogsAsync, getPagedBlogsAsync, getBlogsAmountAsync, selectBlogsAmount } from '../blog/blogSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Blog } from '../../models/Blog';
 import { deleteBlogAsync } from './administratorSlice';
 import { useNavigate } from 'react-router-dom';
 import { myServer } from '../../endpoints/endpoints';
+import { Pagination } from '@mui/material';
 
 const BlogPanel = () => {
   const dispatch = useAppDispatch();
@@ -37,14 +38,37 @@ const BlogPanel = () => {
     }
   };
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getBlogsAsync());
-  }, [dispatch]);
+    dispatch(getPagedBlogsAsync(page));
+
+    dispatch(getBlogsAmountAsync());
+  }, [page]);
+
+  const blogsAmount = useAppSelector(selectBlogsAmount);
+
+  const itemsPerPage = 5;
+
+  const totalPages = Math.ceil(blogsAmount / itemsPerPage);
+
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
 
   return (
     <div>
       <div style={{ height: 200 }} />
       <Container className="blog-table">
+      <div className="pagination-admin">
+        <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(event, newPage) => setPage(newPage)}
+              size="small"
+            />
+          </div>
         <h1 style={{ padding: "15px" }}>BLOG</h1>
         <br />
         <br />

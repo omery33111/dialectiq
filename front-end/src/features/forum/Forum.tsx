@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { getForumProfilesAsync, selectProfiles } from "../profile/profileSlice";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import Pagination from "react-bootstrap/Pagination";
-import { Card, Container } from "react-bootstrap";
-import { myServer } from "../../endpoints/endpoints";
+import Pagination from '@mui/material/Pagination';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { useEffect, useState } from "react";
+import { Card, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import ReactFlipCard from 'reactjs-flip-card'
+import ReactFlipCard from 'reactjs-flip-card';
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { myServer } from "../../endpoints/endpoints";
+import { getForumProfilesAsync, getProfilesAmountAsync, selectPagedForumisLoading, selectProfiles, selectProfilesAmount } from "../profile/profileSlice";
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -19,10 +20,25 @@ const Forum = () => {
 
   useEffect(() => {
     dispatch(getForumProfilesAsync(page));
+
+    dispatch(getProfilesAmountAsync());
   }, [page]);
 
   const profiles = useAppSelector(selectProfiles);
+  const profilesAmount = useAppSelector(selectProfilesAmount);
 
+  
+  const ItemsPerPage = 8;
+
+  const totalPages = Math.ceil(profilesAmount / ItemsPerPage);
+
+  // Calculate the page numbers for the "next" pages
+  const nextPages = [];
+  for (let i = page; i <= totalPages && i <= page + 4; i++) {
+    nextPages.push(i);
+  }
+
+  
   const ProgressBarColor = (points: any) => {
     if (points >= 0 && points < 250) {
       return "grey";
@@ -45,24 +61,24 @@ const Forum = () => {
     }
   };
 
+  const isLoading = useAppSelector(selectPagedForumisLoading);
   
-  const itemsPerPage = 12;
-
-  const hasMorePages = profiles.length === itemsPerPage;
-  
-
   return (
     <div>
+
       <Container>
-      <div style={{ height: "20rem" }} />
+      <div style={{ height: "18rem" }} />
+      <hr/>
 
       <div className="pagination-container">
-          <Pagination>
-            <Pagination.Prev onClick={() => setPage(page - 1)} disabled={page === 1} />
-            <Pagination.Item active>{page}</Pagination.Item>
-            <Pagination.Next onClick={() => setPage(page + 1)} disabled={!hasMorePages} />
-          </Pagination>
+      <Pagination
+            count={totalPages}
+            page={page}
+            onChange={(event, newPage) => setPage(newPage)}
+            size="small"
+          />
         </div>
+
 
       <div className="forum-container">
         {profiles.map((profile) => (
@@ -73,13 +89,19 @@ const Forum = () => {
       flipTrigger="onHover" // You can choose "onClick" or "disabled" as well
       frontComponent={
             <Card className="forum-item" onClick = {() => navigate(`/profile/user_profile/${profile.user}/`)} style = {{borderRadius: '5%'}}>
+
+          {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
               <img
                 alt="profilepic"
                 height={286}
                 width={287}
                 src={myServer + profile.picture}
                 style = {{borderRadius: '5%'}}
-              />
+              />)}
               
               <div style = {{borderRadius: '5%'}}>
               <img
@@ -91,6 +113,11 @@ const Forum = () => {
                     </div>
 
 
+                    {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
                 <div className="circle-container-forum">
                   <div
                     className="circle"
@@ -101,21 +128,31 @@ const Forum = () => {
                   >
                     <h4>{profile.points}</h4>
                   </div>
-                </div>
+                </div>)}
 
             </Card>}
 
             backComponent={
             <Card className="forum-item" onClick = {() => navigate(`/profile/user_profile/${profile.user}/`)} style = {{borderRadius: '5%'}}>
+              {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
               <img
                 alt="mypicture"
                 height={260}
                 width={287}
                 src={myServer + profile.picture}
                 style = {{borderRadius: '5%'}}
-              />
+              />)}
               <div className = "forum-progressbar">
                 <div className="circle-container">
+                {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
                   <div
                     className="circle"
                     style={{
@@ -123,29 +160,49 @@ const Forum = () => {
                       marginRight: "-9px",
                     }}>
                     <h4>{profile.points}</h4>
-                  </div>
+                  </div>)}
+                  {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
                   <div className="progress-bar-forum">
                     <ProgressBar
                       bgColor={ProgressBarColor(profile.points)}
                       completed={(profile.points / 2000) * 100}
                       customLabel={profile.points.toLocaleString()}
                     />
-                  </div>
+                  </div>)}
                 </div>
               </div>
               <Card.Body style = {{position: "relative", top: -52}}>
+              {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
                 <Card.Title>
                   {profile.first_name ? `${profile.first_name}` : "UNKNOWN"}{" "}
                   {profile.last_name ? `${profile.last_name}` : "UNKNOWN"}
-                </Card.Title>
+                </Card.Title>)}
+                {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
                 <Card.Text style={{ fontSize: "0.7rem" }}>
                   <b style={{ position: "relative", top: -5 }}>
                     {profile.location ? `${profile.location}` : "UNKNOWN"}
                   </b>
-                </Card.Text>
+                </Card.Text>)}
+                {isLoading ? (
+              <div>
+              <CircularProgress />
+              </div>
+            ) : (
                 <Card.Text>
                   {profile.bio ? `${profile.bio}` : "UNKNOWN"}
-                </Card.Text>
+                </Card.Text>)}
               </Card.Body>
             </Card>}/>
             <br />

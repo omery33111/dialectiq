@@ -18,6 +18,9 @@ from quiz_american.models import AmericanSubject
 from quiz_sentence.serializers import QuizSentenceAnswer
 from quiz_sentence.models import SentenceSubject
 
+from quiz_voice.serializers import QuizVoiceAnswer
+from quiz_voice.models import VoiceSubject
+
 
 
 # ------------------------- PROFILE START ------------------------- #
@@ -114,30 +117,30 @@ def user_answered_quizes(request, pk=-1):
     # Get all the SentenceSubject IDs that the user has answered once
     answered_sentence_subject_ids = QuizSentenceAnswer.objects.filter(user_id=user_id).values_list('question__subject__id', flat=True)
 
-    # Get all the AmericanSubject objects that the user has answered once
+    # Get all the VoiceSubject IDs that the user has answered
+    answered_voice_subject_ids = QuizVoiceAnswer.objects.filter(user_id=user_id).values_list('question__subject__id', flat=True)
+
+    # Get all the subjects that the user has answered
     user_quizes = AmericanSubject.objects.filter(id__in=answered_american_subject_ids).distinct()
-
-    # Get all the SentenceSubject objects that the user has answered once
     user_quizes_sentence = SentenceSubject.objects.filter(id__in=answered_sentence_subject_ids).distinct()
+    user_quizes_voice = VoiceSubject.objects.filter(id__in=answered_voice_subject_ids).distinct()
 
-    # Combine the two querysets into a single queryset
-    user_quizes = user_quizes.union(user_quizes_sentence)
+    # Combine the subject objects into a single list
+    all_subjects = list(user_quizes) + list(user_quizes_sentence) + list(user_quizes_voice)
 
-    # Get the descriptions, subject names, and pictures of the once answered AmericanSubject objects
-    once_answered_american_subject_data = []
-    for american_subject in user_quizes:
-        once_answered_american_subject_data.append({
-            'id': american_subject.id,  # Add the 'id' field here
-            'description': american_subject.description,
-            'subject_name': american_subject.subject_name,
-            'picture': american_subject.picture.url,
+    # Get the descriptions, subject names, and pictures of the once answered subjects
+    once_answered_subject_data = []
+    for subject in all_subjects:
+        once_answered_subject_data.append({
+            'id': subject.id,  # Add the 'id' field here
+            'description': subject.description,
+            'subject_name': subject.subject_name,
+            'picture': subject.picture.url,
         })
 
-    # Return the once answered AmericanSubject data
-    try:
-        return Response(once_answered_american_subject_data, status=status.HTTP_200_OK)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    # Return the once answered subject data
+    return Response(once_answered_subject_data, status=status.HTTP_200_OK)
+
 
     
 
@@ -156,17 +159,11 @@ def user_update(request, pk = -1):
 
 
 @api_view(["GET"])
-def forum_profiles(request):
-    # Define the number of profiles to load per page
+def forum_profiles(request, page):
     profiles_per_page = 8
 
-    # Get the page number from the query parameter
-    page = request.GET.get("page", 1)
+    all_profiles = Profile.objects.order_by('-points')
 
-    # Query all profiles and order them by a field (e.g., you can order by the date field)
-    all_profiles = Profile.objects.order_by("date")
-
-    # Use Django Paginator to paginate the profiles
     paginator = Paginator(all_profiles, profiles_per_page)
 
     try:
@@ -174,27 +171,23 @@ def forum_profiles(request):
     except PageNotAnInteger:
         return Response({"error": "Invalid page number."}, status=400)
 
-    # Serialize the profiles to JSON using the ProfileSerializer
     serializer = ProfileSerializer(profiles, many=True)
 
     return Response(serializer.data)
 
 
 @api_view(["GET"])
+def profiles_amount(request):
+    profiles_amount = Profile.objects.count()
+    return Response({profiles_amount}, status=status.HTTP_200_OK)
+
+
+
+@api_view(["GET"])
 def search_profile(request):
-    first_name = request.GET.get("first_name", None)
-
-    # Check if the first_name parameter is None
-    if first_name is None:
-        return Response({"error": "The first_name parameter is required."})
-
-    # Filter the Profile objects by first_name
-    profiles = Profile.objects.filter(first_name__icontains=first_name)
-
-    # Serialize the Profile objects
+    first_name = request.GET.get("user_name", "")
+    profiles = Profile.objects.filter(first_name__startswith=first_name)
     serializer = ProfileSerializer(profiles, many=True)
-
-    # Return the serialized Profile objects
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 # ------------------------- PROFILE END ------------------------- #

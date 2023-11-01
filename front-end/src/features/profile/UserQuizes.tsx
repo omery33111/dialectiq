@@ -28,51 +28,59 @@ const UserQuizes = () => {
 
   return (
     <div>
-      {userComments.length + userQuizes.length < 2 ? ("") : (
-    <div>
-    <div className = 'profile-hierarchy'>
-
-      <div className = "scrollbar-pic-quiz">
-
+      {userQuizes.length > 0 ? (
         
-          
-          <div>
-          <img
-            src={require('../../images/recentquizes.png')}
-            width = "340"/>
-            <br/>
-            <br/>
-            </div>
+        <div>
 
+{userComments.length > 0 ? (
+  <div>
+  <div className = 'profile-hierarchy'>
+
+    <div className = "scrollbar-pic-quiz">
+
+      
         
-          
+        <div>
+        <img
+          src={require('../../images/recentquizes.png')}
+          width = "340"/>
+          <br/>
+          <br/>
           </div>
 
-    <div className = "scrollbar-user-comments">
-    {userQuizes.slice().reverse().map((quiz, index) => (
-        <div key={index}>
-            <Card
-              className="card-with-bg-image"
-              style={{ cursor: "pointer", backgroundImage: `url(${myServer + quiz.picture})`, margin: "0px", marginTop: `${index === 0 ? 0 : 10}px`, marginBottom: `${index === userQuizes.length - 1 ? 0 : 10}px` }}
-            >
-              <Card.Body>
-                <Card.Title className='profile-american-subject-card-text' style = {{color: "white"}}>{quiz.subject_name}</Card.Title>
-                <Card.Text className='profile-american-subject-card-text' style = {{color: "white"}}>
-                  {quiz.description}
-                </Card.Text>
-              </Card.Body>
-              
-            </Card>
-            </div>
-            
-          ))}
-          
       
-    </div>
+        
+        </div>
+
+  <div className = "scrollbar-user-comments">
+  {userQuizes.slice().reverse().map((quiz, index) => (
+      <div key={index}>
+          <Card
+            className="card-with-bg-image"
+            style={{ cursor: "pointer", backgroundImage: `url(${myServer + quiz.picture})`, margin: "0px", marginTop: `${index === 0 ? 0 : 10}px`, marginBottom: `${index === userQuizes.length - 1 ? 0 : 10}px` }}
+          >
+            <Card.Body>
+              <Card.Title className='profile-american-subject-card-text' style = {{color: "white"}}>{quiz.subject_name}</Card.Title>
+              <Card.Text className='profile-american-subject-card-text' style = {{color: "white"}}>
+                {quiz.description}
+              </Card.Text>
+            </Card.Body>
+            
+          </Card>
+          </div>
+          
+        ))}
+        
     
-    </div>
-    </div>
-    )}
+  </div>
+  
+  </div>
+  </div>
+) : ("")}
+
+        </div>
+      ) : ("")}
+      
     </div>
   );
 };

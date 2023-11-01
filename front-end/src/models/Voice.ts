@@ -1,4 +1,5 @@
 import { SentenceQuestion } from "./Sentence";
+import { VoiceAnswer } from "./VoiceAnswer";
 import { VoiceSubject } from "./VoiceSubject";
 
 
@@ -19,8 +20,13 @@ export interface VoiceQuestion {
       subjects: VoiceSubject[];
       subject: VoiceSubject;
 
-      // sentenceAnswer: SentenceAnswer;
-      // sentenceAnswers: SentenceAnswer[];
+      voiceAnswer: VoiceAnswer;
+      voiceAnswers: VoiceAnswer[];
 
       // selectedAnswers: boolean;
+
+      voiceSubjectAmount: number;
+
+      isLoading: boolean;
+      isError: boolean;
     };

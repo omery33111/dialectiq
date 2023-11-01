@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { Container, Card, ListGroup, Button } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAmericansOfSubjectAsync, selectSubjectAmericans } from '../administrator/administratorSlice';
+import { getAmericansOfSubjectAsync, selectAmericanQuestionsisLoading, selectSubjectAmericans } from '../administrator/administratorSlice';
 import { getSingleAmericanSubjectAsync, postAnswerAmericanAsync, saveAnswers, selectSingleSubjectOfAmerican } from './americanSlice';
 import { AmericanQuestion } from '../../models/American';
 import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -89,6 +90,10 @@ useEffect(() => {
   };
 
 
+  const isLoading = useAppSelector(selectAmericanQuestionsisLoading);
+  
+
+
   return (
     <div>
     <div style={{ height: 200 }} />
@@ -100,7 +105,13 @@ useEffect(() => {
             <div style = {{padding: "3%"}}>
             <h1>MULTI CHOICE TEST</h1><br/>
 
-              {singleSubject.description}
+            {isLoading ? (
+          <div>
+            <CircularProgress />
+            </div>
+            ) : (
+              singleSubject.description)}
+
             </div>
           </Card>
           <br />
@@ -113,7 +124,13 @@ useEffect(() => {
                   {QuizQuestions.map((question: AmericanQuestion, questionIndex: number) => (
                     <div key={question.id}>
                       <ListGroup variant="flush" style={{ padding: "5%" }}>
-                        <h5>{question.question}</h5>
+
+                      {isLoading ? (
+                      <div>
+                        <CircularProgress />
+                        </div>
+                        ) : (
+                        <h5>{question.question}</h5>)}
 
                         <div className="american-quiz-answers">
                           {['1', '2', '3', '4'].map((option, answerIndex) => (
@@ -126,7 +143,15 @@ useEffect(() => {
                                   value={answerIndex}
                                   checked={selectedAnswers[questionIndex] === answerIndex}
                                   onChange={() => handleAnswerSelect(questionIndex, answerIndex)}/>
+
+                        {isLoading ? (
+                                  <div>
+                                    <CircularProgress />
+                                    </div>
+                                    ) : 
+                                    (<>
                                 {` ${question[`answer${answerIndex + 1}` as keyof AmericanQuestion]}`}
+                                </>)}
 
                               </label>
                             </div>

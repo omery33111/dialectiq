@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { AmericanState } from '../../models/American';
-import { getAmericans, getSingleAmerican, getSingleAmericanSubject, postAnswerAmerican } from './americanAPI';
+import { getAmericanSubjectsAmount, getAmericans, getPagedAmericanSubjects, getSingleAmerican, getSingleAmericanSubject, postAnswerAmerican } from './americanAPI';
 
 
 
@@ -17,7 +17,12 @@ const initialState: AmericanState = {
   americanAnswer: {id: "", user: 0, user_answer: 0, question: 0},
   americanAnswers: [],
   
-  selectedAnswers: false
+  selectedAnswers: false,
+
+  americanSubjectAmount: 0,
+
+  isLoading: false,
+  isError: false
 };
 
 
@@ -26,6 +31,25 @@ export const getAmericansAsync = createAsyncThunk('administrator/getAmericans', 
   const response = await getAmericans();
   return response.data;
 });
+
+
+
+export const getPagedAmericanSubjectsAsync = createAsyncThunk(
+  "american/getPagedAmericanSubjects",
+  async (page: number) => {
+    const response = await getPagedAmericanSubjects(page);
+    return response;
+  }
+);
+
+
+export const getAmericanSubjectsAmountAsync = createAsyncThunk(
+  "american/getAmericanSubjectsAmount",
+  async () => {
+    const response = await getAmericanSubjectsAmount();
+    return response;
+  }
+);
 
 
 
@@ -73,6 +97,21 @@ export const americanSlice = createSlice({
         state.americans = action.payload;
       })
 
+      .addCase(getPagedAmericanSubjectsAsync.fulfilled, (state, action) => {
+        state.subjects = action.payload.data;
+        state.isLoading = false;
+      })
+      .addCase(getPagedAmericanSubjectsAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getPagedAmericanSubjectsAsync.rejected, (state) => {
+        state.isError = true;
+      })
+
+      .addCase(getAmericanSubjectsAmountAsync.fulfilled, (state, action) => {
+        state.americanSubjectAmount = action.payload.data;
+      })
+
       .addCase(getSingleAmericanAsync.fulfilled, (state, action) => {
         state.american = action.payload
       })
@@ -90,6 +129,10 @@ export const americanSlice = createSlice({
 
 
 export const { saveAnswers } = americanSlice.actions;
+
+export const selectPagedAmericanSubjectisLoading = (state: RootState) => state.american.isLoading;
+
+export const selectAmericanSubjectsAmount = (state: RootState) => state.american.americanSubjectAmount;
 
 export const selectAmericans = (state: RootState) => state.american.americans;
 export const selectSingleAmerican = (state: RootState) => state.american.american;

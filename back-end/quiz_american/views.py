@@ -1,16 +1,15 @@
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 from profile_user.models import Profile
 
 from quiz_american.serializers import QuizAmericanAnswerSerializer, AmericanSubjectSerializer, GetQuizAmericanSerializer
 from quiz_american.models import QuizAmerican, AmericanSubject, QuizAmericanAnswer
+from django.core.paginator import Paginator, PageNotAnInteger
 
 
 
-@permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def post_answer_american_quiz(request):
     if request.method == 'POST':
@@ -19,52 +18,64 @@ def post_answer_american_quiz(request):
         response_data_list = []
 
         for answer in answers:
-            serializer = QuizAmericanAnswerSerializer(data=answer, context={"user": request.user})
-            if serializer.is_valid():
-                serializer.save()
+            if request.user.is_authenticated:
+                serializer = QuizAmericanAnswerSerializer(data=answer, context={"user": request.user})
+                if serializer.is_valid():
+                    serializer.save()
 
-                user_answer = serializer.validated_data['user_answer']
+                    user_answer = serializer.validated_data['user_answer']
 
-                question = serializer.validated_data['question']
+                    question = serializer.validated_data['question']
 
-                correct_answer = question.correct_answer
+                    correct_answer = question.correct_answer
 
-                # Access the subject of the question
-                subject_id = question.subject.id if question.subject else None
+                    # Access the subject of the question
+                    subject_id = question.subject.id if question.subject else None
 
-                user_profile = Profile.objects.get(user=request.user)
+                    try:
+                        user_profile = Profile.objects.get(user=request.user)
+                    except Profile.DoesNotExist:
+                        user_profile = None
 
-                # Initialize quiz_count
-                quiz_count = None
+                    # Initialize quiz_count
+                    quiz_count = None
 
-                if user_answer == correct_answer:
-                    if user_profile.is_question_answered_correctly(question):
-                        response_data = {"result": "You already answered this question correctly."}
+                    if user_answer == correct_answer:
+                        if user_profile:
+                            if user_profile.is_question_answered_correctly(question):
+                                response_data = {"result": "You already answered this question correctly."}
+                            else:
+                                # Calculate points per question based on quiz_count
+                                if subject_id is not None:
+                                    quiz_count = QuizAmerican.objects.filter(subject_id=subject_id).count()
+                                    if quiz_count > 0:
+                                        points_per_question = 100 / quiz_count
+                                        user_profile.points += points_per_question
+                            if user_profile:
+                                user_profile.mark_question_answered_correctly(question)
+                                user_profile.save()
+                            response_data = {"result": "Correct!"}
+                        else:
+                            response_data = {"result": "Correct! (Not connected)"}
                     else:
-                        # Calculate points per question based on quiz_count
-                        if subject_id is not None:
-                            quiz_count = QuizAmerican.objects.filter(subject_id=subject_id).count()
-                            if quiz_count > 0:
-                                points_per_question = 100 / quiz_count
-                                user_profile.points += points_per_question
-                        response_data = {"result": "Correct!"}
-                        user_profile.mark_question_answered_correctly(question)
-                    user_profile.save()
+                        if user_profile:
+                            if user_profile.is_question_answered_correctly(question):
+                                user_profile.points -= 5
+                                user_profile.save()
+                        response_data = {"result": "Wrong!"}
+
+                    response_data['subject'] = subject_id
+
+                    if subject_id is not None:
+                        response_data['quiz_count'] = quiz_count
+
+                    response_data_list.append(response_data)
+
                 else:
-                    if user_profile.is_question_answered_correctly(question):
-                        user_profile.points -= 5
-                        user_profile.save()
-                    response_data = {"result": "Wrong!"}
-
-                response_data['subject'] = subject_id
-
-                response_data_list.append(response_data)
-
-                if subject_id is not None:
-                    response_data['quiz_count'] = quiz_count
-
+                    response_data_list.append(serializer.errors)
             else:
-                response_data_list.append(serializer.errors)
+                response_data = {"result": "Not connected"}
+                response_data_list.append(response_data)
 
         return Response(response_data_list, status=200)
 
@@ -96,6 +107,30 @@ def get_american_subjects(request):
         subjects = AmericanSubject.objects.all()
         serializer = AmericanSubjectSerializer(subjects, many = True)
         return Response(serializer.data)
+    
+
+@api_view(["GET"])
+def paged_american_subjects(request, page):
+    americans_per_page = 7
+
+    all_americans = AmericanSubject.objects.order_by('date')
+
+    paginator = Paginator(all_americans, americans_per_page)
+
+    try:
+        americans = paginator.page(page)
+    except PageNotAnInteger:
+        return Response({"error": "Invalid page number."}, status=400)
+
+    serializer = AmericanSubjectSerializer(americans, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def american_subjects_amount(request):
+    american_subjects_amount = AmericanSubject.objects.count()
+    return Response({american_subjects_amount}, status=status.HTTP_200_OK)
     
 
 

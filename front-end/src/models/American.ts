@@ -27,4 +27,9 @@ export interface AmericanQuestion {
       americanAnswers: AmericanAnswer[];
 
       selectedAnswers: boolean;
+
+      americanSubjectAmount: number;
+
+      isLoading: boolean;
+      isError: boolean;
     };

@@ -4,6 +4,14 @@ import { profileURL } from "../../endpoints/endpoints";
 
 
 
+export function searchProfile(searchQuery: string)
+{
+  return new Promise<{ data: Profile[] }>((resolve) =>
+    axios.get(`${profileURL}/search_profile`, { params: { user_name: searchQuery }}).then((res) => resolve({ data: res.data })));
+}
+
+
+
 export function getProfile() {
     const myToken = JSON.parse(localStorage.getItem("token") as string)
     const accessToken = myToken ? myToken.access : "";
@@ -17,8 +25,9 @@ export function getProfile() {
 
 export function getForumProfiles(page: number) {
   return new Promise<{ data: Profile[] }>((resolve =>
-    axios.get(`${profileURL}/forum_profiles?page=${page}`).then(res => resolve({ data: res.data }))))}
-        
+    axios.get(`${profileURL}/forum_profiles/${page}/`).then(res => resolve({ data: res.data }))))
+}
+
 
         
 export function getUserSingleBlogComments(id: number) {
@@ -51,6 +60,12 @@ export function getMyID() {
       }
     return new Promise<{ data: any }>((resolve =>
         axios.get(profileURL + "/my_id", config).then(res => resolve({ data: res.data }))))}
+
+        
+
+export function getProfilesAmount() {
+    return new Promise<{ data: any }>((resolve =>
+        axios.get(profileURL + "/profiles_amount").then(res => resolve({ data: res.data }))))}
 
         
 

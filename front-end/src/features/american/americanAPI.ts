@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { AmericanQuestion } from "../../models/American";
 import { americanURL } from "../../endpoints/endpoints";
 import { AmericanSubject } from "../../models/AmericanSubject";
@@ -11,6 +11,17 @@ export function getAmericans()
   return new Promise<{ data: AmericanQuestion[] }>((resolve) =>
     axios.get(`${americanURL}/get_americans/`).then((res) => resolve({ data: res.data })));
 }
+
+
+export function getPagedAmericanSubjects(page: number) {
+  return new Promise<{ data: AmericanSubject[] }>((resolve =>
+    axios.get(`${americanURL}/paged_american_subjects/${page}/`).then(res => resolve({ data: res.data }))))
+}
+
+
+export function getAmericanSubjectsAmount() {
+  return new Promise<{ data: any }>((resolve =>
+      axios.get(`${americanURL}/american_subjects_amount/`).then(res => resolve({ data: res.data }))))}
 
 
 
@@ -41,12 +52,14 @@ export function getAmericanSubjects()
 
 
 export function postAnswerAmerican(americanAnswerData: AmericanAnswer, answers: { user_answer: number, question: number }[]) {
-  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const myToken = JSON.parse(localStorage.getItem("token") as string);
   const accessToken = myToken ? myToken.access : "";
 
-  let config = {
-      headers: { 'Authorization': `Bearer ${accessToken}` }
-    }
+  const config: AxiosRequestConfig = {}; // Define the config object with AxiosRequestConfig type
+
+  if (accessToken) {
+    config.headers = { 'Authorization': `Bearer ${accessToken}` };
+  }
 
   const data = {
     americanAnswerData: americanAnswerData,

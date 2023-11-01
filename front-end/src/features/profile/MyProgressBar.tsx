@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getProfileAsync, selectProfile } from './profileSlice';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { selectIsLogged } from '../authentication/authenticationSlice';
 
 
 
@@ -37,9 +38,14 @@ const MyProgressBar = () => {
         }
       };
     
+    
+    const isLogged = useAppSelector(selectIsLogged);
 
     useEffect(() => {
+      if (isLogged)
+      {
       dispatch(getProfileAsync());
+      }
     }, [dispatch]);
     
   return (

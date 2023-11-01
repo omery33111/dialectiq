@@ -23,4 +23,9 @@ export interface SentenceQuestion {
       sentenceAnswers: SentenceAnswer[];
 
       selectedAnswers: boolean;
+
+      sentenceSubjectAmount: number;
+
+      isLoading: boolean;
+      isError: boolean;
     };

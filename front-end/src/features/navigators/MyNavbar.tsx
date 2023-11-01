@@ -6,6 +6,7 @@ import { RiUserFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getMyIDAsync, selectUserID } from '../profile/profileSlice';
+import { selectIsLogged } from '../authentication/authenticationSlice';
 
 const MyNavbar = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,7 @@ const MyNavbar = () => {
 
   const storedIsStaff = JSON.parse(localStorage.getItem('is_staff') as string);
   const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
+  const storedUserID = JSON.parse(localStorage.getItem('myID') as string);
 
   const [shouldRefresh, setShouldRefresh] = useState(false);
 
@@ -23,16 +25,7 @@ const MyNavbar = () => {
     }
   }, [storedIsStaff]);
 
-  
   const userID = useAppSelector(selectUserID);
-
-  useEffect(() => {
-    if (storedIsLogged) {
-      if (!userID) {
-        dispatch(getMyIDAsync());
-      }
-    }
-  }, [dispatch, storedIsLogged]);
 
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -92,7 +85,7 @@ const MyNavbar = () => {
               </Nav.Link>
             )}
 
-            <Nav.Link href="/forum_profiles">
+            <Nav.Link href="/forum">
               <h3
                 style={{
                   color: 'white',
@@ -118,7 +111,7 @@ const MyNavbar = () => {
               </h3>
             </Nav.Link>
 
-            <Nav.Link href="/blog">
+            <Nav.Link href="/paged_blogs">
               <h3
                 style={{
                   color: 'white',
@@ -132,7 +125,7 @@ const MyNavbar = () => {
             </Nav.Link>
 
             {storedIsLogged ? (
-              <Nav.Link href={`/profile/user_profile/${userID}/`}>
+              <Nav.Link href={`/profile/user_profile/${storedUserID}/`}>
                 <h2 className="user-icon-top" style={{ color: 'white' }}>
                   <RiUserFill />
                 </h2>

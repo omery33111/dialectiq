@@ -5,7 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getAmericansOfSubjectAsync, getSingleSentenceSubjectAsync, selectSingleSubjectOfSentence, selectSubjectAmericans } from '../administrator/administratorSlice';
 import { AmericanQuestion } from '../../models/American';
 import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
-import { getSentencesOfSubjectAsync, postAnswerSentenceAsync, selectSubjectSentences } from './sentenceSlice';
+import { getSentencesOfSubjectAsync, postAnswerSentenceAsync, selectSentenceQuestionsisLoading, selectSubjectSentences } from './sentenceSlice';
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -90,6 +91,8 @@ useEffect(() => {
   };
 
 
+  const isLoading = useAppSelector(selectSentenceQuestionsisLoading);
+
 
   return (
     <div>
@@ -102,7 +105,13 @@ useEffect(() => {
             <div style = {{padding: "3%"}}>
             <h1>MULTI CHOICE TEST</h1><br/>
 
-              {singleSubject.description}
+            {isLoading ? (
+          <div>
+            <CircularProgress />
+            </div>
+            ) : (
+              singleSubject.description)}
+
             </div>
           </Card>
           <br />
@@ -114,17 +123,29 @@ useEffect(() => {
               
               {QuizQuestions.map((question, index) => (
   <div key={question.id}>
-    <h5>{question.question}</h5>
-    <ListGroup variant="flush" style={{ padding: "5%" }}>
-      <Form.Group controlId={`formAnswer${index}`}>
-        <Form.Control
-          type="textarea"
-          onChange={(e: any) => handleAnswerChange(e, index)}
-        />
-      </Form.Group>
-    </ListGroup>
-  </div>
-))}
+
+                    {isLoading ? (
+                      <div>
+                        <CircularProgress />
+                        </div>
+                        ) : (
+                        <h5>{question.question}</h5>)}
+
+                          {isLoading ? (
+                                  <div>
+                                    <CircularProgress />
+                                    </div>
+                                    ) : (
+                <ListGroup variant="flush" style={{ padding: "5%" }}>
+                  <Form.Group controlId={`formAnswer${index}`}>
+                    <Form.Control
+                      type="textarea"
+                      onChange={(e: any) => handleAnswerChange(e, index)}
+                    />
+                  </Form.Group>
+                </ListGroup>)}
+              </div>
+            ))}
                  
               
             </Card.Body>

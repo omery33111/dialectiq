@@ -14,4 +14,7 @@ export interface VoiceSubject {
       subjectVoices: VoiceQuestion[];
       subjects: VoiceSubject[];
       subject: VoiceSubject;
+
+      isLoading: boolean;
+      isError: boolean;
     };

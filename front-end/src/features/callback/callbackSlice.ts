@@ -6,7 +6,9 @@ import { RootState } from '../../app/store';
 
 
 const initialState: CallbackState = {
-  callbacks: []
+  callbacks: [],
+
+  callbackAmount: 0
 };
 
 

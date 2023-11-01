@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
-import BlogComments from '../comment/BlogComments'
-import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getSingleBlogAsync, selectLikes, toggleLike } from './blogSlice';
-import ReactPlayer from 'react-player';
-import { myServer } from '../../endpoints/endpoints';
+import { CircularProgress } from '@mui/material';
+import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { FaHeart } from 'react-icons/fa';
+import ReactPlayer from 'react-player';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import BlogComments from '../comment/BlogComments';
 import PostComment from '../comment/PostComment';
 import { getCommentsAsync } from '../comment/commentSlice';
+import { getSingleBlogAsync, selectLikes, selectSingleBlogisLoading, toggleLike } from './blogSlice';
 
 
 
@@ -43,8 +43,9 @@ const BlogPage = () => {
     return `${year}-${month}-${day}, ${hours}:${minutes}`;
   }
 
-
-
+  
+  const isLoading = useAppSelector(selectSingleBlogisLoading);
+  
 
   return (
     <div>
@@ -89,28 +90,45 @@ const BlogPage = () => {
                   }}
                 /> */}
 
-
+            {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
             <ReactPlayer
                   url={singleBlog.youtube}
                   controls
                   width="100%"
                   height="70vh"
-                />
+                />)}
 
             
 
 
 
                   </div>
+                      
+                  {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
+                  <h2 style = {{padding: "10px"}}>{singleBlog.title}</h2>)}
 
-                  <h2 style = {{padding: "10px"}}>{singleBlog.title}</h2>
-                  <p style = {{padding: "7px"}}>{singleBlog.description}</p>
+                    {isLoading ? (
+                      <div>
+                      <CircularProgress />
+                      </div>
+                    ) : (
+                  <p style = {{padding: "7px"}}>{singleBlog.description}</p>)}
+
                             <h3>
                 <FaHeart
                   className={`like-button-single ${likesRecord[singleBlog.id] ? 'liked' : ''}`}
                   onClick={() => dispatch(toggleLike({ blogId: singleBlog.id }))}
                 />
                 </h3>
+
                 <div className='counter-like-single' style = {{color: "grey"}}>
                 {likesRecord[singleBlog.id] || 0}
                 </div>

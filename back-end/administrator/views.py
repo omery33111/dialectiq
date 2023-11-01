@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.core.paginator import Paginator, PageNotAnInteger
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, BasePermission
@@ -18,6 +19,9 @@ from quiz_voice.models import QuizVoice, VoiceSubject
 
 from profile_user.serializers import ProfileSerializer
 from profile_user.models import Profile
+
+from callback.serializers import CallbackSerializer
+from callback.models import Callback
 
 
 
@@ -159,7 +163,7 @@ def post_sentence_quiz(request):
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
-    
+
 
 
 @api_view(["DELETE"])
@@ -334,3 +338,115 @@ def update_user_profile(request, pk = -1):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(["GET"])
+def paged_americans(request, page):
+    americans_per_page = 10
+
+    all_americans = QuizAmerican.objects.order_by('question')
+
+    paginator = Paginator(all_americans, americans_per_page)
+
+    try:
+        americans = paginator.page(page)
+    except PageNotAnInteger:
+        return Response({"error": "Invalid page number."}, status=400)
+
+    serializer = QuizAmericanSerializer(americans, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def americans_amount(request):
+    americans_amount = QuizAmerican.objects.count()
+    return Response({americans_amount}, status=status.HTTP_200_OK)
+
+
+
+@api_view(["GET"])
+def paged_sentences(request, page):
+    sentences_per_page = 10
+
+    all_sentences = QuizSentence.objects.order_by('question')
+
+    paginator = Paginator(all_sentences, sentences_per_page)
+
+    try:
+        sentences = paginator.page(page)
+    except PageNotAnInteger:
+        return Response({"error": "Invalid page number."}, status=400)
+
+    serializer = QuizSentenceSerializer(sentences, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def sentences_amount(request):
+    sentences_amount = QuizSentence.objects.count()
+    return Response({sentences_amount}, status=status.HTTP_200_OK)
+
+
+
+@api_view(["GET"])
+def paged_voices(request, page):
+    voices_per_page = 10
+
+    all_voices = QuizVoice.objects.order_by('question')
+
+    paginator = Paginator(all_voices, voices_per_page)
+
+    try:
+        voices = paginator.page(page)
+    except PageNotAnInteger:
+        return Response({"error": "Invalid page number."}, status=400)
+
+    serializer = QuizVoiceSerializer(voices, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def voices_amount(request):
+    voices_amount = QuizVoice.objects.count()
+    return Response({voices_amount}, status=status.HTTP_200_OK)
+
+
+
+@api_view(["GET"])
+def paged_callbacks(request, page):
+    callbacks_per_page = 10
+
+    all_callbacks = Callback.objects.order_by('date')
+
+    paginator = Paginator(all_callbacks, callbacks_per_page)
+
+    try:
+        callbacks = paginator.page(page)
+    except PageNotAnInteger:
+        return Response({"error": "Invalid page number."}, status=400)
+
+    serializer = CallbackSerializer(callbacks, many=True)
+
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def callbacks_amount(request):
+    callbacks_amount = Callback.objects.count()
+    return Response({callbacks_amount}, status=status.HTTP_200_OK)
+
+
+@permission_classes([IsAuthenticated, IsStaff])
+@api_view(["DELETE"])
+def delete_callback(request, pk = -1):
+    if request.method == "DELETE":
+        try:
+            callback = Callback.objects.get(pk = pk)
+            callback.delete()
+            return Response(status = status.HTTP_204_NO_CONTENT)
+        except Callback.DoesNotExist:
+            return Response(status = status.HTTP_404_NOT_FOUND)

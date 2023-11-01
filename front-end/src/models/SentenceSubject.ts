@@ -14,4 +14,7 @@ export interface SentenceSubject {
       subjectSentences: SentenceQuestion[]
       subjects: SentenceSubject[];
       subject: SentenceSubject;
+
+      isLoading: boolean;
+      isError: boolean;
     };

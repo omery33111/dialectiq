@@ -52,7 +52,8 @@ REST_FRAMEWORK = {
  
  
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes = 120),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes = 10),
+    # 'ACCESS_TOKEN_LIFETIME': timedelta(minutes = 120),
     'REFRESH_TOKEN_LIFETIME': timedelta(days = 90),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -188,8 +189,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    # Add other allowed origins here.
+    "http://localhost:3000",  # Add the origins that are allowed
+    # Add more origins as needed
 ]
+
 
 CORS_ALLOW_ALL_ORIGINS = True
