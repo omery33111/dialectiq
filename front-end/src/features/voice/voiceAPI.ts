@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { VoiceQuestion } from "../../models/Voice";
+import { VoiceQuestion, VoiceResult } from "../../models/Voice";
 import { voiceURL } from "../../endpoints/endpoints";
 import { VoiceSubject } from "../../models/VoiceSubject";
 import { VoiceAnswer } from "../../models/VoiceAnswer";
@@ -10,6 +10,19 @@ export function getVoices()
 {
   return new Promise<{ data: VoiceQuestion[] }>((resolve) =>
     axios.get(`${voiceURL}/get_voices/`).then((res) => resolve({ data: res.data })));
+}
+
+
+
+export function getRightVoices()
+{
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: VoiceResult[] }>((resolve) =>
+    axios.get(`${voiceURL}/get_right_voices/`, config).then((res) => resolve({ data: res.data })));
 }
 
 

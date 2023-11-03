@@ -9,7 +9,14 @@ export interface SentenceQuestion {
     correct_answer: string;
     subject: {id: string, subject_name: string}
     }
-  
+
+
+export interface SentenceResult {
+  id: string;
+  question: string;
+  user_answer: string;
+}
+
   
     export interface SentenceState {
       sentences: SentenceQuestion[]
@@ -28,4 +35,6 @@ export interface SentenceQuestion {
 
       isLoading: boolean;
       isError: boolean;
+
+      sentenceResult: SentenceResult[];
     };

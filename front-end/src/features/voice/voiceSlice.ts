@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { VoiceState } from '../../models/Voice';
-import { getPagedVoiceSubjects, getVoiceSubjects, getVoiceSubjectsAmount, getVoices, getVoicesOfSubject, postAnswerVoice } from './voiceAPI';
+import { getPagedVoiceSubjects, getRightVoices, getVoiceSubjects, getVoiceSubjectsAmount, getVoices, getVoicesOfSubject, postAnswerVoice } from './voiceAPI';
 import { RootState } from '../../app/store';
 
 
@@ -20,8 +20,21 @@ const initialState: VoiceState = {
   voiceSubjectAmount: 0,
 
   isLoading: false,
-  isError: false
+  isError: false,
+
+  voiceResult: []
 };
+
+
+
+
+export const getRightVoicesAsync = createAsyncThunk(
+  "voice/getRightVoices",
+  async () => {
+    const response = await getRightVoices();
+    return response;
+  }
+);
 
 
 
@@ -93,6 +106,10 @@ export const voiceSlice = createSlice({
         state.voices = action.payload;
       })
 
+      .addCase(getRightVoicesAsync.fulfilled, (state, action) => {
+        state.voiceResult = action.payload.data
+      })
+
       .addCase(getVoiceSubjectsAsync.fulfilled, (state, action) => {
         state.subjects = action.payload;
       })
@@ -135,6 +152,8 @@ export const voiceSlice = createSlice({
 
 export const selectVoiceQuestionsisLoading = (state: RootState) => state.voice.isLoading;
 export const selectPagedVoiceSubjectisLoading = (state: RootState) => state.voice.isLoading;
+
+export const selectVoiceCorrectAnswers = (state: RootState) => state.voice.voiceResult;
 
 export const selectVoiceSubjectsAmount = (state: RootState) => state.voice.voiceSubjectAmount;
 

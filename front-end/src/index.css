@@ -390,12 +390,15 @@ body {
 
 
   .points-count-quiz {
+    position: absolute;
+    transform: translateY(-50px);
     font-size: 15rem;
-    font-family: 'Georgia, serif';
+    font-family: "Papyrus", "Courier New", monospace;
   }
 
 
   .redirected {
+    width: 34%;
     position: absolute;
     transform: translateY(200px);
   }
@@ -638,7 +641,13 @@ body {
   }
 
 
+  .results-card {
+    background-image: url('../src/images/quizresults.png');
+    background-size: cover;
+  }
+  
 
+  
 @keyframes cloud1 {
     0% {
         margin-left: -1000px;

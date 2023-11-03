@@ -16,4 +16,7 @@ urlpatterns = [
     path('paged_voice_subjects/<int:page>/', views.paged_voice_subjects),
 
     path('get_voice_subject/<int:pk>/', views.get_voice_subject),
+
+    path('get_right_voices/', views.get_right_voices),
+
 ]

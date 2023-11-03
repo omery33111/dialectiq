@@ -189,5 +189,4 @@ def search_profile(request):
     profiles = Profile.objects.filter(first_name__startswith=first_name)
     serializer = ProfileSerializer(profiles, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
 # ------------------------- PROFILE END ------------------------- #

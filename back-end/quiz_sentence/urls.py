@@ -16,4 +16,6 @@ urlpatterns = [
     path('paged_sentence_subjects/<int:page>/', views.paged_sentence_subjects),
     
     path('get_sentences_of_subject/<int:pk>/', views.get_sentences_of_subject),
+
+    path('get_right_sentences/', views.get_right_sentences),
 ]

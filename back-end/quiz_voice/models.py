@@ -16,17 +16,18 @@ class VoiceSubject(models.Model):
 class QuizVoice(models.Model):
     question = models.FileField()
     correct_answer = models.CharField(max_length = 150)
-    subject = models.ForeignKey(VoiceSubject, on_delete=models.SET_NULL, null=True, blank=True)
+    subject = models.ForeignKey(VoiceSubject, on_delete = models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.question
 
 
 class QuizVoiceAnswer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
     user_answer = models.CharField(max_length = 150)
-    question = models.ForeignKey(QuizVoice, on_delete=models.CASCADE)
-    is_correct = models.BooleanField(default=False)
+    question = models.ForeignKey(QuizVoice, on_delete = models.CASCADE)
+    is_correct = models.BooleanField(default = False)
+    date = models.DateTimeField(auto_now_add = True)
 
     
     def check_if_correct(self):

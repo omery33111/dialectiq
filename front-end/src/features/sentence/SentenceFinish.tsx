@@ -4,6 +4,8 @@ import { getProfileAsync, selectProfile, selectUserID } from '../profile/profile
 import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom';
 import ConfettiExplosion from 'react-confetti-explosion';
+import { getRightSentencesAsync, selectSentenceCorrectAnswers } from './sentenceSlice';
+import { Button, Card, Modal } from 'react-bootstrap';
 
 const AmericanFinish = () => {
   const dispatch = useAppDispatch();
@@ -16,19 +18,32 @@ const AmericanFinish = () => {
 
   useEffect(() => {
     if (storedIsLogged) {
-      if (userID) {
     dispatch(getProfileAsync());
+    dispatch(getRightSentencesAsync());
   }
-}
   }, [dispatch]);
 
   const localStoragePoints = JSON.parse(localStorage.getItem("points") as string);
 
 
-  const timer = setTimeout(() => {
-    navigate('/quizes/sentence_quiz/subjects');
-  }, 5000);
+  const rightSentences = useAppSelector(selectSentenceCorrectAnswers);
 
+
+  const [modalContent, setModalContent] = useState(null); // State to store modal content
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = (content: any) => {
+    setModalContent(content);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setModalContent(null);
+    setShowModal(false);
+  };
+
+
+  
   return (
     <div className="page-container">
       <div style={{ height: "8vh" }} />
@@ -45,11 +60,17 @@ const AmericanFinish = () => {
     </div>
   )}
 
-  <div className='redirected'>
-    <h5>YOU ARE BEING REDIRECTED...</h5>
+
+
+  <div className='redirected' onClick={() => openModal(rightSentences)}>
+  <Card     style = {{borderRadius: "17px", height: "170px", cursor: "pointer"}}
+              className="results-card"
+            >
+            </Card>
   </div>
+
+  
   <ConfettiExplosion
-  style = {{position: "absolute"}}
     force={0.9}
     duration={4500}
     particleCount={400}
@@ -57,9 +78,42 @@ const AmericanFinish = () => {
     height="180vh"
     particleSize={10}
   />
+
+  
 </div>
 
+<Modal show={showModal} onHide={closeModal}>
+  <Modal.Header closeButton>
+  </Modal.Header>
+  <Modal.Body>
+    {rightSentences.length === 0 ? (
+      <div>You did not answer any question correctly! Try again.</div>
+    ) : (
+      rightSentences.map((answer) => (
+        <Card key={answer.id} style={{ marginBottom: '10px' }}>
+          <Card.Title style={{ margin: '10px' }}>
+            {answer.question}
+          </Card.Title>
+          <Card.Text style={{ margin: '10px' }}>
+            {answer.user_answer}
+          </Card.Text>
+        </Card>
+      ))
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={closeModal}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
 
+
+
+
+      <br />
+      <br />
+      <br />
       <br />
       <br />
       {storedIsLogged ? (

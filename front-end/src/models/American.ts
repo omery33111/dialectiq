@@ -14,7 +14,14 @@ export interface AmericanQuestion {
     subject: {id: string, subject_name: string}
     }
   
-  
+
+export interface AmericanResult {
+  id: string;
+  question: string;
+  user_answer: string;
+}
+
+
     export interface AmericanState {
       americans: AmericanQuestion[]
       american: AmericanQuestion
@@ -32,4 +39,6 @@ export interface AmericanQuestion {
 
       isLoading: boolean;
       isError: boolean;
+
+      americanResult: AmericanResult[];
     };

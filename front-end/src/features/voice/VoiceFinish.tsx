@@ -4,6 +4,9 @@ import { getProfileAsync, selectProfile, selectUserID } from '../profile/profile
 import CountUp from 'react-countup';
 import { useNavigate } from 'react-router-dom';
 import ConfettiExplosion from 'react-confetti-explosion';
+import { getRightVoicesAsync, selectVoiceCorrectAnswers } from './voiceSlice';
+import { myServer } from '../../endpoints/endpoints';
+import { Button, Card, Modal } from 'react-bootstrap';
 
 
 
@@ -18,18 +21,29 @@ const VoiceFinish = () => {
 
   useEffect(() => {
     if (storedIsLogged) {
-      if (userID) {
     dispatch(getProfileAsync());
-  }
-}
+    dispatch(getRightVoicesAsync());
+    }
   }, [dispatch]);
 
   const localStoragePoints = JSON.parse(localStorage.getItem("points") as string);
 
 
-  const timer = setTimeout(() => {
-    navigate('/quizes/voice_quiz/subjects');
-  }, 5000);
+  const rightVoices = useAppSelector(selectVoiceCorrectAnswers);
+
+  
+  const [modalContent, setModalContent] = useState(null); // State to store modal content
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = (content: any) => {
+    setModalContent(content);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setModalContent(null);
+    setShowModal(false);
+  };
 
   return (
     <div className="page-container">
@@ -47,9 +61,16 @@ const VoiceFinish = () => {
     </div>
   )}
 
-  <div className='redirected'>
-    <h5>YOU ARE BEING REDIRECTED...</h5>
+
+
+  <div className='redirected' onClick={() => openModal(rightVoices)}>
+  <Card     style = {{borderRadius: "17px", height: "170px", cursor: "pointer"}}
+              className="results-card"
+            >
+            </Card>
   </div>
+
+  
   <ConfettiExplosion
     force={0.9}
     duration={4500}
@@ -58,9 +79,45 @@ const VoiceFinish = () => {
     height="180vh"
     particleSize={10}
   />
+
+  
 </div>
 
+<Modal show={showModal} onHide={closeModal}>
+  <Modal.Header closeButton>
+  </Modal.Header>
+  <Modal.Body>
+    {rightVoices.length === 0 ? (
+      <div>You did not answer any question correctly! Try again.</div>
+    ) : (
+      rightVoices.map((answer) => (
+        <Card key={answer.id} style={{ marginBottom: '10px' }}>
+          <Card.Title style={{ margin: '10px' }}>
+            <audio controls controlsList="nodownload" style={{ width: '100%' }}>
+              <source src={`${myServer}/media/${answer.question}`} />
+              Your browser does not support the audio element.
+            </audio>
+          </Card.Title>
+          <Card.Text style={{ margin: '10px' }}>
+            {answer.user_answer}
+          </Card.Text>
+        </Card>
+      ))
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={closeModal}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
 
+
+
+
+      <br />
+      <br />
+      <br />
       <br />
       <br />
       {storedIsLogged ? (

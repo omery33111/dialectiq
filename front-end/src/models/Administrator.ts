@@ -1,4 +1,4 @@
-import { AmericanQuestion } from "./American";
+import { AmericanQuestion, AmericanResult } from "./American";
 import { AmericanAnswer } from "./AmericanAnswer";
 import { AmericanSubject } from "./AmericanSubject";
 import { Blog } from "./Blog";
@@ -37,4 +37,6 @@ export interface AdministratorState {
 
     isLoading: boolean;
     isError: boolean;
+
+    americanResult: AmericanResult[];
   };

@@ -10,7 +10,7 @@ const initialState: AmericanState = {
   american: {
     subject: {id: "", subject_name: ""}, id: "", question: "", answer1: "", answer2: "", answer3: "", answer4: "", correct_answer: 0},
   
-  subject: { id: "", description: "", subject_name: "", picture: ""},
+  subject: {id: "", description: "", subject_name: "", picture: ""},
   subjects: [{ id: "", description: "", subject_name: "", picture: ""}],
   subjectAmericans: [],
 
@@ -22,7 +22,9 @@ const initialState: AmericanState = {
   americanSubjectAmount: 0,
 
   isLoading: false,
-  isError: false
+  isError: false,
+
+  americanResult: []
 };
 
 
@@ -96,6 +98,7 @@ export const americanSlice = createSlice({
       .addCase(getAmericansAsync.fulfilled, (state, action) => {
         state.americans = action.payload;
       })
+
 
       .addCase(getPagedAmericanSubjectsAsync.fulfilled, (state, action) => {
         state.subjects = action.payload.data;

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { getPagedSentenceSubjects, getSentenceSubjects, getSentenceSubjectsAmount, getSentences, getSentencesOfSubject, postAnswerSentence } from './sentenceAPI';
+import { getPagedSentenceSubjects, getRightSentences, getSentenceSubjects, getSentenceSubjectsAmount, getSentences, getSentencesOfSubject, postAnswerSentence } from './sentenceAPI';
 import { SentenceState } from '../../models/Sentence';
 
 
@@ -22,8 +22,20 @@ const initialState: SentenceState = {
   sentenceSubjectAmount: 0,
 
   isLoading: false,
-  isError: false
+  isError: false,
+
+  sentenceResult: []
 };
+
+
+
+export const getRightSentencesAsync = createAsyncThunk(
+  "sentence/getRightSentences",
+  async () => {
+    const response = await getRightSentences();
+    return response;
+  }
+);
 
 
 
@@ -97,6 +109,10 @@ export const sentenceSlice = createSlice({
         state.sentences = action.payload;
       })
 
+      .addCase(getRightSentencesAsync.fulfilled, (state, action) => {
+        state.sentenceResult = action.payload.data
+      })
+
       .addCase(getPagedSentenceSubjectsAsync.fulfilled, (state, action) => {
         state.subjects = action.payload.data;
         state.isLoading = false;
@@ -138,6 +154,8 @@ export const sentenceSlice = createSlice({
 
 
 export const { saveAnswers } = sentenceSlice.actions;
+
+export const selectSentenceCorrectAnswers = (state: RootState) => state.sentence.sentenceResult;
 
 export const selectSentenceQuestionsisLoading = (state: RootState) => state.sentence.isLoading;
 

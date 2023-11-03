@@ -11,4 +11,6 @@ urlpatterns = [
     path('paged_american_subjects/<int:page>/', views.paged_american_subjects),
     path('get_american_subject/<int:pk>/', views.get_american_subject),
     path('single_american/<int:pk>/', views.single_american),
+
+    path('get_right_americans/', views.get_right_americans),
 ]

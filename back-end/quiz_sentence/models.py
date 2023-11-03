@@ -27,6 +27,7 @@ class QuizSentenceAnswer(models.Model):
     user_answer = models.CharField(max_length = 150)
     question = models.ForeignKey(QuizSentence, on_delete=models.CASCADE)
     is_correct = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add = True)
 
     
     def check_if_correct(self):

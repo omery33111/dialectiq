@@ -7,9 +7,10 @@ from django.shortcuts import get_object_or_404
 
 from profile_user.models import Profile
 
-from .models import QuizVoice, VoiceSubject
+from .models import QuizVoice, QuizVoiceAnswer, VoiceSubject
 from .serializers import QuizVoiceAnswerSerializer, QuizVoiceSerializer, VoiceSubjectSerializer
 from django.core.paginator import Paginator, PageNotAnInteger
+from django.db.models import Subquery, Max
 
 
 
@@ -81,6 +82,41 @@ def post_answer_voice_quiz(request):
         return Response(response_data_list, status=200)
 
 
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_right_voices(request):
+    if request.method == 'GET':
+        # Create an empty list to store the result
+        result_list = []
+
+        # Get all the correct answers for the most recent subject
+        current_subject = VoiceSubject.objects.order_by('-date').first()
+
+        # Create a subquery to get unique question IDs
+        unique_question_ids_subquery = QuizVoiceAnswer.objects.filter(
+            question__subject=current_subject,
+            is_correct=True
+        ).values('question').annotate(max_date=Max('date')).values('max_date')
+
+        # Fetch correct answers based on unique question IDs
+        correct_answers = QuizVoiceAnswer.objects.filter(
+            question__subject=current_subject,
+            is_correct=True,
+            date__in=Subquery(unique_question_ids_subquery)
+        )
+
+        # Create the desired structure for each correct answer
+        for answer in correct_answers:
+            result_item = {
+                "id": answer.question.id,  # General ID (not answer ID)
+                "question": str(answer.question.question),  # Question itself
+                "user_answer": answer.user_answer,
+            }
+            result_list.append(result_item)
+
+        # Return the list of correct answers in the desired format
+        return Response(result_list, status=status.HTTP_200_OK)
     
 
 

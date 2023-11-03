@@ -4,17 +4,11 @@ import { BsBrowserSafari, BsFillFileTextFill, BsPhoneFill } from 'react-icons/bs
 import { FaUserSecret } from 'react-icons/fa';
 import { RiUserFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getMyIDAsync, selectUserID } from '../profile/profileSlice';
-import { selectIsLogged } from '../authentication/authenticationSlice';
 
 const MyNavbar = () => {
-  const dispatch = useAppDispatch();
-
   const location = useLocation();
 
   const storedIsStaff = JSON.parse(localStorage.getItem('is_staff') as string);
-  const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
   const storedUserID = JSON.parse(localStorage.getItem('myID') as string);
 
   const [shouldRefresh, setShouldRefresh] = useState(false);
@@ -25,7 +19,6 @@ const MyNavbar = () => {
     }
   }, [storedIsStaff]);
 
-  const userID = useAppSelector(selectUserID);
 
   const [isScrolling, setIsScrolling] = useState(false);
 
@@ -124,7 +117,7 @@ const MyNavbar = () => {
               </h3>
             </Nav.Link>
 
-            {storedIsLogged ? (
+            {storedUserID ? (
               <Nav.Link href={`/profile/user_profile/${storedUserID}/`}>
                 <h2 className="user-icon-top" style={{ color: 'white' }}>
                   <RiUserFill />

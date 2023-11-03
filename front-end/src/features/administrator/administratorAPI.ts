@@ -6,7 +6,7 @@ import { SentenceSubject } from "../../models/SentenceSubject";
 import { SentenceQuestion } from "../../models/Sentence";
 import { VoiceQuestion } from "../../models/Voice";
 import { VoiceSubject } from "../../models/VoiceSubject";
-import { AmericanQuestion } from "../../models/American";
+import { AmericanQuestion, AmericanResult } from "../../models/American";
 import { Callback } from "../../models/Callback";
 import { Register } from "../../models/Authentication";
 
@@ -20,6 +20,20 @@ const register = async (userData: Register) => {
     }
   const response = await axios.post(registerURL, userData, config)
   return response.data
+}
+
+
+
+
+export function getRightAmericans()
+{
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: AmericanResult[] }>((resolve) =>
+    axios.get(`${americanURL}/get_right_americans/`, config).then((res) => resolve({ data: res.data })));
 }
 
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AdministratorState } from "../../models/Administrator";
-import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteCallback, deleteSentence, deleteSentenceSubject, deleteVoice, deleteVoiceSubject, getAmericanSubjects, getAmericansAmount, getAmericansOfSubject, getCallbacksAmount, getPagedAmericans, getPagedCallbacks, getPagedSentences, getPagedVoices, getSentencesAmount, getSingleAmericanSubject, getSingleSentenceSubject, getSingleVoiceSubject, getVoicesAmount, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, patchVoice, patchVoiceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject, postVoice, postVoiceSubject } from "./administratorAPI";
+import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteCallback, deleteSentence, deleteSentenceSubject, deleteVoice, deleteVoiceSubject, getAmericanSubjects, getAmericansAmount, getAmericansOfSubject, getCallbacksAmount, getPagedAmericans, getPagedCallbacks, getPagedSentences, getPagedVoices, getRightAmericans, getSentencesAmount, getSingleAmericanSubject, getSingleSentenceSubject, getSingleVoiceSubject, getVoicesAmount, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, patchVoice, patchVoiceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject, postVoice, postVoiceSubject } from "./administratorAPI";
 import { RootState } from "../../app/store";
 import { AmericanSubject } from "../../models/AmericanSubject";
 import { SentenceSubject } from "../../models/SentenceSubject";
@@ -42,7 +42,19 @@ const initialState: AdministratorState = {
 
   isLoading: false,
   isError: false,
+
+  americanResult: []
 };
+
+
+
+export const getRightAmericansAsync = createAsyncThunk(
+  "administrator/getRightAmericans",
+  async () => {
+    const response = await getRightAmericans();
+    return response;
+  }
+);
 
 
 
@@ -68,6 +80,7 @@ export const getPagedCallbacksAsync = createAsyncThunk(
     return response;
   }
 );
+
 
 
 export const getCallbacksAmountAsync = createAsyncThunk(
@@ -412,6 +425,10 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
             state.blogs = [...state.blogs, action.payload];
         })
 
+        .addCase(getRightAmericansAsync.fulfilled, (state, action) => {
+          state.americanResult = action.payload.data
+        })
+
         .addCase(postAmericanAsync.fulfilled, (state, action) => {
             state.americans = [...state.americans, action.payload];
         })
@@ -566,6 +583,8 @@ export const getAmericansOfSubjectAsync = createAsyncThunk(
   });
 
 
+
+export const selectAmericanCorrectAnswers = (state: RootState) => state.administrator.americanResult;
 
 export const selectAmericanQuestionsisLoading = (state: RootState) => state.administrator.isLoading;
 

@@ -11,7 +11,14 @@ export interface VoiceQuestion {
     subject: {id: string, subject_name: string}
     }
   
-  
+
+export interface VoiceResult {
+  id: string;
+  question: string;
+  user_answer: string;
+}
+
+
     export interface VoiceState {
       voices: VoiceQuestion[]
       voice: VoiceQuestion
@@ -29,4 +36,6 @@ export interface VoiceQuestion {
 
       isLoading: boolean;
       isError: boolean;
+
+      voiceResult: VoiceResult[]
     };

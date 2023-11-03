@@ -13,6 +13,8 @@ export function getAmericans()
 }
 
 
+
+
 export function getPagedAmericanSubjects(page: number) {
   return new Promise<{ data: AmericanSubject[] }>((resolve =>
     axios.get(`${americanURL}/paged_american_subjects/${page}/`).then(res => resolve({ data: res.data }))))

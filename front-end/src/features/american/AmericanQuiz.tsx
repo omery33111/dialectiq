@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Container, Card, ListGroup, Button } from 'react-bootstrap';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getAmericansOfSubjectAsync, selectAmericanQuestionsisLoading, selectSubjectAmericans } from '../administrator/administratorSlice';
-import { getSingleAmericanSubjectAsync, postAnswerAmericanAsync, saveAnswers, selectSingleSubjectOfAmerican } from './americanSlice';
-import { AmericanQuestion } from '../../models/American';
-import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
 import { CircularProgress } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Button, Card, Container, ListGroup } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { AmericanQuestion } from '../../models/American';
+import { getAmericansOfSubjectAsync, selectAmericanQuestionsisLoading, selectSubjectAmericans } from '../administrator/administratorSlice';
+import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
+import { getSingleAmericanSubjectAsync, postAnswerAmericanAsync, selectSingleSubjectOfAmerican } from './americanSlice';
 
 
 
@@ -15,8 +15,6 @@ const AmericanQuiz = () => {
   const navigate = useNavigate();
 
   const QuizQuestions = useAppSelector(selectSubjectAmericans);
-
-  const savedAnswers = useAppSelector(saveAnswers);
 
   const singleSubject = useAppSelector(selectSingleSubjectOfAmerican);
 

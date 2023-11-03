@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { SentenceQuestion } from "../../models/Sentence";
+import { SentenceQuestion, SentenceResult } from "../../models/Sentence";
 import { sentenceURL } from "../../endpoints/endpoints";
 import { SentenceSubject } from "../../models/SentenceSubject";
 import { SentenceAnswer } from "../../models/SentenceAnswer";
@@ -24,6 +24,19 @@ export function postAnswerSentence(sentenceAnswerData: SentenceAnswer, answers: 
   return new Promise<{ data: SentenceAnswer }>((resolve) =>
   axios.post(`${sentenceURL}/post_answer_sentence_quiz/`, data, config).then(res => resolve({data: res.data}))
   )
+}
+
+
+
+export function getRightSentences()
+{
+  const myToken = JSON.parse(localStorage.getItem("token") as string)
+  const accessToken = myToken ? myToken.access : "";
+  let config = {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }
+  return new Promise<{ data: SentenceResult[] }>((resolve) =>
+    axios.get(`${sentenceURL}/get_right_sentences/`, config).then((res) => resolve({ data: res.data })));
 }
 
 

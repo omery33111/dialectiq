@@ -24,6 +24,7 @@ class QuizAmerican(models.Model):
     answer4 = models.CharField(max_length = 150)
     correct_answer = models.IntegerField(choices=[(1, 'Answer 1'), (2, 'Answer 2'), (3, 'Answer 3'), (4, 'Answer 4')])
     subject = models.ForeignKey(AmericanSubject, on_delete=models.SET_NULL, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
         return self.question
@@ -34,6 +35,7 @@ class QuizAmericanAnswer(models.Model):
     user_answer = models.IntegerField(choices=[(1, 'Answer 1'), (2, 'Answer 2'), (3, 'Answer 3'), (4, 'Answer 4')])
     question = models.ForeignKey(QuizAmerican, on_delete=models.CASCADE)
     is_correct = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add = True)
 
     
     def check_if_correct(self):

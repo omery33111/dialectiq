@@ -3,8 +3,8 @@ import { Button, Container, Form } from 'react-bootstrap';
 import { BsCheckLg, BsXLg } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { AmericanSubject } from '../../models/AmericanSubject';
-import { postAmericanSubjectAsync, postSentenceSubjectAsync, selectSingleSubjectOfSentence } from './administratorSlice';
+import { SentenceSubject } from '../../models/SentenceSubject';
+import { postSentenceSubjectAsync, selectSingleSubjectOfSentence } from './administratorSlice';
 
 
 
@@ -41,7 +41,7 @@ const SentenceSubjectPost = () => {
     formData.append('description', description);
     formData.append('picture', thePicture);
   
-    const newSubject: AmericanSubject = {
+    const newSubject: SentenceSubject = {
       subject_name: subject_name,
       description: description,
       picture: thePicture,
@@ -92,7 +92,7 @@ const SentenceSubjectPost = () => {
 
           <div>
             <Button className="cancel-update-blog" variant="info">
-              <Link style={{ textDecoration: "none", color: "black" }} to="/administrator/american_subject/">
+              <Link style={{ textDecoration: "none", color: "black" }} to="/administrator/sentence_subject/">
                 <h6>
                   <BsXLg />
                 </h6>
