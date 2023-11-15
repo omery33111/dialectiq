@@ -28,9 +28,6 @@ const BlogPost = () => {
       setPicture(event.target.files ? event.target.files[0] : undefined);
     };
   
-    const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setVideoFile(event.target.files ? event.target.files[0] : undefined);
-    };
   
   
   
@@ -38,7 +35,6 @@ const BlogPost = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [picture, setPicture] = useState<any>(null);
-    const [videoFile, setVideoFile] = useState<any>(null);
   
     const handleSubmit = async (event: any) => {
       event.preventDefault();
@@ -48,7 +44,6 @@ const BlogPost = () => {
       formData.append('title', title);
       formData.append('description', description);
       formData.append('picture', picture);
-      formData.append('video', videoFile);
   
       dispatch(postBlogAsync(formData));
 
@@ -85,11 +80,6 @@ const BlogPost = () => {
               <Form.Group controlId="formThumbnail">
                     <Form.Label className = "blog-form-title"><h5>Thumbnail</h5></Form.Label>
                     <Form.Control type="file" onChange = {handlePictureChange}/>
-                  </Form.Group>
-
-              <Form.Group controlId="formVideo">
-                    <Form.Label className = "blog-form-title"><h5>Video</h5></Form.Label>
-                    <Form.Control type="file" accept='.mp4' onChange = {handleVideoChange}/>
                   </Form.Group>
 
                   <br/>

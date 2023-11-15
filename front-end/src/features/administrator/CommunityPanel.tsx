@@ -142,7 +142,7 @@ const CommunityPanel = () => {
 
                 <div className="circle-container-forum">
                   <div
-                    className="circle"
+                    className="circle-forum"
                     style={{
                       border: `0.4em solid ${ProgressBarColor(profile.points)}`,
                       marginRight: "-9px",
@@ -166,7 +166,7 @@ const CommunityPanel = () => {
               <div className = "forum-progressbar">
                 <div className="circle-container">
                   <div
-                    className="circle"
+                    className="circle-forum"
                     style={{
                       border: `0.4em solid ${ProgressBarColor(profile.points)}`,
                       marginRight: "-9px",

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,6 +7,21 @@ from .models import Blog
 from .serializers import BlogSerializer
 from django.core.paginator import Paginator, PageNotAnInteger
 
+
+
+@api_view(["GET"])
+def more_blogs(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            blogs_per_page = 10
+        else:
+            blogs_per_page = 5
+
+        all_blogs = Blog.objects.order_by('-date')[:blogs_per_page]
+        serializer = BlogSerializer(all_blogs, many=True)
+
+        return Response(serializer.data)
+    
 
 
 @api_view(["GET"])
@@ -28,6 +44,7 @@ def paged_blogs(request, page):
     serializer = BlogSerializer(blogs, many=True)
 
     return Response(serializer.data)
+    
 
 
 

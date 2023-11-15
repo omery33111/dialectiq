@@ -1,19 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AdministratorState } from "../../models/Administrator";
-import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteCallback, deleteSentence, deleteSentenceSubject, deleteVoice, deleteVoiceSubject, getAmericanSubjects, getAmericansAmount, getAmericansOfSubject, getCallbacksAmount, getPagedAmericans, getPagedCallbacks, getPagedSentences, getPagedVoices, getRightAmericans, getSentencesAmount, getSingleAmericanSubject, getSingleSentenceSubject, getSingleVoiceSubject, getVoicesAmount, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, patchVoice, patchVoiceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject, postVoice, postVoiceSubject } from "./administratorAPI";
 import { RootState } from "../../app/store";
+import { AdministratorState } from "../../models/Administrator";
 import { AmericanSubject } from "../../models/AmericanSubject";
+import { Register } from "../../models/Authentication";
 import { SentenceSubject } from "../../models/SentenceSubject";
 import { VoiceSubject } from "../../models/VoiceSubject";
-import { Register } from "../../models/Authentication";
 import authenticationService from "../authentication/authenticationAPI";
+import { deleteAmerican, deleteAmericanSubject, deleteBlog, deleteCallback, deleteSentence, deleteSentenceSubject, deleteVoice, deleteVoiceSubject, getAmericanSubjects, getAmericansAmount, getAmericansOfSubject, getCallbacksAmount, getPagedAmericans, getPagedCallbacks, getPagedSentences, getPagedVoices, getRightAmericans, getSentencesAmount, getSingleAmericanSubject, getSingleSentenceSubject, getSingleVoiceSubject, getVoicesAmount, patchAmerican, patchAmericanSubject, patchBlog, patchSentence, patchSentenceSubject, patchVoice, patchVoiceSubject, postAmerican, postAmericanSubject, postBlog, postSentence, postSentenceSubject, postVoice, postVoiceSubject } from "./administratorAPI";
 
 
 
 const initialState: AdministratorState = {
   callbacks: [],
   blogs: [],
-  singleBlog: { title: "", description: "", youtube: "", video: "", id: "", picture: "", date: new Date() },
+  singleBlog: { title: "", description: "", youtube: "", 
+  // video: "", 
+  id: "", picture: "", date: new Date()},
 
   american: {
     subject: {id: "", subject_name: ""}, id: "", question: "", answer1: "", answer2: "", answer3: "", answer4: "", correct_answer: 0

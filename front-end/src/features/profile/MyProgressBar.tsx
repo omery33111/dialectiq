@@ -1,65 +1,69 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getProfileAsync, selectProfile } from './profileSlice';
+import { getProfileAsync, getSingleProfileAsync, selectProfile } from './profileSlice';
 import ProgressBar from "@ramonak/react-progress-bar";
-import { selectIsLogged } from '../authentication/authenticationSlice';
+import { logoutAsync, selectIsLogged } from '../authentication/authenticationSlice';
 
 
 
 const MyProgressBar = () => {
     const dispatch = useAppDispatch()
 
-    const myProfile = useAppSelector(selectProfile);
+    const userProfile = useAppSelector(selectProfile);
 
     const rankScale = Math.min(
         100,
-        (myProfile.points / 2000) * 100
+        (userProfile.points / 2000) * 100
       );
     
       const ProgressBarColor = () => {
-        if (myProfile.points >= 0 && myProfile.points < 250) {
+        if (userProfile.points >= 0 && userProfile.points < 250) {
           return "grey";
-        } else if (myProfile.points >= 250 && myProfile.points < 500) {
+        } else if (userProfile.points >= 250 && userProfile.points < 500) {
           return "yellow";
-        } else if (myProfile.points >= 500 && myProfile.points < 750) {
+        } else if (userProfile.points >= 500 && userProfile.points < 750) {
           return "#0CAFFF";
-        } else if (myProfile.points >= 750 && myProfile.points < 1000) {
+        } else if (userProfile.points >= 750 && userProfile.points < 1000) {
           return "#FFA500";
-        } else if (myProfile.points >= 1000 && myProfile.points < 1250) {
+        } else if (userProfile.points >= 1000 && userProfile.points < 1250) {
           return "#0FFF50";
-        } else if (myProfile.points >= 1250 && myProfile.points < 1500) {
+        } else if (userProfile.points >= 1250 && userProfile.points < 1500) {
           return "#7F00FF";
-        } else if (myProfile.points >= 1500 && myProfile.points < 1750) {
+        } else if (userProfile.points >= 1500 && userProfile.points < 1750) {
           return "#172460";
-        } else if (myProfile.points >= 1750 && myProfile.points <= 2000) {
+        } else if (userProfile.points >= 1750 && userProfile.points <= 2000) {
           return "red";
-        } else if (myProfile.points >= 2000) {
+        } else if (userProfile.points >= 2000) {
           return "black";
         }
       };
     
     
-    const isLogged = useAppSelector(selectIsLogged);
+    const profileID = JSON.parse(localStorage.getItem('profileID') as string);
 
     useEffect(() => {
-      if (isLogged)
-      {
-      dispatch(getProfileAsync());
-      }
-    }, [dispatch]);
+        if (Number(profileID) !== -1) {
+            dispatch(getSingleProfileAsync(Number(profileID)));
+        } else {
+            dispatch(logoutAsync());
+            window.location.href = "/";
+        }
+    }, [profileID, dispatch]);
+    
     
   return (
     <div>
             <div className="circle-container">
 
+
                 <div className="circle" style = {{border: `0.4em solid ${ProgressBarColor()}`, marginRight: "-9px"}}>
                     <h4>
-                    {myProfile.points}
+                    {userProfile.points}
                     </h4>
                 </div>
 
-                <div className = 'progress-bar'>
-                    <ProgressBar bgColor={ProgressBarColor()} completed={rankScale} customLabel = {myProfile.points.toLocaleString()}/>
+                <div className = 'progress-bar' style={{ position: 'absolute', backgroundColor: "#D2B48C", border: '4px solid #FF6931', padding: "50px"}}>
+                    <ProgressBar bgColor={ProgressBarColor()} completed={rankScale} customLabel = {userProfile.points.toLocaleString()}/>
                 </div>
                 
             </div>

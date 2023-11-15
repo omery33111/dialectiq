@@ -34,8 +34,8 @@ const SentenceSubjects = () => {
   const isLoading = useAppSelector(selectPagedSentenceSubjectisLoading);
   
   return (
-    <div>
-      <div style={{ height: 200 }} />
+    <div style = {{backgroundColor: "#F5F5DC"}}>
+      <div style={{ height: 300 }} />
       <Container>
         
       <div className="pagination-quiz">
@@ -47,10 +47,19 @@ const SentenceSubjects = () => {
             />
           </div>
 
+          <div style={{ position: "absolute", padding: "15px", justifyContent: "center", textAlign: "center" }}>
+
+          <img
+          width = "800px"
+            className = 'quiz-name-pic'
+            src={require(`../../images/completethesentence.png`)}
+            alt="completethesentence"/>
+
+  </div>
+
         <hr />
         <br />
         
-        <h1 style={{ padding: "15px", justifyContent: "center", textAlign: "center" }}>COMPLETE THE SENTENCE</h1>
         <br />
         <br />
         <div className="american-subject-card" style={{ display: "flex", flexDirection: 'column', gap: "30px", cursor: "pointer" }}>

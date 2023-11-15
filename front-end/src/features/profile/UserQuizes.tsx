@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { getUserQuizesAsync, getUserSingleBlogCommentsAsync, selectSingleBlogUserComments, selectUserAnsweredQuizes } from './profileSlice';
+import { getUserQuizesAsync, getUserSingleBlogCommentsAsync, selectProfileisError, selectSingleBlogUserComments, selectUserAnsweredQuizes, selectUserID } from './profileSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { myServer } from '../../endpoints/endpoints';
 import { Card } from 'react-bootstrap';
+import { logoutAsync } from '../authentication/authenticationSlice';
 
 
 
@@ -14,16 +15,28 @@ const UserQuizes = () => {
   const userQuizes = useAppSelector(selectUserAnsweredQuizes);
   const userComments = useAppSelector(selectSingleBlogUserComments);
 
+  const isError = useAppSelector(selectProfileisError);
+
+  const userID = useAppSelector(selectUserID);
+
+  const storedMyID = JSON.parse(localStorage.getItem('myID') as string);
+
   const { id } = useParams();
 
   useEffect(() => {
     if (id !== undefined) {
+      if (userID !== -1) {
       dispatch(getUserQuizesAsync(Number(id)));
 
       dispatch(getUserSingleBlogCommentsAsync(Number(id)));
+    }}
+      
+    if (!userID) {
+      dispatch(logoutAsync());
+      navigate("/")
     }
 
-  }, [id, dispatch]);
+  }, [id, dispatch, userID, isError]);
 
 
   return (

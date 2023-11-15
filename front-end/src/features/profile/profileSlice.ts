@@ -35,7 +35,7 @@ const initialState: ProfileState = {
     picture: ""}
     ],
 
-  userID: "",
+  userID: -1,
 
   profileAmount: 0,
 

@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     path('get_blogs/', views.get_blogs),
 
+    path('more_blogs/', views.more_blogs),
+
     path('paged_blogs/<int:page>/', views.paged_blogs),
 
     path('blogs_amount/', views.blogs_amount),

@@ -90,17 +90,22 @@ def get_right_sentences(request):
         # Create an empty list to store the result
         result_list = []
 
-        # Get all the correct answers for the most recent subject
+        # Get the currently authenticated user
+        current_user = request.user
+
+        # Get all the correct answers for the most recent subject for the current user
         current_subject = SentenceSubject.objects.order_by('-date').first()
 
-        # Create a subquery to get unique question IDs
+        # Create a subquery to get unique question IDs for the current user's correct answers
         unique_question_ids_subquery = QuizSentenceAnswer.objects.filter(
+            user=current_user,  # Filter by the current user
             question__subject=current_subject,
             is_correct=True
         ).values('question').annotate(max_date=Max('date')).values('max_date')
 
-        # Fetch correct answers based on unique question IDs
+        # Fetch correct answers based on unique question IDs for the current user
         correct_answers = QuizSentenceAnswer.objects.filter(
+            user=current_user,  # Filter by the current user
             question__subject=current_subject,
             is_correct=True,
             date__in=Subquery(unique_question_ids_subquery)
@@ -117,8 +122,9 @@ def get_right_sentences(request):
 
         # Return the list of correct answers in the desired format
         return Response(result_list, status=status.HTTP_200_OK)
-    
 
+
+    
 
 @api_view(['GET'])
 def get_sentences(request):

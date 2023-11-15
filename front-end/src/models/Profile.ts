@@ -19,7 +19,7 @@ export default class Profile {
     profile: Profile;
     profiles: Profile[];
 
-    userID: string;
+    userID: number;
 
     profileAmount: number;
 

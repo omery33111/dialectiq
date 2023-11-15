@@ -5,7 +5,7 @@ import CountUp from 'react-countup';
 const Statistics = () => {
   return (
     <Container>
-      <div className="countup-container" style={{ backgroundColor: "#0097E6" }}>
+      <div className="countup-container" style={{ backgroundColor: "#A0784F" }}>
         <div className="countup-item">
           <h5><CountUp start={0} end={100} suffix="%" duration={4} /></h5>
           <h4>ATTENDANCE</h4>

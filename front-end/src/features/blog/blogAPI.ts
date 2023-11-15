@@ -4,11 +4,30 @@ import { blogURL } from "../../endpoints/endpoints";
 
 
 
+export function getMoreBlogs() {
+  const myToken = JSON.parse(localStorage.getItem("token") as string);
+  const accessToken = myToken ? myToken.access : "";
+
+  const config: AxiosRequestConfig = {};
+
+  if (accessToken) {
+    config.headers = { 'Authorization': `Bearer ${accessToken}` };
+  }
+
+  return new Promise<{ data: Blog[] }>((resolve) =>
+    axios.get(`${blogURL}/more_blogs/`, config).then((res) =>
+      resolve({ data: res.data })
+    )
+  );
+}
+
+
+
 export function getPagedBlogs(page: number) {
   const myToken = JSON.parse(localStorage.getItem("token") as string);
   const accessToken = myToken ? myToken.access : "";
 
-  const config: AxiosRequestConfig = {}; // Define the config object with AxiosRequestConfig type
+  const config: AxiosRequestConfig = {};
 
   if (accessToken) {
     config.headers = { 'Authorization': `Bearer ${accessToken}` };
@@ -20,6 +39,7 @@ export function getPagedBlogs(page: number) {
     )
   );
 }
+
 
 
 

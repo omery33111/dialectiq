@@ -1,10 +1,17 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { loginURL, registerURL } from "../../endpoints/endpoints";
 import { Login, Register } from "../../models/Authentication";
 
 const register = async (userData: Register) => {
-    const response = await axios.post(registerURL, userData);
-    console.log(response.data);
+    const myToken = JSON.parse(localStorage.getItem("token") as string);
+    const accessToken = myToken ? myToken.access : "";
+  
+    const config: AxiosRequestConfig = {}; // Define the config object with AxiosRequestConfig type
+  
+    if (accessToken) {
+      config.headers = { 'Authorization': `Bearer ${accessToken}` };
+    }
+    const response = await axios.post(registerURL, userData, config);
     return response.data;
 };
 
@@ -22,6 +29,7 @@ const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("is_staff");
     localStorage.removeItem("userName");
+    localStorage.removeItem("myID");
 };
 
 

@@ -26,7 +26,7 @@ const initialState: AuthenticationState =
     isSuccess: false,
     isError: false,
     isLoading: false,
-    isLogged: false,
+    isLogged: true,
     access: "",
     refresh: "",
     is_staff: false,

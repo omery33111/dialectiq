@@ -5,7 +5,7 @@ import { getMyIDAsync, getProfileAsync, selectProfile, selectUserID } from '../p
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectSingleBlog } from '../blog/blogSlice';
 import { BsSend } from "react-icons/bs";
-import { getCommentsAsync, postCommentAsync } from './commentSlice';
+import { getCommentsAsync, postCommentAsync, selectCommentIsError } from './commentSlice';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -31,6 +31,8 @@ const PostComment = () => {
   
   const singleBlog = useAppSelector(selectSingleBlog);
 
+  const isError = useAppSelector(selectCommentIsError);
+
 
 const [comment, setComment] = useState<string>('');
 
@@ -42,7 +44,7 @@ const [comment, setComment] = useState<string>('');
     formData.append('profile', String(myProfile.profile_id));
     formData.append('comment', comment);
     
-
+    
     dispatch(postCommentAsync(formData)).then(() => {
       setComment("")
 
@@ -55,7 +57,7 @@ const [comment, setComment] = useState<string>('');
 
   return (
     <div>
-        
+       
         <div className="comment-container">
                 <Card className="comment-card">
                     <Card.Body className="comment-body">
@@ -89,6 +91,7 @@ const [comment, setComment] = useState<string>('');
                             </Form>
                         </div>
                     </Card.Body>
+                     
                 </Card>
         </div>
 

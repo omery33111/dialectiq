@@ -97,6 +97,12 @@ export const commentSlice = createSlice({
       .addCase(postCommentAsync.fulfilled, (state, action) => {
         state.comments = [...state.comments, action.payload];
       })
+      .addCase(postCommentAsync.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(postCommentAsync.rejected, (state) => {
+        state.isError = true;
+      })
 
       .addCase(changeCommentAsync.fulfilled, (state, action) => {
         state.comment = { ...state.comment, ...action.payload }
@@ -110,6 +116,8 @@ export const commentSlice = createSlice({
 });
 
 
+
+export const selectCommentIsError = (state: RootState) => state.comment.isError;
 
 export const selectComments = (state: RootState) => state.comment.comments;
 export const selectComment = (state: RootState) => state.comment.comment;

@@ -12,7 +12,7 @@ const MyFooter = () => {
   return (
     
     <div>
-     <footer style={{ height: "200px", width: "100%", position: 'relative', bottom: 0, backgroundColor: '#5271ff' }} className="text-light py-4">
+     <footer style={{ height: "200px", width: "100%", position: 'relative', bottom: 0, backgroundColor: '#A0784F' }} className="text-light py-4">
     <Container className='text-center'>
                 <a href="https://github.com/omery33111" style={{ color: "white" }}>
                     <FontAwesomeIcon icon={faGithub} size = '2x' style={{margin: "10 20px"}}/>

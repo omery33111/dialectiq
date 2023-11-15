@@ -31,12 +31,13 @@ const [userPoints, setUserPoints] = useState<number | null>(null);
 
 
 const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
+const storedUserID = JSON.parse(localStorage.getItem('myID') as string);
 
 const userID = useAppSelector(selectUserID);
 
 useEffect(() => {
   if (storedIsLogged) {
-    if (!userID) {
+    if (storedUserID !== -1) {
   dispatch(getProfileAsync()).then(() => {
     const storedPoints = JSON.parse(localStorage.getItem("points") as string);
     const profilePoints = myProfile.points;
@@ -93,7 +94,7 @@ useEffect(() => {
 
 
   return (
-    <div>
+    <div style = {{backgroundColor: "#F5F5DC"}}>
     <div style={{ height: 200 }} />
 
     <div className="american-container">
@@ -163,8 +164,8 @@ useEffect(() => {
             </Card.Body>
           </Card>
           <br />
-           <Button variant="warning" type="submit">
-                    <h6 style = {{margin: 0}}>SUBMIT</h6>
+           <Button variant="none" type="submit" style = {{backgroundColor: "#FF6931"}}>
+                    <h6 style = {{margin: 0, color: "white"}}>SUBMIT</h6>
                   </Button>
           </form>
               </div>

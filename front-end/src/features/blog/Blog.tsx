@@ -1,38 +1,16 @@
 import { CircularProgress, Pagination } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { FaHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { myServer } from '../../endpoints/endpoints';
-import {
-  getBlogsAmountAsync,
-  getPagedBlogsAsync,
-  selectBlogisLoading,
-  selectBlogs,
-  selectBlogsAmount,
-  selectLikes,
-  toggleLike
-} from './blogSlice';
-import { selectIsLogged } from '../authentication/authenticationSlice';
+import { getBlogsAmountAsync, getPagedBlogsAsync, selectBlogisLoading, selectBlogs, selectBlogsAmount } from './blogSlice';
 
 const Blog = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const blogs = useAppSelector(selectBlogs);
-
-  const likes = useAppSelector(selectLikes);
-
-  const likesRecord = likes as Record<string, number>;
-
-  useEffect(() => {
-    const storedLikes = localStorage.getItem('blogLikes');
-    if (storedLikes) {
-      const parsedLikes = JSON.parse(storedLikes);
-      dispatch(toggleLike({ blogId: parsedLikes }));
-    }
-  }, [dispatch]);
 
   const [containerHeight, setContainerHeight] = useState(10);
 
@@ -51,20 +29,15 @@ const Blog = () => {
     return `${year}-${month}-${day}, ${hours}:${minutes}`;
   }
 
-
-
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     dispatch(getPagedBlogsAsync(page));
-
     dispatch(getBlogsAmountAsync());
   }, [page]);
 
   const blogsAmount = useAppSelector(selectBlogsAmount);
-
   const itemsPerPage = 5;
-
   const totalPages = Math.ceil(blogsAmount / itemsPerPage);
 
   const nextPages = [];
@@ -73,9 +46,8 @@ const Blog = () => {
   }
 
   const isLoading = useAppSelector(selectBlogisLoading);
-
   const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
-  
+
 
   return (
     <div>
@@ -90,39 +62,30 @@ const Blog = () => {
           width: '100%',
         }}
       >
-
-       <div style = {{height: "15rem"}}/>
-        
+        <div style={{ height: "15rem" }} />
         {storedIsLogged && (
           <div>
-          <div className="pagination-blog">
-          <Pagination
+            <div className="pagination-blog">
+              <Pagination
                 count={totalPages}
                 page={page}
                 onChange={(event, newPage) => setPage(newPage)}
                 size="small"
               />
             </div>
-
-          <Container>
-          <hr />
-          </Container>
+            <Container>
+              <hr />
+            </Container>
           </div>
         )}
-       
 
-        
-
-       
         <div className="d-flex justify-content-center">
-          
           <div className="blog-videos">
-            
             <div style={{ height: 230 }} />
             {blogs.slice().reverse().map((blog, index) => {
               const topPosition = 100 * index;
-              const blogClassName = index > 0 ? 'blog-item' : ''; // Set classname for the second blog and onwards
-              const blogStyle = index > 0 ? { marginTop: '60%' } : { marginBottom: '60%' }; // Set style for the second blog and onwards
+              const blogClassName = index > 0 ? 'blog-item' : '';
+              const blogStyle = index > 0 ? { marginTop: '60%' } : { marginBottom: '60%' };
               return (
                 <div
                   key={index}
@@ -142,18 +105,18 @@ const Blog = () => {
                     <h6 className="blog-date">{formatDate(blog.date)}</h6>
                   </div>
                   <div>
-                  {isLoading ? (
+                    {isLoading ? (
                       <div>
-                      <CircularProgress />
+                        <CircularProgress />
                       </div>
                     ) : (
                       <img
-                      src={myServer + blog.picture}
-                      width="100%"
-                      height="100%"
-                    />
+                        style={{ border: '1px solid #000000' }}
+                        src={myServer + blog.picture}
+                        width="100%"
+                        height="100%"
+                      />
                     )}
-                    
                   </div>
                   <div>
                     <img
@@ -165,31 +128,20 @@ const Blog = () => {
                     />
                   </div>
                   {isLoading ? (
-                      <div>
+                    <div>
                       <CircularProgress />
-                      </div>
-                    ) : (
-                  <h2 style={{ padding: '10px' }}>{blog.title}</h2>)}
-
+                    </div>
+                  ) : (
+                    <h2 style={{ padding: '10px' }}>{blog.title}</h2>
+                  )}
                   {isLoading ? (
-                      <div>
+                    <div>
                       <CircularProgress />
-                      </div>
-                    ) : (
-                  <p style={{ padding: '7px' }}>{blog.description}</p>)}
-                  
-                  <h3>
-                    <FaHeart
-                      className={`like-button ${
-                        likesRecord[blog.id] ? 'liked' : ''
-                      }`}
-                      onClick={() => dispatch(toggleLike({ blogId: blog.id }))}
-                    />
-                  </h3>
-                  <div className="counter-like" style={{ color: 'grey' }}>
-                    {likesRecord[blog.id] || 0}
-                  </div>
-                  {/* <BlogComments /> */}
+                    </div>
+                  ) : (
+                    <p style={{ padding: '7px' }}>{blog.description}</p>
+                  )}
+                 
                 </div>
               );
             })}

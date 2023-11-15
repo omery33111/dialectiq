@@ -4,6 +4,8 @@ import { BsBrowserSafari, BsFillFileTextFill, BsPhoneFill } from 'react-icons/bs
 import { FaUserSecret } from 'react-icons/fa';
 import { RiUserFill } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
+import { useAppSelector } from '../../app/hooks';
+import { selectUserID } from '../profile/profileSlice';
 
 const MyNavbar = () => {
   const location = useLocation();
@@ -36,7 +38,9 @@ const MyNavbar = () => {
 
   const isHomePage = location.pathname === '/'; // Check if the current location is the home page
 
-  const containerBackground = isScrolling || !isHomePage ? '#0097E6' : 'transparent';
+  const containerBackground = isScrolling || !isHomePage ? '#A0784F' : 'transparent';
+
+  const userID = useAppSelector(selectUserID);
 
   return (
     <div>
@@ -117,18 +121,18 @@ const MyNavbar = () => {
               </h3>
             </Nav.Link>
 
-            {storedUserID ? (
-              <Nav.Link href={`/profile/user_profile/${storedUserID}/`}>
-                <h2 className="user-icon-top" style={{ color: 'white' }}>
-                  <RiUserFill />
-                </h2>
-              </Nav.Link>
-            ) : (
+            {userID == -1 ? (
               <Nav.Link href="/authentication/login">
-                <h2 className="user-icon-top" style={{ color: 'white' }}>
-                  <RiUserFill />
-                </h2>
-              </Nav.Link>
+              <h2 className="user-icon-top" style={{ color: 'white' }}>
+                <RiUserFill />
+              </h2>
+            </Nav.Link>
+            ) : (
+              <Nav.Link href={`/profile/user_profile/${userID}/`}>
+              <h2 className="user-icon-top" style={{ color: 'white' }}>
+                <RiUserFill />
+              </h2>
+            </Nav.Link>
             )}
           </Nav>
         </Container>

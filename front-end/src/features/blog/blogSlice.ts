@@ -1,22 +1,31 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { BlogState } from '../../models/Blog';
-import { getBlogs, getBlogsAmount, getPagedBlogs, getSingleBlog } from './blogAPI';
+import { getBlogs, getBlogsAmount, getMoreBlogs, getPagedBlogs, getSingleBlog } from './blogAPI';
 
 
 
 const initialState: BlogState = {
   blogs: [],
-  singleBlog: {
-    title: "", description: "", youtube: "", video: "", id: "", picture: '', date: new Date(),
-  },
-  likes: {},
+  singleBlog: { title: "", description: "", youtube: "", 
+  // video: "", 
+  id: "", picture: '', date: new Date() },
 
   blogAmount: 0,
 
   isLoading: false,
   isError: false
 };
+
+
+
+export const getMoreBlogsAsync = createAsyncThunk(
+  'blog/getMoreBlogs',
+  async () => {
+    const response = await getMoreBlogs();
+    return response.data;
+  }
+);
 
 
 
@@ -58,16 +67,7 @@ export const blogSlice = createSlice({
   name: 'blog',
   initialState,
   reducers: {
-    toggleLike: (state, action) => {
-      const { blogId } = action.payload; // Assuming you pass the blog ID as payload
-      if (state.likes[blogId]) {
-        state.likes[blogId] -= 1; // Unlike if already liked
-      } else {
-        state.likes[blogId] = 1; // Like if not already liked
-      }
-      
-      localStorage.setItem('blogLikes', JSON.stringify(state.likes));
-    },
+
   },
   extraReducers: (builder) => {
     builder
@@ -102,12 +102,14 @@ export const blogSlice = createSlice({
       .addCase(getBlogsAmountAsync.fulfilled, (state, action) => {
         state.blogAmount = action.payload.data;
       })
+
+      .addCase(getMoreBlogsAsync.fulfilled, (state, action) =>
+      {
+        state.blogs = action.payload
+      })
   },
 });
 
-
-
-export const { toggleLike } = blogSlice.actions;
 
 export const selectBlogisError = (state: RootState) => state.blog.isError;
 export const selectBlogisLoading = (state: RootState) => state.blog.isLoading;
@@ -116,7 +118,6 @@ export const selectSingleBlogisLoading = (state: RootState) => state.blog.isLoad
 
 export const selectBlogsAmount = (state: RootState) => state.blog.blogAmount;
 export const selectBlogs = (state: RootState) => state.blog.blogs;
-export const selectLikes = (state: RootState) => state.blog.likes;
 export const selectSingleBlog = (state: RootState) => state.blog.singleBlog;
 
 

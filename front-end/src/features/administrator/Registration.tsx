@@ -28,7 +28,7 @@ const Registration = () => {
     {
         if (isSuccess)
         {
-            navigate("/")
+            navigate("/administrator/callback")
         }
         
         dispatch(reset())

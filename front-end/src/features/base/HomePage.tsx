@@ -48,9 +48,10 @@ const HomePage = () => {
   }, [inView2, isPlaying2]);
 
 
+  const isMobile = window.innerWidth <= 767;
 
   return (
-    <div style={{ position: 'relative', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', overflow: 'hidden'}}>
       <div
         className="background-image"
         style={{
@@ -58,7 +59,7 @@ const HomePage = () => {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          height: '110vh'}}>
+          height: '112vh'}}>
 
             <div className = "buttons">
             <Button href = 'https://www.instagram.com/hebrew_adventure/?igshid=MzRlODBiNWFlZA%3D%3D' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(702px)"}}></Button><br/><br/>
@@ -66,18 +67,31 @@ const HomePage = () => {
             <Button href = 'https://www.patreon.com/TheHebrewAdventure' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(686px)"}}></Button><br/><br/>
             <Button href = 'https://www.italki.com/en/teacher/14053064' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(672px)"}}></Button>
             </div>
+
+          {isMobile ? (
+            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "10px", transform: "translateY(66.6vh) translateX(1px)"}}>
+            <Button href = "/quizes" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
+            <Button href = "/forum" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
+          </div>
+          ) : (
+            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "40px", transform: "translateY(74.6vh) translateX(1px)"}}>
+            <Button href = "/quizes" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
+            <Button href = "/forum" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
+          </div>
+          )}
+            
       </div>
 
-      <div ref={inViewRef2} style={{ position: 'relative', top: 100 }}>
+      <div ref={inViewRef2} style={{ position: 'relative', top: 100}}>
         {inView2 && <Statistics />}
       </div>
 
-      <Container
+      <Container 
         className="d-flex justify-content-center"
-        style={{ position: 'relative', top: 200 }}
-      >
+        style={{ position: 'relative', top: 200, backgroundColor: "#FFF0DB", padding: '80px', border: '4px solid #FF6931'}}>
         <div ref={inViewRef} style={{ maxWidth: '1000px', width: '100%' }}>
           <video
+          style = {{border: '1px solid black'}}
             ref={videoRef}
             width="100%"
             height="auto"
@@ -94,17 +108,17 @@ const HomePage = () => {
 
         <br/>
         <br/>
+        <br/>
           <div className = 'd-flex justify-content-center align-items-center'>
-            <Button
-            
-              variant="primary"
-              href=""
-              >
+            <Button variant = "none" style = {{backgroundColor: "#FF6931"}}
+              href="#callback">
                 <h5 style = {{margin: 20, color: "white"}}>
-              PREMIUM PLAN!
+              PREMIUM
               </h5>
             </Button>
           </div>
+
+          
           
         </div>
       </Container>

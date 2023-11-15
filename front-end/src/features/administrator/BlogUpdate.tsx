@@ -14,25 +14,24 @@ const BlogUpdate = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const singleBlog = useAppSelector(selectSingleBlog);
+  const { singleBlog } = useAppSelector((state) => state.blog);
 
+  const [youtube, setYoutube] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [videoFile, setVideoFile] = useState<any>(null);
-  const [picture, setPicture] = useState<any>(null);
+  const [picture, setPicture] = useState<undefined | File>(undefined); 
 
   const { id } = useParams();
 
   useEffect(() => {
     if (id !== undefined) {
-      dispatch(getSingleBlogAsync(id));
+      dispatch(getSingleBlogAsync(id))
     }
   }, [id, dispatch]);
 
   useEffect(() => {
     if (singleBlog) {
-      setTitle(singleBlog.video);
-      setPicture(singleBlog.picture);
+      setYoutube(singleBlog.youtube);
       setTitle(singleBlog.title);
       setDescription(singleBlog.description);
     }
@@ -40,6 +39,10 @@ const BlogUpdate = () => {
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+  };
+
+  const handleYoutubeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setYoutube(e.target.value);
   };
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -50,9 +53,7 @@ const BlogUpdate = () => {
     setPicture(event.target.files ? event.target.files[0] : undefined);
   };
 
-  const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setVideoFile(event.target.files ? event.target.files[0] : undefined);
-  };
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,8 +62,12 @@ const BlogUpdate = () => {
     
     formData.append('title', title);
     formData.append('description', description);
+
+    if (picture) {
     formData.append('picture', picture);
-    formData.append('video', videoFile);
+    }
+    
+    formData.append('youtube', youtube);
 
     dispatch(patchBlogAsync({ blogData: formData, id: String(id) }));
     setTimeout(() => {
@@ -90,17 +95,19 @@ const BlogUpdate = () => {
             </Form.Label>
             <Form.Control as="textarea" value={description} onChange={handleDescriptionChange} />
           </Form.Group>
+          
+          
 
           <Form.Group controlId="formThumbnail">
                     <Form.Label className = "blog-form-title"><h5>Thumbnail</h5></Form.Label>
                     <Form.Control type="file" onChange = {handlePictureChange}/>
                   </Form.Group>
 
-          <Form.Group controlId="formVideo">
+                  <Form.Group controlId="formYoutube">
             <Form.Label className="blog-form-title">
-              <h5>Video</h5>
+              <h5>Youtube</h5>
             </Form.Label>
-            <Form.Control type="file" accept=".mp4" onChange={handleVideoChange} />
+            <Form.Control as="textarea" value={youtube} onChange={handleYoutubeChange} />
           </Form.Group>
 
           <br />
@@ -126,18 +133,13 @@ const BlogUpdate = () => {
 
         <div className="update-singleblog">
         <Container>
-          <ReactPlayer
-            url={myServer + singleBlog.video}
-            controls={true}
-            width="100%"
-            config={{
-              file: {
-                attributes: {
-                  controlsList: 'nodownload',
-                },
-              },
-            }}
-          />
+       
+        <ReactPlayer
+            style = {{border: '1px solid #000000'}}
+                  url={myServer + singleBlog.youtube}
+                  controls
+                  width="100%"
+                />
           <br/>
           <h3>{singleBlog.title}</h3>
           <p>{singleBlog.description}</p>

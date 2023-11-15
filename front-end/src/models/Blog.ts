@@ -6,7 +6,7 @@ export interface Blog {
     title: string;
     description: string;
     youtube: string;
-    video: string;
+    // video: string;
     picture: string;
     date: Date;
     }
@@ -15,7 +15,6 @@ export interface Blog {
     export interface BlogState {
       singleBlog: Blog
       blogs: Blog[]
-      likes: Record<string, number>;
 
       blogAmount: number;
 

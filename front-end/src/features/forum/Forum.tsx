@@ -64,7 +64,7 @@ const Forum = () => {
   const isLoading = useAppSelector(selectPagedForumisLoading);
   
   return (
-    <div>
+    <div style = {{backgroundColor: "#F5F5DC"}}>
 
       <Container>
       <div style={{ height: "18rem" }} />
@@ -120,7 +120,7 @@ const Forum = () => {
             ) : (
                 <div className="circle-container-forum">
                   <div
-                    className="circle"
+                    className="circle-forum"
                     style={{
                       border: `0.4em solid ${ProgressBarColor(profile.points)}`,
                       marginRight: "-9px",
@@ -154,7 +154,7 @@ const Forum = () => {
               </div>
             ) : (
                   <div
-                    className="circle"
+                    className="circle-forum"
                     style={{
                       border: `0.4em solid ${ProgressBarColor(profile.points)}`,
                       marginRight: "-9px",

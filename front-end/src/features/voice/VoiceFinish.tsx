@@ -46,9 +46,21 @@ const VoiceFinish = () => {
   };
 
   return (
-    <div className="page-container">
+    <div className="page-container" style = {{backgroundColor: "#F5F5DC"}}>
       <div style={{ height: "8vh" }} />
-      <img className="congrats-image" src={require('../../images/congrats.png')} alt="congrats" width="600" height="300" />
+      
+      
+      {storedIsLogged ? (
+        <div>
+          {myProfile.points - localStoragePoints > 60 ? (
+        <img className="congrats-image" src={require('../../images/congrats.png')} alt="congrats" width="600" height="300" />
+      ) : (
+        <img className="congrats-image" src={require('../../images/nicetry.png')} alt="congrats" width="600" height="300" />
+      )}
+        </div>
+      ) : (
+        <img className="congrats-image" src={require('../../images/congrats.png')} alt="congrats" width="600" height="300" />
+      )}
 
       <div className="centered-container">
   {storedIsLogged ? (
@@ -57,21 +69,23 @@ const VoiceFinish = () => {
     </h1>
   ) : (
     <div className="animate-pop">
-      You successfully completed the test!
+      <img className="congrats-image" src={require('../../images/guestfinish.png')} alt="congrats" width="100%" height="230" />
     </div>
   )}
 
 
 
-  <div className='redirected' onClick={() => openModal(rightVoices)}>
+{storedIsLogged && (<div className='redirected' onClick={() => openModal(rightVoices)}>
   <Card     style = {{borderRadius: "17px", height: "170px", cursor: "pointer"}}
               className="results-card"
             >
             </Card>
-  </div>
+  </div>)}
 
   
-  <ConfettiExplosion
+  
+  {myProfile.points - localStoragePoints > 60 && (
+    <ConfettiExplosion
     force={0.9}
     duration={4500}
     particleCount={400}
@@ -79,6 +93,7 @@ const VoiceFinish = () => {
     height="180vh"
     particleSize={10}
   />
+  )}
 
   
 </div>

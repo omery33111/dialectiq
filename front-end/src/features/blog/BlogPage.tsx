@@ -1,33 +1,33 @@
 import { CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
-import { FaHeart } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import BlogComments from '../comment/BlogComments';
 import PostComment from '../comment/PostComment';
 import { getCommentsAsync } from '../comment/commentSlice';
-import { getSingleBlogAsync, selectLikes, selectSingleBlogisLoading, toggleLike } from './blogSlice';
+import { getBlogsAmountAsync, getMoreBlogsAsync, getSingleBlogAsync, selectBlogs, selectSingleBlogisLoading } from './blogSlice';
+import { myServer } from '../../endpoints/endpoints';
+import MoreBlogs from './MoreBlogs';
 
 
 
 const BlogPage = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     
     const storedIsLogged = JSON.parse(localStorage.getItem('token') as string);
 
-    const likes = useAppSelector(selectLikes);
-    const likesRecord = likes as Record<string, number>;
-  
     const { id } = useParams()
   
     useEffect(() => {
         if (id !== undefined) {
         dispatch(getSingleBlogAsync(id))
         dispatch(getCommentsAsync(Number(id)));
-        console.log(id)
         }
+
+        dispatch(getBlogsAmountAsync());
     }, [id, dispatch])
   
     const { singleBlog } = useAppSelector((state) => state.blog);
@@ -46,14 +46,21 @@ const BlogPage = () => {
   
   const isLoading = useAppSelector(selectSingleBlogisLoading);
   
+  const isMobile = window.innerWidth <= 767;
 
   return (
     <div>
+
+    {isMobile ? ("") : (<MoreBlogs/>)}
+    
+
+
+
         <div
         className="background-image"
         style={{
           position: 'relative',
-          backgroundImage: `url(${require('../../images/blogbg.png')})`,
+          backgroundImage: `url(${require('../../images/blogbg2.png')})`,
           backgroundSize: 'auto',
           backgroundRepeat: 'repeat-y',
           height: "290vh",
@@ -76,29 +83,16 @@ const BlogPage = () => {
                 <div>
 
               
-                {/* <ReactPlayer
-                  url={myServer + singleBlog.video}
-                  controls={true}
-                  width="100%"
-                  height="100%"
-                  config={{
-                    file: {
-                      attributes: {
-                        controlsList: 'nodownload scrollbar download',
-                      },
-                    },
-                  }}
-                /> */}
-
             {isLoading ? (
                       <div>
                       <CircularProgress />
                       </div>
                     ) : (
             <ReactPlayer
+            className = "blog-video"
                   url={singleBlog.youtube}
                   controls
-                  width="100%"
+                  width="87%"
                   height="70vh"
                 />)}
 
@@ -110,37 +104,50 @@ const BlogPage = () => {
                       
                   {isLoading ? (
                       <div>
-                      <CircularProgress />
+                      <CircularProgress /> 
                       </div>
                     ) : (
-                  <h2 style = {{padding: "10px"}}>{singleBlog.title}</h2>)}
+                     
+                      <div>
+                        {isMobile ? (
+                          <h2 style = {{padding: "10px", position: "relative", left: 23}}>{singleBlog.title}</h2>
+                        ) : (
+                        <h2 style = {{padding: "10px", position: "relative", left: 83}}>{singleBlog.title}</h2>)}
+                  
+                  </div>
+                  )}
+
+                  
+                  
 
                     {isLoading ? (
                       <div>
                       <CircularProgress />
                       </div>
                     ) : (
-                  <p style = {{padding: "7px"}}>{singleBlog.description}</p>)}
 
-                            <h3>
-                <FaHeart
-                  className={`like-button-single ${likesRecord[singleBlog.id] ? 'liked' : ''}`}
-                  onClick={() => dispatch(toggleLike({ blogId: singleBlog.id }))}
-                />
-                </h3>
+                      <div>
+                        {isMobile ? (
+                        <p style = {{padding: "7px", position: "relative", left: 27}}>{singleBlog.description}</p>) : (
+                        <p style = {{padding: "7px", position: "relative", left: 87}}>{singleBlog.description}</p>)}
+                  
 
-                <div className='counter-like-single' style = {{color: "grey"}}>
-                {likesRecord[singleBlog.id] || 0}
-                </div>
+                  </div>
+                  )}
+
+
                     
                 {storedIsLogged && (
                 <PostComment />
                 )}
                 
                 <BlogComments />
+
+                
                 
                   </Container>
 
+                
             </div>        
     </div>
   )

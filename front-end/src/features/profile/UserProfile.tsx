@@ -7,7 +7,10 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { myServer } from "../../endpoints/endpoints";
 import { logoutAsync } from "../authentication/authenticationSlice";
 import MyProgressBar from "./MyProgressBar";
-import { changeProfileAsync, getSingleProfileAsync, selectProfile, selectProfileisError, selectProfileisLoading, selectUserID } from "./profileSlice";
+import { changeProfileAsync, getProfileAsync, getSingleProfileAsync, selectProfile, selectProfileisError, selectProfileisLoading, selectUserID } from "./profileSlice";
+import { FaSignInAlt } from "react-icons/fa";
+import UserComments from "./UserComments";
+import UserQuizes from "./UserQuizes";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -21,17 +24,19 @@ const UserProfile = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    // dispatch(getMyIDAsync());
+    if (id) {
+      localStorage.setItem('profileID', id);
+    }
+  }, [id]);
 
-      if (id !== undefined) {
+  useEffect(() => {
+      if (Number(id) !== -1) {
         dispatch(getSingleProfileAsync(Number(id)));
       } 
       else {
         dispatch(logoutAsync());
         window.location.href = "/"
       }
-
-      
   }, [id, dispatch]);
 
   const userProfile = useAppSelector(selectProfile);
@@ -64,7 +69,7 @@ const UserProfile = () => {
       setLastName(userProfile.last_name || '');
       setLocation(userProfile.location || ''); 
       setBio(userProfile.bio || ''); 
-      setPointsAmount(userProfile.points || 0); 
+      setPointsAmount(userProfile.points || 100); 
     }
   }, [userProfile]);
   
@@ -104,37 +109,77 @@ const UserProfile = () => {
 
   const isStaff = JSON.parse(localStorage.getItem('is_staff') as string);
 
+  const storedMyID = JSON.parse(localStorage.getItem('myID') as string);
   
+  const onLogout = () => {
+    dispatch(logoutAsync());
+    window.location.href = "/"
+  };
+
   useEffect(() => {
-    if (isError) {
-      navigate('/error');
+    if (Number(id) === -1) {
+      dispatch(logoutAsync());
+      window.location.href = "/";
     }
-  }, [isError, navigate]);
+  }, [dispatch, storedMyID]);
+
+
+  const rankScale = Math.min(
+    100,
+    (userProfile.points / 2000) * 100
+  );
+
+  const ProgressBarColor = () => {
+    if (userProfile.points >= 0 && userProfile.points < 250) {
+      return "grey";
+    } else if (userProfile.points >= 250 && userProfile.points < 500) {
+      return "yellow";
+    } else if (userProfile.points >= 500 && userProfile.points < 750) {
+      return "#0CAFFF";
+    } else if (userProfile.points >= 750 && userProfile.points < 1000) {
+      return "#FFA500";
+    } else if (userProfile.points >= 1000 && userProfile.points < 1250) {
+      return "#0FFF50";
+    } else if (userProfile.points >= 1250 && userProfile.points < 1500) {
+      return "#7F00FF";
+    } else if (userProfile.points >= 1500 && userProfile.points < 1750) {
+      return "#172460";
+    } else if (userProfile.points >= 1750 && userProfile.points <= 2000) {
+      return "red";
+    } else if (userProfile.points >= 2000) {
+      return "black";
+    }
+  };
+  
   
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center", backgroundColor: "#F5F5DC" }}>
+      
 
       <div style={{ width: "85%", overflow: "hidden" }}>
         <div style={{ height: 89 }} />
 
         <Row>
-          <Card>
+          <Card style = {{border: '2px solid #FF6931'}}>
             <Card.Body>
               <Row>
                 <br />
-                <br />
-                <br />
 
-                
+                {(String(userID) === String(userProfile.user)) && (
+                <div className="logout-button"
+                onClick = {() => onLogout()}>
+                <FaSignInAlt />
+                </div>)}
+
                 {(String(userID) === String(userProfile.user) || isStaff) && (
                   <div style={{ position: "relative", right: 15 }}>
                     {editing ? (
-                      <Button onClick={saveProfile} variant="warning">
-                        <h6 style={{ margin: 0 }}> <BsCheckLg /> </h6>
+                      <Button onClick={saveProfile} variant="none" style = {{backgroundColor: "#FF6931", marginLeft: "10px"}}>
+                        <h6 style={{ margin: 0, color: "white" }}> <BsCheckLg /> </h6>
                       </Button>
                     ) : (
-                      <Button onClick={() => setEditing(true)} variant="warning">
-                        <h6 style={{ margin: 0 }}> <BsFillPencilFill /> </h6>
+                      <Button onClick={() => setEditing(true)} variant="none" style = {{backgroundColor: "#FF6931", marginLeft: "10px"}}>
+                        <h6 style={{ margin: 0, color: "white" }}> <BsFillPencilFill /> </h6>
                       </Button>
                     )}
                   </div>
@@ -256,26 +301,28 @@ const UserProfile = () => {
                         </div>
                       )}
                     </ListGroup.Item>
-
-                    
-                      {editing && (
-                        <ListGroup.Item>
-                           <b>POINTS: </b>
-                        <textarea
-                        style = {{position: "relative", top: 40}}
-                          value={pointsAmount}
-                          onChange={(e) => setPointsAmount(e.target.value)}
-                        />
-                        </ListGroup.Item>
-                      )}
+                              
+                    {isStaff && editing && (
+              <ListGroup.Item>
+                <b>POINTS: </b>
+                <textarea
+                  style={{ position: "relative", top: 40 }}
+                  value={pointsAmount}
+                  onChange={(e) => setPointsAmount(e.target.value)}
+                />
+              </ListGroup.Item>
+            )}
                     
 
                   </ListGroup>
                 </Col>
+                
               </Row>
+              <br/>
+                              <br/>
             </Card.Body>
             <div>
-              <b>USER SINCE: </b>
+              <b style = {{margin: "10px"}}>USER SINCE: </b>
               {isLoading ? (
                             <div>
                             <CircularProgress />
@@ -288,11 +335,18 @@ const UserProfile = () => {
           </Card>
 
           <div style={{ height: "15vh" }} />
-          <MyProgressBar />
+          <div>
+          <div>
+
+               <MyProgressBar />
+                
+    </div>
+          </div>
+          
           <div style={{ height: "16vh" }} />
-          {/* <UserComments />
+          <UserComments />
           <div style={{ height: "16vh" }} />
-          <UserQuizes /> */}
+          <UserQuizes />
         </Row>
       </div>
     </div>

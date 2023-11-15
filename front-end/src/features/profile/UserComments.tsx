@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { myServer } from '../../endpoints/endpoints';
-import { getSingleProfileAsync, getUserQuizesAsync, getUserSingleBlogCommentsAsync, selectProfile, selectSingleBlogUserComments, selectUserAnsweredQuizes } from './profileSlice';
+import { getSingleProfileAsync, getUserQuizesAsync, getUserSingleBlogCommentsAsync, selectProfile, selectSingleBlogUserComments, selectUserAnsweredQuizes, selectUserID } from './profileSlice';
 import { logoutAsync, selectIsLogged } from '../authentication/authenticationSlice';
 
 
@@ -17,15 +17,19 @@ const UserComments = () => {
 
   const isLogged = useAppSelector(selectIsLogged);
 
+  const userID = useAppSelector(selectUserID);
+
   const { id } = useParams();
 
   useEffect(() => {
+    if (userID !== -1) {
     if (id !== undefined) {
       dispatch(getUserSingleBlogCommentsAsync(Number(id)));
       dispatch(getSingleProfileAsync(Number(id)));
 
       dispatch(getUserQuizesAsync(Number(id)));
     }
+  }
   }, [id, dispatch]);
 
   const userProfile = useAppSelector(selectProfile);

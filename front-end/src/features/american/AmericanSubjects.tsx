@@ -34,8 +34,8 @@ const AmericanSubjects = () => {
   const isLoading = useAppSelector(selectPagedAmericanSubjectisLoading);
 
   return (
-    <div>
-      <div style={{ height: 200 }} />
+    <div style = {{backgroundColor: "#F5F5DC"}}>
+      <div style={{ height: 300 }} />
       <Container>
 
       <div className="pagination-quiz">
@@ -47,9 +47,19 @@ const AmericanSubjects = () => {
             />
           </div>
 
+          <div style={{ position: "absolute", padding: "15px", justifyContent: "center", textAlign: "center" }}>
+
+          <img
+          width = "800px"
+            className = 'quiz-name-pic'
+            src={require(`../../images/multichoice.png`)}
+            alt="multichoice"/>
+
+  </div>
+
         <hr />
         <br />
-        <h1 style={{ padding: "15px", justifyContent: "center", textAlign: "center" }}>MULTI CHOICE</h1>
+       
         <br />
         <br />
         <div className="american-subject-card" style={{ display: "flex", flexDirection: 'column', gap: "30px", cursor: "pointer" }}>
