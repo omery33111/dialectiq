@@ -24,7 +24,7 @@ const initialState: SentenceState = {
   isLoading: false,
   isError: false,
 
-  sentenceResult: []
+  sentenceResult: [],
 };
 
 

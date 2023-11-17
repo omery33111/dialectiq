@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AmericanQuestion } from '../../models/American';
 import { getAmericansOfSubjectAsync, selectAmericanQuestionsisLoading, selectSubjectAmericans } from '../administrator/administratorSlice';
 import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
-import { getSingleAmericanSubjectAsync, postAnswerAmericanAsync, selectSingleSubjectOfAmerican } from './americanSlice';
+import { getAmericansAmountAsync, getSingleAmericanSubjectAsync, postAnswerAmericanAsync, selectAmericansAmount, selectSingleSubjectOfAmerican } from './americanSlice';
 
 
 
@@ -17,6 +17,8 @@ const AmericanQuiz = () => {
   const QuizQuestions = useAppSelector(selectSubjectAmericans);
 
   const singleSubject = useAppSelector(selectSingleSubjectOfAmerican);
+  
+
 
   const { id } = useParams();
 
@@ -54,6 +56,7 @@ useEffect(() => {
       dispatch(getSingleAmericanSubjectAsync(id));
       dispatch(getAmericansOfSubjectAsync(id));
       dispatch(getSingleAmericanSubjectAsync(id));
+      dispatch(getAmericansAmountAsync(Number(id)));
     }
   }, [id, dispatch]);
 
@@ -62,12 +65,7 @@ useEffect(() => {
   }, [localPoints, dispatch, myProfile.points]);
 
 
-  const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
-    const newSelectedAnswers = [...selectedAnswers];
-    newSelectedAnswers[questionIndex] = answerIndex;
-    setSelectedAnswers(newSelectedAnswers);
-    setUserAnswer(newSelectedAnswers);
-  };
+
 
 
   const handleSubmit = async (event: any) => {
@@ -90,8 +88,49 @@ useEffect(() => {
 
 
   const isLoading = useAppSelector(selectAmericanQuestionsisLoading);
-  
 
+
+  const americansAmount = useAppSelector(selectAmericansAmount);
+
+  const areAllQuestionsAnswered = () => {
+    return totalAnswers == americansAmount
+  };
+
+  const [totalAnswers, setTotalAnswers] = useState<number>(0);
+
+  const [answeredQuestions, setAnsweredQuestions] = useState<boolean[]>(Array(QuizQuestions.length).fill(false));
+
+
+  const handleAnswerSelect = (questionIndex: number, answerIndex: number) => {
+    const newSelectedAnswers = [...selectedAnswers];
+    newSelectedAnswers[questionIndex] = answerIndex;
+    setSelectedAnswers(newSelectedAnswers);
+    setUserAnswer(newSelectedAnswers);
+
+    if (!answeredQuestions[questionIndex]) {
+      // If the question was not answered before, mark it as answered and increment totalAnswers
+      setAnsweredQuestions((prev) => {
+        const updatedQuestions = [...prev];
+        updatedQuestions[questionIndex] = true;
+        return updatedQuestions;
+      });
+      setTotalAnswers(totalAnswers + 1);
+    }
+  };
+
+
+  const resetSelectedAnswers = () => {
+    setSelectedAnswers(Array(americansAmount).fill(null));
+  };
+
+  // Effect to reset selected answers when the page is refreshed
+  useEffect(() => {
+    window.addEventListener('beforeunload', resetSelectedAnswers);
+
+    return () => {
+      window.removeEventListener('beforeunload', resetSelectedAnswers);
+    };
+  }, []);
 
   return (
     <div style = {{backgroundColor: "#F5F5DC"}}>
@@ -164,7 +203,7 @@ useEffect(() => {
             </Card.Body>
           </Card>
           <br />
-           <Button variant="none" type="submit" style = {{backgroundColor: "#FF6931"}}>
+           <Button variant="none" type="submit" style = {{backgroundColor: "#FF6931"}} disabled={!areAllQuestionsAnswered()}>
                     <h6 style = {{margin: 0, color: "white"}}>SUBMIT</h6>
                   </Button>
           </form>

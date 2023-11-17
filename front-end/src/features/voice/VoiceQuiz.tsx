@@ -144,6 +144,7 @@ useEffect(() => {
                   <ListGroup variant="flush" style={{ padding: "5%" }}>
                     <Form.Group controlId={`formAnswer${index}`}>
                       <Form.Control
+                      required
                         type="textarea"
                         dir="rtl"
                         onChange={(e: any) => handleAnswerChange(e, index)}

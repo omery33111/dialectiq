@@ -41,4 +41,6 @@ export interface AmericanResult {
       isError: boolean;
 
       americanResult: AmericanResult[];
+
+      americansAmount: number;
     };

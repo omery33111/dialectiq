@@ -3,6 +3,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import Callback from '../callback/Callback';
 import { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
+import Clouds from './Clouds';
+import Clouds2 from './Clouds2';
 
 
 const Body = () => {
@@ -31,9 +33,19 @@ const Body = () => {
     };
   }, [bodyTextRef]);
 
+
+
+  
+
+
   return (
     <div>
+      
     <div className="background-image">
+
+            <div>
+              <Clouds2 />
+            </div>
 
     <div className="body-container">
 
@@ -53,6 +65,8 @@ const Body = () => {
               </Carousel>
               
             </div>
+
+            
 
                   <div id = "callback"/>
 

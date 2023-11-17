@@ -49,6 +49,8 @@ import VoiceFinish from './features/voice/VoiceFinish';
 import ErrorPage from './features/base/ErrorPage';
 import CallbackPanel from './features/administrator/CallbackPanel';
 import Registration from './features/administrator/Registration';
+import Clouds from './features/base/Clouds';
+import Clouds2 from './features/base/Clouds2';
 
 
 
@@ -66,6 +68,8 @@ root.render(
           <Route path = "/" element={<App />}>
 
           <Route path = "/" element={<HomePage />} />
+
+          <Route path = "/clouds" element={<Clouds2 />} />
 
           <Route path = "/authentication/login" element={<Login />} />
 

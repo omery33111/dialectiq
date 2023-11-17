@@ -12,5 +12,6 @@ urlpatterns = [
     path('get_american_subject/<int:pk>/', views.get_american_subject),
     path('single_american/<int:pk>/', views.single_american),
 
+    path('americans_amount/<int:pk>/', views.americans_amount),
     path('get_right_americans/', views.get_right_americans),
 ]

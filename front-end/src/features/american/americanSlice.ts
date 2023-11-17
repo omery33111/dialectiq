@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { AmericanState } from '../../models/American';
-import { getAmericanSubjectsAmount, getAmericans, getPagedAmericanSubjects, getSingleAmerican, getSingleAmericanSubject, postAnswerAmerican } from './americanAPI';
+import { getAmericanSubjectsAmount, getAmericans, getAmericansAmount, getPagedAmericanSubjects, getSingleAmerican, getSingleAmericanSubject, postAnswerAmerican } from './americanAPI';
 
 
 
@@ -24,8 +24,21 @@ const initialState: AmericanState = {
   isLoading: false,
   isError: false,
 
-  americanResult: []
+  americanResult: [],
+
+  americansAmount: 0
 };
+
+
+
+
+export const getAmericansAmountAsync = createAsyncThunk(
+  "american/getAmericansAmount",
+  async (id: number) => {
+    const response = await getAmericansAmount(id);
+    return response;
+  }
+);
 
 
 
@@ -99,6 +112,9 @@ export const americanSlice = createSlice({
         state.americans = action.payload;
       })
 
+      .addCase(getAmericansAmountAsync.fulfilled, (state, action) => {
+        state.americansAmount = action.payload.data;
+      })
 
       .addCase(getPagedAmericanSubjectsAsync.fulfilled, (state, action) => {
         state.subjects = action.payload.data;
@@ -132,6 +148,8 @@ export const americanSlice = createSlice({
 
 
 export const { saveAnswers } = americanSlice.actions;
+
+export const selectAmericansAmount = (state: RootState) => state.american.americansAmount;
 
 export const selectPagedAmericanSubjectisLoading = (state: RootState) => state.american.isLoading;
 

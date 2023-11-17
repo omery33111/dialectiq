@@ -12,6 +12,18 @@ from django.db.models import Subquery, Max
 
 
 
+@api_view(["GET"])
+def americans_amount(request, pk):
+    try:
+        american_subject = AmericanSubject.objects.get(pk=pk)
+    except AmericanSubject.DoesNotExist:
+        return Response({"error": "American subject does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    
+    americans_amount = QuizAmerican.objects.filter(subject=american_subject).count()
+    return Response({americans_amount}, status=status.HTTP_200_OK)
+
+
+
 @api_view(['POST'])
 def post_answer_american_quiz(request):
     if request.method == 'POST':

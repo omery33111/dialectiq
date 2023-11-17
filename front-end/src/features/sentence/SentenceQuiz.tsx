@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react';
-import { Container, Card, ListGroup, Button, Form } from 'react-bootstrap';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { CircularProgress } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Button, Card, Container, Form, ListGroup } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAmericansOfSubjectAsync, getSingleSentenceSubjectAsync, selectSingleSubjectOfSentence, selectSubjectAmericans } from '../administrator/administratorSlice';
-import { AmericanQuestion } from '../../models/American';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getSingleSentenceSubjectAsync, selectSingleSubjectOfSentence } from '../administrator/administratorSlice';
 import { getProfileAsync, selectProfile, selectUserID, setPoints } from '../profile/profileSlice';
 import { getSentencesOfSubjectAsync, postAnswerSentenceAsync, selectSentenceQuestionsisLoading, selectSubjectSentences } from './sentenceSlice';
-import { CircularProgress } from '@mui/material';
 
 
 
@@ -94,6 +93,7 @@ useEffect(() => {
 
   const isLoading = useAppSelector(selectSentenceQuestionsisLoading);
 
+  
 
   return (
     <div style = {{backgroundColor: "#F5F5DC"}}>
@@ -140,6 +140,7 @@ useEffect(() => {
                 <ListGroup variant="flush" style={{ padding: "5%" }}>
                   <Form.Group controlId={`formAnswer${index}`}>
                     <Form.Control
+                    required
                       type="textarea"
                       dir="rtl"
                       onChange={(e: any) => handleAnswerChange(e, index)}

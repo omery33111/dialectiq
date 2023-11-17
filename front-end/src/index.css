@@ -974,6 +974,19 @@ div.fadeIn {
 }
 
 
+.clouds-section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.clouds {
+  position: absolute;
+  filter: brightness(2);
+}
+
+
 /* Responsive Styling */
 @media (max-width: 768px) {
 

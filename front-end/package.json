@@ -29,7 +29,7 @@
     "react-dom": "^18.2.0",
     "react-dom-confetti": "^0.2.0",
     "react-icons": "^4.10.1",
-    "react-intersection-observer": "^9.5.2",
+    "react-intersection-observer": "^9.5.3",
     "react-jw-player": "^1.19.1",
     "react-moving-text": "^0.0.7",
     "react-paginate": "^8.2.0",

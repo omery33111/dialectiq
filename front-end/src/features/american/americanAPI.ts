@@ -6,6 +6,12 @@ import { AmericanAnswer } from "../../models/AmericanAnswer";
 
 
 
+export function getAmericansAmount(id: number) {
+  return new Promise<{ data: number }>((resolve =>
+      axios.get(`${americanURL}/americans_amount/${id}/`).then(res => resolve({ data: res.data }))))}
+
+
+
 export function getAmericans()
 {
   return new Promise<{ data: AmericanQuestion[] }>((resolve) =>
