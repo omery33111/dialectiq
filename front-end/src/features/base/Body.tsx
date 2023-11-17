@@ -4,7 +4,6 @@ import Callback from '../callback/Callback';
 import { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Clouds from './Clouds';
-import Clouds2 from './Clouds2';
 
 
 const Body = () => {
@@ -44,7 +43,7 @@ const Body = () => {
     <div className="background-image">
 
             <div>
-              <Clouds2 />
+              <Clouds />
             </div>
 
     <div className="body-container">

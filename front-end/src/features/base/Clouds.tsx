@@ -1,72 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 const Clouds: React.FC = () => {
-  const cloudsRef = useRef(null);
-
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          const handleScroll = () => {
-            const clouds = document.querySelectorAll('.clouds') as NodeListOf<HTMLElement>;
-            const windowHeight = window.innerHeight;
+    const handleScroll = () => {
+      const clouds = document.querySelectorAll('.clouds') as NodeListOf<HTMLElement>;
 
-            clouds.forEach((cloud, index) => {
-              const scrolled = window.pageYOffset;
-              const speed = index % 2 === 0 ? (index + 1) * 0.5 : -(index + 1) * 0.5; // Adjust the speed here
-              const val = (scrolled * speed * 0.1) % window.innerWidth;
+      clouds.forEach((cloud) => {
+        const scrolled = window.pageYOffset;
+        const speed = parseFloat(cloud.dataset.speed || '0');
+        const direction = cloud.dataset.direction === 'left' ? -1 : 1;
+        const val = scrolled * speed * direction;
+        cloud.style.transform = `translateX(${val}px)`;
+      });
+    };
 
-              // Calculate the distance from the top and bottom of the viewport
-              const distanceFromTop = cloud.getBoundingClientRect().top;
-              const distanceFromBottom = windowHeight - distanceFromTop;
-
-              // Set different zIndex for clouds based on index
-              cloud.style.zIndex = index < 10 ? '0' : '1'; // Half of clouds with zIndex 0 and half with zIndex 1
-
-              // Set different opacity for clouds based on index
-              cloud.style.opacity = index % 3 === 0 ? '0.7' : '1';
-
-              // Calculate if the cloud is within the viewport boundaries
-              const isInViewport = distanceFromTop < windowHeight && distanceFromBottom > -cloud.clientHeight * 0.5;
-
-              if (isInViewport) {
-                // Reset opacity if the cloud is inside the viewport
-                cloud.style.opacity = index % 3 === 0 ? '0.7' : '1';
-              } else {
-                // Gradually decrease opacity for clouds partially outside the viewport
-                const fadeOutFactor = Math.min(
-                  1,
-                  Math.abs(distanceFromTop) / (windowHeight + cloud.clientHeight)
-                );
-                cloud.style.opacity = `${fadeOutFactor * (index % 3 === 0 ? 0.7 : 1)}`;
-              }
-
-              cloud.style.transform = `translateX(${val}px)`;
-              cloud.style.borderRadius = `${0.025 * val}%`;
-            });
-          };
-
-          window.addEventListener('scroll', handleScroll);
-
-          return () => {
-            window.removeEventListener('scroll', handleScroll);
-          };
-        }
-      },
-      {
-        root: null,
-        threshold: 0.0,
-      }
-    );
-
-    if (cloudsRef.current) {
-      observer.observe(cloudsRef.current);
-    }
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      if (cloudsRef.current) {
-        observer.unobserve(cloudsRef.current);
-      }
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -76,32 +27,62 @@ const Clouds: React.FC = () => {
     require('../../images/css-artwork-cloud-08.png'),
   ];
 
-  return (
-    <div ref={cloudsRef} style={{ height: '100vh', position: 'absolute', top: '240vh' }}>
-      <div className="clouds-section">
-        {[...Array(15)].map((_, index) => {
-          const randomTop = `${Math.floor(Math.random() * 170)}vh`;
-          const randomLeft = `${Math.floor(Math.random() * 50)}vw`;
-          const randomWidth = `${Math.floor(Math.random() * (300 - 190 + 1)) + 190}px`;
+  const renderClouds = () => {
+    const clouds = [];
+    const numberOfClouds = 25;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const gapWidth = 200;
+    const availableWidth = screenWidth - gapWidth;
+    const startHeight = 0;
+    const endHeight = 150;
+    const startPixels = (startHeight * screenHeight) / 100;
+    const endPixels = (endHeight * screenHeight) / 100;
+    const totalCloudsWidth = availableWidth * 1.5;
 
-          return (
-            <img
-              key={index}
-              className="clouds"
-              src={cloudImages[index % cloudImages.length]}
-              style={{
-                width: randomWidth,
-                height: 'auto',
-                position: 'absolute',
-                top: randomTop,
-                left: randomLeft,
-                zIndex: index + 1,
-                transition: 'opacity 10s ease-out', // Adjust transition duration as needed
-              }}
-            />
-          );
-        })}
-      </div>
+    for (let i = 0; i < numberOfClouds; i++) {
+      const cloudWidth = Math.random() * (430 - 200) + 200; // Limit cloud width between 180px and 400px
+      const speed = Math.random() * (0.6 - 0.1) + 0.1;
+      const direction = Math.random() < 0.5 ? 'left' : 'right';
+      const startPositionX = (screenWidth - totalCloudsWidth) / 2;
+      const positionX =
+        direction === 'left'
+          ? startPositionX + i * cloudWidth
+          : startPositionX + availableWidth - i * cloudWidth;
+      const positionY = Math.random() * (endPixels - startPixels) + startPixels;
+
+      const randomImageIndex = Math.floor(Math.random() * cloudImages.length);
+      const selectedImage = cloudImages[randomImageIndex];
+
+      const zIndex = Math.random() < 0.5 ? 0 : 1; // Randomly assign zIndex
+      const opacity = Math.random() * (1 - 0.2) + 0.2;
+
+      clouds.push(
+        <img
+          key={i}
+          className="clouds"
+          src={selectedImage}
+          style={{
+            width: `${cloudWidth}px`,
+            height: 'auto',
+            position: 'absolute',
+            top: `${positionY}px`,
+            [direction === 'left' ? 'left' : 'right']: `${positionX}px`,
+            zIndex: zIndex,
+            opacity: opacity,
+          }}
+          data-speed={speed}
+          data-direction={direction}
+        />
+      );
+    }
+
+    return clouds;
+  };
+
+  return (
+    <div style={{ height: '300vh', position: 'absolute', top: '240vh' }}>
+      <div className="clouds-section">{renderClouds()}</div>
     </div>
   );
 };
