@@ -1,6 +1,7 @@
 from datetime import timedelta
 from pathlib import Path
 import os
+import dj_database_url
 
 
 
@@ -124,6 +125,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+# DATABASES = {
+#    "default": dj_database_url.parse("postgres://dialectiq_database_user:xGpyYHqPJGtEVytsFJoGH1LQ1jzrTBBt@dpg-clcfa36g1b2c73eui260-a.frankfurt-postgres.render.com/dialectiq_database")
+# }
 
 
 # Password validation
