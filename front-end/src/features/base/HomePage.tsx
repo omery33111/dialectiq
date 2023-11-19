@@ -50,6 +50,13 @@ const HomePage = () => {
 
   const isMobile = window.innerWidth <= 767;
 
+  const handlePremiumClick = () => {
+    window.scrollBy({ 
+      top: window.innerHeight * 3, 
+      behavior: 'smooth' 
+    });
+  }
+
   return (
     <div style={{ position: 'relative', overflow: 'hidden'}}>
       <div
@@ -110,8 +117,7 @@ const HomePage = () => {
         <br/>
         <br/>
           <div className = 'd-flex justify-content-center align-items-center'>
-            <Button variant = "none" style = {{backgroundColor: "#FF6931"}}
-              href="#callback">
+            <Button variant = "none" style = {{backgroundColor: "#FF6931"}} onClick={handlePremiumClick}>
                 <h5 style = {{margin: 20, color: "white"}}>
               PREMIUM
               </h5>
@@ -125,7 +131,6 @@ const HomePage = () => {
 
       
       <Body />
-
 
     </div>
   );

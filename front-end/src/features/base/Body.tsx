@@ -67,7 +67,6 @@ const Body = () => {
 
             
 
-                  <div id = "callback"/>
 
             <div className={`body-text ${isBodyTextAnimated ? 'body-text-animated' : ''}`} ref={bodyTextRef}>
             Welcome to "The Hebrew Adventure"! It's a cool place to learn Hebrew and explore its culture.
@@ -78,16 +77,14 @@ const Body = () => {
             Let's start this adventure!
             </div>
             
-
+                  <div style = {{height: "100px"}}/>
             <img
             style = {{border: '1px solid #000000'}}
             className = 'calendar-pic'
             src={require(`../../images/calendar.png`)}
             alt="calendar"/>
       
-            <div>
               <Callback />
-            </div>
 
       
           </div>

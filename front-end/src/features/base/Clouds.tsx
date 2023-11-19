@@ -41,7 +41,7 @@ const Clouds: React.FC = () => {
     const totalCloudsWidth = availableWidth * 1.5;
 
     for (let i = 0; i < numberOfClouds; i++) {
-      const cloudWidth = Math.random() * (430 - 200) + 200; // Limit cloud width between 180px and 400px
+      const cloudWidth = Math.random() * (430 - 200) + 200; // Limit cloud width between 200px and 400px
       const speed = Math.random() * (0.6 - 0.1) + 0.1;
       const direction = Math.random() < 0.5 ? 'left' : 'right';
       const startPositionX = (screenWidth - totalCloudsWidth) / 2;
@@ -54,7 +54,7 @@ const Clouds: React.FC = () => {
       const randomImageIndex = Math.floor(Math.random() * cloudImages.length);
       const selectedImage = cloudImages[randomImageIndex];
 
-      const zIndex = Math.random() < 0.5 ? 0 : 1; // Randomly assign zIndex
+      const zIndex = i < numberOfClouds / 2 ? 1 : 1;
       const opacity = Math.random() * (1 - 0.2) + 0.2;
 
       clouds.push(

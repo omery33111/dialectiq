@@ -41,7 +41,7 @@ const Callback = () => {
     
     <div>
       <div className = 'callback-card'>
-    <Container id = "callbacks">
+    <Container>
       <Row className="justify-content-center">
       <img
             src={require(`../../images/callbackpic.png`)}

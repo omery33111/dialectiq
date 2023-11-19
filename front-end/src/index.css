@@ -51,7 +51,7 @@ body {
     padding: 15px;
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.6), 0 1px 40px 0 rgba(0, 0, 0, 0.50);
     left: 70%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-13%);
   }
 
 
@@ -68,7 +68,7 @@ body {
   .calendar-pic {
     width: 35%;
     position: relative;
-    transform: translateX(18.4%) translateY(160.6%);
+    transform: translateX(18.4%) translateY(140.6%);
     border-radius: 10px;
   }
 
@@ -1014,7 +1014,7 @@ div.fadeIn {
     flex-direction: column;
     justify-content: center;
     align-items: right;
-    transform: translateY(50%) translateX(-22%);
+    transform: translateY(22dvh) translateX(-13dvh);
   }
 
   
@@ -1027,13 +1027,13 @@ div.fadeIn {
       border-radius: 15px;
       padding: 15px;
       box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.6), 0 1px 40px 0 rgba(0, 0, 0, 0.50);
-      transform: translateX(-60%) translateY(175%);
+      transform: translateX(-60%) translateY(88dvh);
     }
 
     .calendar-pic {
       width: 200%;
       position: relative;
-      transform: translateX(-25%) translateY(360%);
+      transform: translateX(-25%) translateY(80dvh);
       border-radius: 10px;
     }
   
@@ -1394,7 +1394,7 @@ div.fadeIn {
     width: 91%;
     -webkit-text-stroke: 0.2px rgb(125, 125, 125);
     position: absolute;
-    transform: translate(-10.5vh, 17vh);
+    transform: translate(-11.5vh, 3dvh);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.2rem;
     padding: 10px;
@@ -1405,7 +1405,7 @@ div.fadeIn {
     width: 91%;
     -webkit-text-stroke: 0.2px rgb(125, 125, 125);
     position: absolute;
-    transform: translate(-10.5vh, 10vh);
+    transform: translate(-11.5vh, -8dvh);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.2rem;
     padding: 10px;
