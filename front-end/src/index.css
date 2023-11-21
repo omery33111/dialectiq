@@ -68,7 +68,7 @@ body {
   .calendar-pic {
     width: 35%;
     position: relative;
-    transform: translateX(18.4%) translateY(45dvh);
+    transform: translateX(18.4%) translateY(44dvh);
     border-radius: 10px;
   }
 
@@ -1496,7 +1496,7 @@ div.fadeIn {
   .calendar-pic {
     width: 35%;
     position: relative;
-    transform: translateX(18.4%) translateY(29dvh);
+    transform: translateX(18.4%) translateY(32dvh);
     border-radius: 10px;
   }
 

@@ -56,7 +56,7 @@ const Clouds: React.FC = () => {
       const randomImageIndex = Math.floor(Math.random() * cloudImages.length);
       const selectedImage = cloudImages[randomImageIndex];
 
-      const zIndex = i < numberOfClouds / 2 ? 1 : 1;
+      const zIndex = i >= 0 && i < 4 ? 1 : 0;
       const opacity = Math.random() * (1 - 0.2) + 0.2;
 
       clouds.push(
