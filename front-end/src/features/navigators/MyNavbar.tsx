@@ -42,6 +42,8 @@ const MyNavbar = () => {
 
   const userID = useAppSelector(selectUserID);
 
+  const isMobile = window.innerWidth <= 767;
+
   return (
     <div>
       <Navbar
@@ -62,11 +64,17 @@ const MyNavbar = () => {
           }}
         >
           <Nav>
-            <Navbar.Brand style={{ color: 'white' }} href="/">
-              Dialectiq
+            <Navbar.Brand style={{ color: 'white', left: -40, position: "relative" }} href="/">
+            <img
+                  className="admin-panel-pic"
+                  src={require('../../images/logo.png')}
+                  alt="portalpic1"
+                  height="auto"
+                  width="165"
+                />
             </Navbar.Brand>
           </Nav>
-          <Nav style={{ position: 'relative', top: 3 }}>
+          <Nav style={{ position: 'relative', top: -6, left: -45 }}>
             {shouldRefresh && storedIsStaff && (
               <Nav.Link href="/adminmenu">
                 <h3
@@ -79,6 +87,16 @@ const MyNavbar = () => {
                 >
                   <FaUserSecret />
                 </h3>
+
+                {isMobile ? (
+                  <div style = {{position: "absolute", marginLeft: "-64px", marginTop: "-6px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Admin
+                  </div>
+                ) : (
+                  <div style = {{position: "absolute", marginLeft: "-74px", marginTop: "-7px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Admin
+                  </div>
+                )}
               </Nav.Link>
             )}
 
@@ -93,6 +111,17 @@ const MyNavbar = () => {
               >
                 <BsBrowserSafari />
               </h3>
+
+              {isMobile ? (
+                  <div style = {{position: "absolute", marginLeft: "-47px", marginTop: "-6px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Forum
+                  </div>
+                ) : (
+                  <div style = {{position: "absolute", marginLeft: "-52px", marginTop: "-7px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Forum
+                  </div>
+                )}
+
             </Nav.Link>
 
             <Nav.Link href="/quizes">
@@ -106,6 +135,17 @@ const MyNavbar = () => {
               >
                 <BsFillFileTextFill />
               </h3>
+
+              {isMobile ? (
+                  <div style = {{position: "absolute", marginLeft: "-32px", marginTop: "-6px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Quizes
+                  </div>
+                ) : (
+                  <div style = {{position: "absolute", marginLeft: "-35px", marginTop: "-7px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Quizes
+                  </div>
+                )}
+
             </Nav.Link>
 
             <Nav.Link href="/paged_blogs">
@@ -119,21 +159,37 @@ const MyNavbar = () => {
               >
                 <BsPhoneFill />
               </h3>
+
+              {isMobile ? (
+                  <div style = {{position: "absolute", marginLeft: "-13px", marginTop: "-6px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Blog
+                  </div>
+                ) : (
+                  <div style = {{position: "absolute", marginLeft: "-12px", marginTop: "-7px", fontSize: "0.8rem", zIndex: 1, color: "white"}}>
+                  Blog
+                  </div>
+                )}
+
             </Nav.Link>
 
+                  <div style={{position: "relative", top: 7}}>
             {userID == -1 ? (
               <Nav.Link href="/authentication/login">
               <h2 className="user-icon-top" style={{ color: 'white' }}>
                 <RiUserFill />
               </h2>
+              
             </Nav.Link>
             ) : (
               <Nav.Link href={`/profile/user_profile/${userID}/`}>
               <h2 className="user-icon-top" style={{ color: 'white' }}>
                 <RiUserFill />
               </h2>
+              
             </Nav.Link>
             )}
+            </div>
+
           </Nav>
         </Container>
       </Navbar>

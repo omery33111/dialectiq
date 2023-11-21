@@ -49,6 +49,7 @@ const HomePage = () => {
 
 
   const isMobile = window.innerWidth <= 767;
+  const isLaptop = window.innerWidth >= 769 && window.innerWidth <= 1919;
 
   const handlePremiumClick = () => {
     window.scrollBy({ 
@@ -66,22 +67,29 @@ const HomePage = () => {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          height: '112vh'}}>
+          height: '120vh'}}>
 
             <div className = "buttons">
-            <Button href = 'https://www.instagram.com/hebrew_adventure/?igshid=MzRlODBiNWFlZA%3D%3D' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(702px)"}}></Button><br/><br/>
-            <Button href = 'https://www.youtube.com/@TheHebrewAdventure-kv6ok' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(695px)"}}></Button><br/><br/>
-            <Button href = 'https://www.patreon.com/TheHebrewAdventure' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(686px)"}}></Button><br/><br/>
-            <Button href = 'https://www.italki.com/en/teacher/14053064' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(672px)"}}></Button>
+            <Button href = 'https://www.instagram.com/hebrew_adventure/?igshid=MzRlODBiNWFlZA%3D%3D' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(685px)"}}></Button><br/><br/>
+            <Button href = 'https://www.youtube.com/@TheHebrewAdventure-kv6ok' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(680px)"}}></Button><br/><br/>
+            <Button href = 'https://www.patreon.com/TheHebrewAdventure' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(675px)"}}></Button><br/><br/>
+            <Button href = 'https://www.italki.com/en/teacher/14053064' variant = "none" className = 'home-button' style = {{width: "18%", height: 57, position: "relative", transform: "translateX(43%) translateY(670px)"}}></Button>
             </div>
 
           {isMobile ? (
-            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "10px", transform: "translateY(66.6vh) translateX(1px)"}}>
+            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "10px", transform: "translateY(74vh) translateX(1px)"}}>
             <Button href = "/quizes" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
             <Button href = "/forum" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
           </div>
           ) : (
-            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "40px", transform: "translateY(74.6vh) translateX(1px)"}}>
+            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "53px", transform: "translateY(82.3vh) translateX(1px)"}}>
+            <Button href = "/quizes" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
+            <Button href = "/forum" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
+          </div>
+          )}
+
+          {isLaptop && (
+            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "53px", transform: "translateY(70.3vh) translateX(1px)"}}>
             <Button href = "/quizes" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
             <Button href = "/forum" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
           </div>

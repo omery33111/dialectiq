@@ -165,11 +165,13 @@ const UserProfile = () => {
               <Row>
                 <br />
 
+              <div style = {{position: "absolute", right: 10, width: "100%"}}>
                 {(String(userID) === String(userProfile.user)) && (
                 <div className="logout-button"
                 onClick = {() => onLogout()}>
                 <FaSignInAlt />
                 </div>)}
+                </div>
 
                 {(String(userID) === String(userProfile.user) || isStaff) && (
                   <div style={{ position: "relative", right: 15 }}>

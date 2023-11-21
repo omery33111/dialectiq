@@ -34,8 +34,6 @@ function App() {
     }
   }, [dispatch, userID, initialFetchDone]);
 
-  console.log('main userID: ', userID);
-
   return (
     <div className="App">
       <ToastContainer

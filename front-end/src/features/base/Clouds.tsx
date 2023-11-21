@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 
 const Clouds: React.FC = () => {
+  const isLaptop = window.innerWidth >= 769 && window.innerWidth <= 1919;
+
   useEffect(() => {
     const handleScroll = () => {
       const clouds = document.querySelectorAll('.clouds') as NodeListOf<HTMLElement>;
@@ -34,7 +36,7 @@ const Clouds: React.FC = () => {
     const screenHeight = window.innerHeight;
     const gapWidth = 200;
     const availableWidth = screenWidth - gapWidth;
-    const startHeight = 0;
+    const startHeight = isLaptop ? 30 : 0; // Adjust the startHeight based on isLaptop condition
     const endHeight = 150;
     const startPixels = (startHeight * screenHeight) / 100;
     const endPixels = (endHeight * screenHeight) / 100;
@@ -81,7 +83,7 @@ const Clouds: React.FC = () => {
   };
 
   return (
-    <div style={{ height: '300vh', position: 'absolute', top: '240vh' }}>
+    <div style={{ height: '300vh', position: 'absolute', top: isLaptop ? '260vh' : '240vh' }}>
       <div className="clouds-section">{renderClouds()}</div>
     </div>
   );

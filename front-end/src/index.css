@@ -51,7 +51,7 @@ body {
     padding: 15px;
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.6), 0 1px 40px 0 rgba(0, 0, 0, 0.50);
     left: 70%;
-    transform: translateX(-50%) translateY(-13%);
+    transform: translateX(-50%) translateY(-12.5dvh);
   }
 
 
@@ -68,7 +68,7 @@ body {
   .calendar-pic {
     width: 35%;
     position: relative;
-    transform: translateX(18.4%) translateY(140.6%);
+    transform: translateX(18.4%) translateY(45dvh);
     border-radius: 10px;
   }
 
@@ -779,12 +779,18 @@ div.fadeIn {
 }
 
 
+.buttons {
+  position: relative;
+  transform: translateY(8.5dvh);
+}
+
+
 .body-text {
   color: white;
   width: 80%;
   font-size: 2rem;
-  -webkit-text-stroke: 0.5px rgba(0, 0, 0);
-  transform: translate(11.5vh, -6vh);
+  -webkit-text-stroke: 0.7px rgba(0, 0, 0);
+  transform: translate(11.5vh, -26dvh);
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   padding: 20px;
   border: 5px solid #ffffff;
@@ -798,8 +804,8 @@ div.fadeIn {
   color: white;
   width: 80%;
   font-size: 2rem;
-  -webkit-text-stroke: 0.5px rgba(0, 0, 0);
-  transform: translate(11.5vh, -23vh);
+  -webkit-text-stroke: 0.7px rgba(0, 0, 0);
+  transform: translate(11.5vh, -43dvh);
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   padding: 20px;
   border: 5px solid #ffffff;
@@ -965,12 +971,11 @@ div.fadeIn {
 .logout-button {
   cursor: pointer;
   position: absolute;
-  display: flex;
-  justify-content: flex-end;
-  right: 20px;
-  z-index: 10;
-  width: 3%;
+  right: -130px;
   font-size: 2rem;
+  width: 200px;
+  z-index: 1;
+  transform: translateY(-10px);
 }
 
 
@@ -1014,7 +1019,7 @@ div.fadeIn {
     flex-direction: column;
     justify-content: center;
     align-items: right;
-    transform: translateY(22dvh) translateX(-13dvh);
+    transform: translateY(7dvh) translateX(-13dvh);
   }
 
   
@@ -1027,13 +1032,13 @@ div.fadeIn {
       border-radius: 15px;
       padding: 15px;
       box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.6), 0 1px 40px 0 rgba(0, 0, 0, 0.50);
-      transform: translateX(-60%) translateY(88dvh);
+      transform: translateX(-60%) translateY(73dvh);
     }
 
     .calendar-pic {
       width: 200%;
       position: relative;
-      transform: translateX(-25%) translateY(80dvh);
+      transform: translateX(-25%) translateY(65dvh);
       border-radius: 10px;
     }
   
@@ -1392,9 +1397,9 @@ div.fadeIn {
 
   .body-text {
     width: 91%;
-    -webkit-text-stroke: 0.2px rgb(125, 125, 125);
+    -webkit-text-stroke: 0.6px rgb(125, 125, 125);
     position: absolute;
-    transform: translate(-11.5vh, 3dvh);
+    transform: translate(-11.5vh, -12dvh);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.2rem;
     padding: 10px;
@@ -1403,9 +1408,9 @@ div.fadeIn {
 
   .body-text-animated {
     width: 91%;
-    -webkit-text-stroke: 0.2px rgb(125, 125, 125);
+    -webkit-text-stroke: 0.6px rgb(125, 125, 125);
     position: absolute;
-    transform: translate(-11.5vh, -8dvh);
+    transform: translate(-11.5vh, -23dvh);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.2rem;
     padding: 10px;
@@ -1433,4 +1438,77 @@ div.fadeIn {
     transform: translateX(0px) translateY(-605px);
   }
 
+  .logout-button {
+    cursor: pointer;
+    position: absolute;
+    right: -150px;
+    font-size: 2rem;
+    width: 200px;
+    z-index: 1;
+    transform: translateY(-10px);
+  }
+
+}
+
+
+@media (min-width: 768px) and (max-width: 1919px) {
+  .body-text {
+    color: white;
+    width: 80%;
+    font-size: 2rem;
+    -webkit-text-stroke: 0.7px rgba(0, 0, 0);
+    transform: translate(5dvh, -55dvh);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 20px;
+    border: 5px solid #ffffff;
+    position: absolute;
+    transition: transform 0.5s ease-in-out;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.6), 0 1px 40px 0 rgba(0, 0, 0, 0.50);
+  }
+  
+  
+  .body-text-animated {
+    color: white;
+    width: 80%;
+    font-size: 2rem;
+    -webkit-text-stroke: 0.7px rgba(0, 0, 0);
+    transform: translate(5dvh, -70dvh);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 20px;
+    border: 5px solid #ffffff;
+    position: absolute;
+    transition: transform 0.5s ease-in-out;
+  }
+
+
+  .callback-card {
+    position: relative;
+    background-color: #34495E;
+    width: 30%;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.6), 0 1px 40px 0 rgba(0, 0, 0, 0.50);
+    left: 70%;
+    transform: translateX(-50%) translateY(-35.5dvh);
+  }
+
+
+  .calendar-pic {
+    width: 35%;
+    position: relative;
+    transform: translateX(18.4%) translateY(29dvh);
+    border-radius: 10px;
+  }
+
+
+  .car-container {
+    position: relative;
+    top: 0;
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically centers the content */
+    align-items: right; /* Horizontally centers the content */
+    transform: translateY(75dvh) translateX(6.5%);
+  }
 }
