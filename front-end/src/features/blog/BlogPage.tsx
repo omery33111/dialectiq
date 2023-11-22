@@ -48,10 +48,12 @@ const BlogPage = () => {
   
   const isMobile = window.innerWidth <= 767;
 
+  const isLaptop = window.innerWidth >= 769 && window.innerWidth <= 1919;
+
   return (
     <div>
 
-    {isMobile ? ("") : (<MoreBlogs/>)}
+    {isMobile && isLaptop ? ("") : (<MoreBlogs/>)}
     
 
 

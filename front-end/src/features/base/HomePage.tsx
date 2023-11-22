@@ -89,7 +89,7 @@ const HomePage = () => {
           )}
 
           {isLaptop && (
-            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "53px", transform: "translateY(70.3vh) translateX(1px)"}}>
+            <div style = {{display: "flex", textAlign: "center", justifyContent: "center", gap: "53px", transform: "translateY(67vh) translateX(1px)"}}>
             <Button href = "/quizes" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
             <Button href = "/forum" variant = "none" style = {{width: "200px", height: "45px"}}></Button>
           </div>

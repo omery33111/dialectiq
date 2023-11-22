@@ -22,8 +22,8 @@ const initialState: AdministratorState = {
   },
   americans: [],
 
-  subject: { id: "", description: "", subject_name: "", picture: ""},
-  subjects: [{ id: "", description: "", subject_name: "", picture: ""}],
+  subject: { id: "", description: "", subject_name: "", subject_color: "", picture: ""},
+  subjects: [{ id: "", description: "", subject_name: "", subject_color: "", picture: ""}],
   subjectAmericans: [],
 
   americanAnswer: {id: "", user: 0, user_answer: 0, question: 0},

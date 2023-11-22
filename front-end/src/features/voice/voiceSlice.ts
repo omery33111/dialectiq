@@ -10,8 +10,8 @@ const initialState: VoiceState = {
   voice: {
     subject: {id: "", subject_name: ""}, id: "", question: "", correct_answer: ""},
   
-  subject: { id: "", description: "", subject_name: "", picture: ""},
-  subjects: [{ id: "", description: "", subject_name: "", picture: ""}],
+  subject: { id: "", description: "", subject_name: "", subject_color: "", picture: ""},
+  subjects: [{ id: "", description: "", subject_name: "", subject_color: "", picture: ""}],
   subjectVoices: [],
 
   voiceAnswer: {id: "", user: 0, user_answer: "", question: 0},

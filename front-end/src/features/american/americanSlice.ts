@@ -10,8 +10,8 @@ const initialState: AmericanState = {
   american: {
     subject: {id: "", subject_name: ""}, id: "", question: "", answer1: "", answer2: "", answer3: "", answer4: "", correct_answer: 0},
   
-  subject: {id: "", description: "", subject_name: "", picture: ""},
-  subjects: [{ id: "", description: "", subject_name: "", picture: ""}],
+  subject: {id: "", description: "", subject_name: "", subject_color: "", picture: ""},
+  subjects: [{ id: "", description: "", subject_name: "", subject_color: "", picture: ""}],
   subjectAmericans: [],
 
   americanAnswer: {id: "", user: 0, user_answer: 0, question: 0},

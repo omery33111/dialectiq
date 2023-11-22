@@ -1511,4 +1511,9 @@ div.fadeIn {
     align-items: right; /* Horizontally centers the content */
     transform: translateY(75dvh) translateX(6.5%);
   }
+
+  .buttons {
+    position: relative;
+    transform: translateY(-14.5dvh);
+  }
 }

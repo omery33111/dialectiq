@@ -15,11 +15,15 @@ const SentenceSubjectPost = () => {
 
   const SentenceSubject = useAppSelector(selectSingleSubjectOfSentence)
 
-
+  const [subject_color, setSubjectColor] = useState('black');
   const [subject_name, setSubject] = useState('');
   const [description, setDescription] = useState('');
   const [thePicture, setPicture] = useState<any>(null);
 
+
+  const handleSubjectColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSubjectColor(e.target.value);
+  };
 
   const handleSubjectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubject(e.target.value);
@@ -37,11 +41,13 @@ const SentenceSubjectPost = () => {
     event.preventDefault();
   
     const formData: any = new FormData();
+    formData.append('subject_color', subject_color);
     formData.append('subject_name', subject_name);
     formData.append('description', description);
     formData.append('picture', thePicture);
   
     const newSubject: SentenceSubject = {
+      subject_color: subject_color,
       subject_name: subject_name,
       description: description,
       picture: thePicture,
@@ -75,6 +81,14 @@ const SentenceSubjectPost = () => {
                 <Form.Label className = "blog-form-title"><h5>Description</h5></Form.Label>
                 <Form.Control type="textarea" value={description} onChange={handleDescriptionChange} />
               </Form.Group>
+
+              <Form.Group controlId="formSubjectColor">
+      <Form.Label className="blog-form-title"><h5>Subject Color</h5></Form.Label>
+      <Form.Select value={subject_color} onChange={handleSubjectColorChange}>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+      </Form.Select>
+    </Form.Group>
 
               <Form.Group controlId="formPicture">
                     <Form.Label className = "blog-form-title"><h5>Picture</h5></Form.Label>

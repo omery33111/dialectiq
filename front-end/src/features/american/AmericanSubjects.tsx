@@ -77,8 +77,8 @@ const AmericanSubjects = () => {
               </div>
             ) : (
               <Card.Body>
-                <Card.Title className='american-subject-card-text' style = {{color: "white"}}>MULTI CHOICE</Card.Title>
-                <Card.Text className='american-subject-card-text' style = {{color: "white"}}>
+                <Card.Title className='american-subject-card-text' style = {{color: `${subject.subject_color}`}}>MULTI CHOICE</Card.Title>
+                <Card.Text className='american-subject-card-text' style = {{color: `${subject.subject_color}`}}>
                   {subject.subject_name}
                 </Card.Text>
               </Card.Body>)}

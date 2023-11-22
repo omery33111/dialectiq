@@ -15,7 +15,7 @@ const Statistics = () => {
           <h4>STUDENTS</h4>
         </div>
         <div className="countup-item">
-          <h5><CountUp start={0} end={1122} duration={5} /></h5>
+          <h5><CountUp start={0} end={1400} duration={5} /></h5>
           <h4>LESSONS</h4>
         </div>
 
