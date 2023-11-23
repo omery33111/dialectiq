@@ -53,7 +53,7 @@ const BlogPage = () => {
   return (
     <div>
 
-    {isMobile && isLaptop ? ("") : (<MoreBlogs/>)}
+      {!isMobile && !isLaptop && <MoreBlogs />}
     
 
 
@@ -74,11 +74,22 @@ const BlogPage = () => {
                     
                     <Container>
                     <div className='single-blog-time-line'>
-                  <img
-                    src={`${require('../../images/blogtimeline.png')}`}
-                    width="100%"
-                    height="100%"
-                  />
+
+                      {isLaptop ? (
+                        <img
+                        style = {{position: "relative", left: 135}}
+                        src={`${require('../../images/blogtimeline.png')}`}
+                        width="100%"
+                        height="100%"
+                      />
+                      ) : (
+                        <img
+                        src={`${require('../../images/blogtimeline.png')}`}
+                        width="100%"
+                        height="100%"
+                      />
+                      )}
+                  
                   <h6 className = "sigle-blog-date">{formatDate(singleBlog.date)}</h6>
                   </div>
 

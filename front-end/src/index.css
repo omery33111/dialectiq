@@ -1516,4 +1516,19 @@ div.fadeIn {
     position: relative;
     transform: translateY(-14.5dvh);
   }
+
+
+  .sigle-blog-date {
+    position: absolute;
+    transform: translateX(69.8vh) translateY(-10vh);
+    color: grey
+  }
+
+
+  .profile-hierarchy {
+    position: absolute;
+    width: 50%;
+    transform: translateX(92vh) translateY(-130vh);
+    overflow: hidden;
+  }
 }

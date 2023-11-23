@@ -19,6 +19,8 @@ const UserProfile = () => {
   const isLoading = useAppSelector(selectProfileisLoading);
   const isError = useAppSelector(selectProfileisError);
 
+  const userProfile = useAppSelector(selectProfile);
+
   const userID = useAppSelector(selectUserID);
 
   const { id } = useParams();
@@ -30,6 +32,9 @@ const UserProfile = () => {
   }, [id]);
 
   useEffect(() => {
+
+    const timer = setTimeout(() => {
+
       if (Number(id) !== -1) {
         dispatch(getSingleProfileAsync(Number(id)));
       } 
@@ -37,9 +42,11 @@ const UserProfile = () => {
         dispatch(logoutAsync());
         window.location.href = "/"
       }
+
+    }, 100);
   }, [id, dispatch]);
 
-  const userProfile = useAppSelector(selectProfile);
+  
 
   const [editing, setEditing] = useState(false);
   const [picture, setPicture] = useState<any>(null);
@@ -69,7 +76,7 @@ const UserProfile = () => {
       setLastName(userProfile.last_name || '');
       setLocation(userProfile.location || ''); 
       setBio(userProfile.bio || ''); 
-      setPointsAmount(userProfile.points || 100); 
+      setPointsAmount(userProfile.points || ''); 
     }
   }, [userProfile]);
   
@@ -124,38 +131,11 @@ const UserProfile = () => {
   }, [dispatch, storedMyID]);
 
 
-  const rankScale = Math.min(
-    100,
-    (userProfile.points / 2000) * 100
-  );
-
-  const ProgressBarColor = () => {
-    if (userProfile.points >= 0 && userProfile.points < 250) {
-      return "grey";
-    } else if (userProfile.points >= 250 && userProfile.points < 500) {
-      return "yellow";
-    } else if (userProfile.points >= 500 && userProfile.points < 750) {
-      return "#0CAFFF";
-    } else if (userProfile.points >= 750 && userProfile.points < 1000) {
-      return "#FFA500";
-    } else if (userProfile.points >= 1000 && userProfile.points < 1250) {
-      return "#0FFF50";
-    } else if (userProfile.points >= 1250 && userProfile.points < 1500) {
-      return "#7F00FF";
-    } else if (userProfile.points >= 1500 && userProfile.points < 1750) {
-      return "#172460";
-    } else if (userProfile.points >= 1750 && userProfile.points <= 2000) {
-      return "red";
-    } else if (userProfile.points >= 2000) {
-      return "black";
-    }
-  };
   
   
   return (
     <div style={{ display: "flex", justifyContent: "center", backgroundColor: "#F5F5DC" }}>
       
-
       <div style={{ width: "85%", overflow: "hidden" }}>
         <div style={{ height: 89 }} />
 
@@ -339,7 +319,6 @@ const UserProfile = () => {
           <div style={{ height: "15vh" }} />
           <div>
           <div>
-
                <MyProgressBar />
                 
     </div>

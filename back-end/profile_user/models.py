@@ -20,7 +20,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=350, blank=True, null=True, default="I'm New!")
     location = models.CharField(max_length=30, blank=True, null=True, default="UNKNOWN")
     picture = models.ImageField(blank=True, null=True, default="defaultprofile.png")
-    points = models.IntegerField(default=100)
+    points = models.IntegerField(default = 100)
     questions_answered_correctly = models.ManyToManyField(QuizAmerican, blank=True, related_name="correctly_answered_americans")
     questions_answered_correctly_sentencequiz = models.ManyToManyField(QuizSentence, blank=True, related_name="correctly_answered_sentences")
     questions_answered_correctly_voicequiz = models.ManyToManyField(QuizVoice, blank=True, related_name="correctly_answered_voices")

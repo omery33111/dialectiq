@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class SentenceSubject(models.Model):
     description = models.CharField(max_length = 800)
     subject_name = models.CharField(max_length = 50)
+    subject_color = models.CharField(max_length = 50, default = "black")
     picture = models.ImageField()
     date = models.DateTimeField(auto_now_add = True)
 
