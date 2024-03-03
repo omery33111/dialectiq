@@ -12,7 +12,6 @@ import AmericanSubjectPanel from './features/administrator/AmericanSubjectPanel'
 import AmericanSubjectPost from './features/administrator/AmericanSubjectPost';
 import AmericanSubjectUpdate from './features/administrator/AmericanSubjectUpdate';
 import AmericanUpdate from './features/administrator/AmericanUpdate';
-import BlogPanel from './features/administrator/BlogPanel';
 import BlogPost from './features/administrator/BlogPost';
 import BlogUpdate from './features/administrator/BlogUpdate';
 import CommunityPanel from './features/administrator/CommunityPanel';
@@ -49,6 +48,7 @@ import VoiceFinish from './features/voice/VoiceFinish';
 import ErrorPage from './features/base/ErrorPage';
 import CallbackPanel from './features/administrator/CallbackPanel';
 import Registration from './features/administrator/Registration';
+import BlogPanel from './features/administrator/Blogpanel';
 
 
 

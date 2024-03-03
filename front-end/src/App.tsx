@@ -35,7 +35,10 @@ function App() {
   useEffect(() => {
     // Retrieve lastClickTimes from local storage if available
     const storedClickTimes = JSON.parse(localStorage.getItem('lastClickTimes') || '[]');
-    setLastClickTimes(storedClickTimes);
+
+    if (storedClickTimes) {
+      setLastClickTimes(storedClickTimes);
+    }
 
     const handleMouseClick = () => {
       const currentTime = Date.now();
@@ -58,7 +61,7 @@ function App() {
     return () => {
       document.removeEventListener('click', handleMouseClick);
     };
-  }, [lastClickTimes]);
+  }, []);
 
   const onLogout = () => {
     dispatch(logoutAsync());
