@@ -22,6 +22,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 # Application definition
 
@@ -177,10 +188,10 @@ MEDIA_URL = '/images/'
 
 
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static',
-#     BASE_DIR / 'Front-end/build/static'
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'Front-end/build/static'
+]
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
