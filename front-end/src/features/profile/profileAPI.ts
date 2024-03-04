@@ -53,7 +53,7 @@ export function getMyID() {
   }
 
     return new Promise<{ data: any }>((resolve =>
-        axios.get(profileURL + "/my_id", config).then(res => resolve({ data: res.data }))))}
+        axios.get(profileURL + "/my_id/", config).then(res => resolve({ data: res.data }))))}
 
         
 
