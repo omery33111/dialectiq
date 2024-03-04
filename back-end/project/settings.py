@@ -131,7 +131,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 DATABASES = {
-   "default": dj_database_url.parse("postgres://dialectiq_database_x8i3_user:jQGVpn4uB9b5powAUC6fBCSrff2Mi91v@dpg-cni824i1hbls73fge6og-a/dialectiq_database_x8i3")
+   "default": dj_database_url.parse("postgres://dialectiq_database_x8i3_user:jQGVpn4uB9b5powAUC6fBCSrff2Mi91v@dpg-cni824i1hbls73fge6og-a.frankfurt-postgres.render.com/dialectiq_database_x8i3")
 }
 
 
