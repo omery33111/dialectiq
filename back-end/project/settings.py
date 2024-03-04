@@ -22,17 +22,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-]
 
 # Application definition
 
@@ -102,7 +91,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -142,7 +131,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 DATABASES = {
-   "default": dj_database_url.parse("postgres://dialectiq_database_x8i3_user:jQGVpn4uB9b5powAUC6fBCSrff2Mi91v@dpg-cni824i1hbls73fge6og-a.frankfurt-postgres.render.com/dialectiq_database_x8i3")
+   "default": dj_database_url.parse("postgres://dialectiq_database_x8i3_user:jQGVpn4uB9b5powAUC6fBCSrff2Mi91v@dpg-cni824i1hbls73fge6og-a/dialectiq_database_x8i3")
 }
 
 
