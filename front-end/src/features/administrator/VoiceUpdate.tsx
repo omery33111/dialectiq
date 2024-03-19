@@ -87,7 +87,7 @@ const VoiceUpdate = () => {
           
         <Form.Group controlId="formQuestion">
                 <Form.Label className = "blog-form-title"><h5>Question</h5></Form.Label>
-                <Form.Control type="file" accept='.mp3' onChange={handleQuestionChange} />
+                <Form.Control type="file" onChange={handleQuestionChange} />
               </Form.Group>
 
               <Form.Group controlId="correctAnswer">
