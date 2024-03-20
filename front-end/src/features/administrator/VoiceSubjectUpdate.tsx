@@ -30,7 +30,6 @@ const VoiceSubjectUpdate = () => {
 
   useEffect(() => {
     if (VoiceSubject) {
-      // Set the state variables with initial values
       setSubject(VoiceSubject.subject_name);
       setDescription(VoiceSubject.description);
     }
@@ -54,9 +53,7 @@ const VoiceSubjectUpdate = () => {
     const formData = new FormData();
     formData.append('subject_name', subject_name);
     
-    if (description !== VoiceSubject.description) {
-      formData.append('description', description);
-    }
+    formData.append('description', description);
 
     if (thePicture) {
       formData.append('picture', thePicture);
