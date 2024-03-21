@@ -89,7 +89,7 @@ const VoicePanel = () => {
             </tr>
           </thead>
           <tbody>
-            {voices.slice().reverse().map((voice) => (
+            {voices.slice().map((voice) => (
               <tr
                 key={voice.id}
                 style={{ cursor: "pointer"}}>
